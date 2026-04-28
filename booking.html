@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Book — Presidio Youth Soccer Camp | SF-Kids</title>
+<title>Book Activity — SF-Kids</title>
 <link rel="stylesheet" href="styles.css">
 <script src="activities-data.js"></script>
+<script src="booking-api.js"></script>
 <style>
   .booking-summary {
     background: var(--light); border: 1px solid var(--rule);
@@ -19,9 +20,29 @@
     font-size: 26px; flex-shrink: 0;
   }
   .booking-summary-title { font-size: 14px; font-weight: 700; color: var(--navy); }
-  .booking-summary-meta { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+  .booking-summary-meta  { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
   .step-panel { display: none; }
   .step-panel.active { display: block; }
+
+  /* Slot availability badges */
+  .slot-avail {
+    display: block; font-size: 10px; font-weight: 600; margin-top: 2px;
+  }
+  .slot-avail.low    { color: #EF4444; }
+  .slot-avail.ok     { color: #10B981; }
+  .slot-avail.full   { color: #9CA3AF; }
+
+  /* Submit button states */
+  .btn-loading { opacity: 0.7; pointer-events: none; cursor: not-allowed; }
+
+  /* Error/info banner */
+  .booking-alert {
+    border-radius: var(--radius-sm); padding: 12px 16px;
+    font-size: 13px; font-weight: 600; margin-bottom: 16px; display: none;
+  }
+  .booking-alert.error   { background: #FEE2E2; color: #991B1B; }
+  .booking-alert.success { background: #D1FAE5; color: #065F46; }
+  .booking-alert.show    { display: block; }
 </style>
 </head>
 <body>
@@ -36,7 +57,7 @@
     <ul class="nav-links">
       <li><a href="results.html">Browse Activities</a></li>
       <li><a href="results.html?filter=camps">Camps</a></li>
-      <li><a href="#" class="nav-cta">List Your Activity</a></li>
+      <li><a href="list-your-activity.html" class="nav-cta">List Your Activity</a></li>
     </ul>
   </div>
 </nav>
@@ -71,14 +92,14 @@
     </div>
   </div>
 
-  <!-- STEP 1 -->
+  <!-- STEP 1 — Date & Time -->
   <div class="booking-form step-panel active" id="panel-1">
     <h2>Pick your date & time</h2>
     <p class="subtitle">Choose when works best for your family.</p>
 
     <div class="form-group">
       <label class="form-label">Date</label>
-      <input type="date" class="form-input" value="2026-05-03">
+      <input type="date" class="form-input" id="date-input" value="2026-05-03">
     </div>
 
     <div class="form-group">
@@ -88,30 +109,35 @@
 
     <div class="form-group">
       <label class="form-label">Number of spots</label>
-      <select class="form-select">
-        <option>1 child</option>
-        <option>2 children</option>
-        <option>3 children</option>
+      <select class="form-select" id="spots-select">
+        <option value="1">1 child</option>
+        <option value="2">2 children</option>
+        <option value="3">3 children</option>
       </select>
     </div>
 
-    <button class="btn btn-primary btn-lg" style="width:100%;justify-content:center;margin-top:8px;" onclick="goStep(2)">Continue →</button>
+    <div id="step1-alert" class="booking-alert error"></div>
+
+    <button class="btn btn-primary btn-lg" style="width:100%;justify-content:center;margin-top:8px;" onclick="validateStep1()">Continue →</button>
   </div>
 
-  <!-- STEP 2 -->
+  <!-- STEP 2 — Child Details -->
   <div class="booking-form step-panel" id="panel-2">
     <h2>Child details</h2>
     <p class="subtitle">Help us match your child to the right group.</p>
 
     <div class="form-group">
       <label class="form-label">Child's first name</label>
-      <input type="text" class="form-input" placeholder="e.g. Jamie">
+      <input type="text" class="form-input" id="child-name" placeholder="e.g. Jamie">
     </div>
 
     <div class="form-group">
       <label class="form-label">Child's age</label>
-      <select class="form-select">
-        <option>Select age</option>
+      <select class="form-select" id="child-age">
+        <option value="">Select age</option>
+        <option>3 years old</option>
+        <option>4 years old</option>
+        <option>5 years old</option>
         <option>6 years old</option>
         <option>7 years old</option>
         <option>8 years old</option>
@@ -119,34 +145,37 @@
         <option>10 years old</option>
         <option>11 years old</option>
         <option>12 years old</option>
+        <option>13 years old</option>
       </select>
     </div>
 
     <div class="form-group">
       <label class="form-label">Experience level</label>
-      <select class="form-select">
-        <option>Never played before</option>
-        <option>Played a little (1–2 seasons)</option>
-        <option>Intermediate (3+ seasons)</option>
-        <option>Competitive player</option>
+      <select class="form-select" id="child-experience">
+        <option>Never done this before</option>
+        <option>Tried it a little (1–2 times)</option>
+        <option>Some experience (regular participant)</option>
+        <option>Advanced / competitive</option>
       </select>
     </div>
 
     <div class="form-group">
-      <label class="form-label">Any allergies or medical notes? <span style="color:var(--muted);font-weight:400;">(optional)</span></label>
-      <input type="text" class="form-input" placeholder="e.g. Bee sting allergy — carries EpiPen">
+      <label class="form-label">Allergies or medical notes <span style="color:var(--muted);font-weight:400;">(optional)</span></label>
+      <input type="text" class="form-input" id="child-medical" placeholder="e.g. Bee sting allergy — carries EpiPen">
     </div>
+
+    <div id="step2-alert" class="booking-alert error"></div>
 
     <div style="display:flex;gap:10px;margin-top:8px;">
       <button class="btn btn-secondary" onclick="goStep(1)" style="flex:1;justify-content:center;">← Back</button>
-      <button class="btn btn-primary" onclick="goStep(3)" style="flex:2;justify-content:center;">Continue →</button>
+      <button class="btn btn-primary"   onclick="validateStep2()" style="flex:2;justify-content:center;">Continue →</button>
     </div>
   </div>
 
-  <!-- STEP 3 -->
+  <!-- STEP 3 — Confirm & Pay -->
   <div class="booking-form step-panel" id="panel-3">
     <h2>Confirm & Pay</h2>
-    <p class="subtitle">Almost there — review your booking and complete payment.</p>
+    <p class="subtitle">Review your booking and complete payment.</p>
 
     <!-- Order summary -->
     <div style="background:var(--light);border-radius:var(--radius-sm);padding:16px;margin-bottom:20px;">
@@ -157,34 +186,37 @@
       <div class="booking-total total"><span>Total due today</span><span id="summary-total">$46.35</span></div>
     </div>
 
+    <!-- Availability check result -->
+    <div id="avail-banner" class="booking-alert" style="display:none;"></div>
+
     <div class="form-group">
       <label class="form-label">Your name</label>
-      <input type="text" class="form-input" placeholder="First and last name">
+      <input type="text" class="form-input" id="parent-name" placeholder="First and last name">
     </div>
 
     <div class="form-group">
       <label class="form-label">Email</label>
-      <input type="email" class="form-input" placeholder="you@email.com">
+      <input type="email" class="form-input" id="parent-email" placeholder="you@email.com">
     </div>
 
     <div class="form-group">
       <label class="form-label">Phone</label>
-      <input type="tel" class="form-input" placeholder="(415) 555-0000">
+      <input type="tel" class="form-input" id="parent-phone" placeholder="(415) 555-0000">
     </div>
 
     <div class="form-group">
       <label class="form-label">Card number</label>
-      <input type="text" class="form-input" placeholder="•••• •••• •••• ••••">
+      <input type="text" class="form-input" id="card-number" placeholder="•••• •••• •••• ••••" maxlength="19">
     </div>
 
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
       <div class="form-group">
         <label class="form-label">Expiry</label>
-        <input type="text" class="form-input" placeholder="MM / YY">
+        <input type="text" class="form-input" id="card-expiry" placeholder="MM / YY" maxlength="7">
       </div>
       <div class="form-group">
         <label class="form-label">CVC</label>
-        <input type="text" class="form-input" placeholder="•••">
+        <input type="text" class="form-input" id="card-cvc" placeholder="•••" maxlength="4">
       </div>
     </div>
 
@@ -192,9 +224,11 @@
       🔒 Payments are secure and encrypted. You won't be charged until the provider confirms.
     </p>
 
+    <div id="step3-alert" class="booking-alert error"></div>
+
     <div style="display:flex;gap:10px;">
       <button class="btn btn-secondary" onclick="goStep(2)" style="flex:1;justify-content:center;">← Back</button>
-      <a href="confirmation.html" class="btn btn-primary" style="flex:2;justify-content:center;" id="complete-btn">Complete Booking →</a>
+      <button class="btn btn-primary" id="complete-btn" style="flex:2;justify-content:center;" onclick="submitBooking()">Complete Booking →</button>
     </div>
   </div>
 
@@ -209,22 +243,25 @@
 </footer>
 
 <script>
+  // ── Shared state across steps ────────────────────────────────
+  const formState = { activityId: null, date: null, timeSlot: null, spots: 1 };
+
+  // ── Step navigation ──────────────────────────────────────────
   function goStep(n) {
     [1,2,3].forEach(i => {
       document.getElementById('panel-'+i).classList.toggle('active', i === n);
-      const label = document.getElementById('step-label-'+i);
+      const label  = document.getElementById('step-label-'+i);
       const circle = document.getElementById('step-circle-'+i);
       label.classList.remove('active','done');
-      if (i === n) label.classList.add('active');
-      if (i < n) { label.classList.add('done'); circle.textContent = '✓'; }
-      else if (i === n) circle.textContent = i;
-      else circle.textContent = i;
+      if (i === n)  label.classList.add('active');
+      if (i < n)  { label.classList.add('done'); circle.textContent = '✓'; }
+      else          circle.textContent = i;
     });
     [1,2].forEach(i => {
       const line = document.getElementById('line-'+i);
       if (line) line.classList.toggle('done', i < n);
     });
-    window.scrollTo({top: 0, behavior: 'smooth'});
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   function selectSlot(el) {
@@ -233,58 +270,207 @@
     el.classList.add('selected');
   }
 
-  // ── Boot: populate from ?id= ───────────────────────────────────
+  // ── Step 1 validation ────────────────────────────────────────
+  function validateStep1() {
+    const selected = document.querySelector('#booking-slots .time-slot.selected');
+    if (!selected) {
+      showAlert('step1-alert', 'Please select a time slot.');
+      return;
+    }
+    hideAlert('step1-alert');
+    formState.date     = document.getElementById('date-input').value;
+    formState.timeSlot = selected.dataset.slot;
+    formState.spots    = parseInt(document.getElementById('spots-select').value) || 1;
+    goStep(2);
+  }
+
+  // ── Step 2 validation ────────────────────────────────────────
+  function validateStep2() {
+    const name = document.getElementById('child-name').value.trim();
+    const age  = document.getElementById('child-age').value;
+    if (!name) { showAlert('step2-alert', 'Please enter your child\'s first name.'); return; }
+    if (!age)  { showAlert('step2-alert', 'Please select your child\'s age.'); return; }
+    hideAlert('step2-alert');
+    goStep(3);
+    // Check live availability when entering step 3
+    checkStep3Availability();
+  }
+
+  // ── Live availability check on step 3 entry ──────────────────
+  async function checkStep3Availability() {
+    if (!formState.activityId || !formState.timeSlot || !formState.date) return;
+    const banner = document.getElementById('avail-banner');
+    banner.className = 'booking-alert show';
+    banner.style.background = '#FEF3C7';
+    banner.style.color = '#92400E';
+    banner.style.display = 'block';
+    banner.textContent = '⏳ Checking real-time availability…';
+
+    const avail = await checkAvailability(formState.activityId, formState.timeSlot, formState.date);
+
+    if (avail.unconfigured) {
+      banner.style.display = 'none';
+      return;
+    }
+    if (avail.isFull) {
+      banner.style.background = '#FEE2E2';
+      banner.style.color = '#991B1B';
+      banner.textContent = '⚠️ This slot just filled up. Please go back and choose a different time.';
+      document.getElementById('complete-btn').classList.add('btn-loading');
+    } else if (avail.available <= 3) {
+      banner.style.background = '#FEF3C7';
+      banner.style.color = '#92400E';
+      banner.textContent = `⚡ Only ${avail.available} spot${avail.available === 1 ? '' : 's'} left — book now to secure your place.`;
+    } else {
+      banner.style.display = 'none';
+    }
+  }
+
+  // ── Submit booking ───────────────────────────────────────────
+  async function submitBooking() {
+    hideAlert('step3-alert');
+
+    // Collect + validate step 3 fields
+    const parentName  = document.getElementById('parent-name').value.trim();
+    const parentEmail = document.getElementById('parent-email').value.trim();
+    const parentPhone = document.getElementById('parent-phone').value.trim();
+    const cardNumber  = document.getElementById('card-number').value.trim();
+    const cardExpiry  = document.getElementById('card-expiry').value.trim();
+    const cardCvc     = document.getElementById('card-cvc').value.trim();
+
+    if (!parentName)  { showAlert('step3-alert', 'Please enter your name.');  return; }
+    if (!parentEmail || !parentEmail.includes('@')) { showAlert('step3-alert', 'Please enter a valid email address.'); return; }
+    if (!cardNumber || cardNumber.replace(/\s/g,'').length < 13) { showAlert('step3-alert', 'Please enter a valid card number.'); return; }
+    if (!cardExpiry) { showAlert('step3-alert', 'Please enter your card expiry date.'); return; }
+    if (!cardCvc)    { showAlert('step3-alert', 'Please enter your CVC.');    return; }
+
+    // Lock the button and show loading
+    const btn = document.getElementById('complete-btn');
+    btn.classList.add('btn-loading');
+    btn.textContent = 'Processing…';
+
+    const result = await createBooking({
+      activityId:   formState.activityId,
+      date:         formState.date,
+      timeSlot:     formState.timeSlot,
+      spots:        formState.spots,
+      childName:    document.getElementById('child-name').value.trim(),
+      childAge:     document.getElementById('child-age').value,
+      experience:   document.getElementById('child-experience').value,
+      medicalNotes: document.getElementById('child-medical').value.trim(),
+      parentName,
+      parentEmail,
+      parentPhone
+    });
+
+    if (result.success) {
+      window.location.href = `confirmation.html?id=${formState.activityId}&ref=${result.bookingRef}`;
+    } else {
+      btn.classList.remove('btn-loading');
+      btn.textContent = 'Complete Booking →';
+      showAlert('step3-alert', result.error || 'Something went wrong. Please try again.');
+    }
+  }
+
+  // ── Alert helpers ────────────────────────────────────────────
+  function showAlert(id, msg) {
+    const el = document.getElementById(id);
+    el.textContent = msg;
+    el.classList.add('show');
+  }
+  function hideAlert(id) {
+    const el = document.getElementById(id);
+    el.classList.remove('show');
+  }
+
+  // ── Recalculate order summary when spots change ───────────────
+  function recalcSummary() {
+    const a = ACTIVITIES_DATA[formState.activityId];
+    if (!a) return;
+    const priceNum = parseFloat(a.price.replace('$','')) || 0;
+    const spots    = parseInt(document.getElementById('spots-select').value) || 1;
+    const sub      = priceNum * spots;
+    const fee      = sub * 0.03;
+    const label    = spots === 1 ? '1 child' : spots + ' children';
+    document.getElementById('summary-spots').textContent    = label;
+    document.getElementById('summary-subtotal').textContent = a.price === 'Free' ? 'Free' : '$' + sub.toFixed(2);
+    document.getElementById('summary-fee').textContent      = a.price === 'Free' ? '$0.00' : '$' + fee.toFixed(2);
+    document.getElementById('summary-total').textContent    = a.price === 'Free' ? 'Free' : '$' + (sub + fee).toFixed(2);
+  }
+
+  // ── Update slot availability badges ──────────────────────────
+  async function refreshSlotAvailability(activityId, date) {
+    const a = ACTIVITIES_DATA[activityId];
+    if (!a) return;
+    for (let i = 0; i < a.slots.length; i++) {
+      const slotEl = document.querySelector(`#booking-slots .time-slot:nth-child(${i + 1})`);
+      if (!slotEl || slotEl.dataset.full === 'true') continue;
+      const avail = await checkAvailability(activityId, a.slots[i], date);
+      if (avail.unconfigured) return; // don't show badges if not configured
+      let badge = slotEl.querySelector('.slot-avail');
+      if (!badge) { badge = document.createElement('span'); badge.className = 'slot-avail'; slotEl.appendChild(badge); }
+      if (avail.isFull) {
+        slotEl.dataset.full = 'true';
+        slotEl.style.opacity = '0.4';
+        slotEl.style.cursor  = 'not-allowed';
+        slotEl.classList.remove('selected');
+        badge.textContent = 'Full';
+        badge.className   = 'slot-avail full';
+      } else if (avail.available <= 3) {
+        badge.textContent = avail.available + ' spot' + (avail.available === 1 ? '' : 's') + ' left';
+        badge.className   = 'slot-avail low';
+      } else {
+        badge.textContent = avail.available + ' spots available';
+        badge.className   = 'slot-avail ok';
+      }
+    }
+  }
+
+  // ── Boot: populate from ?id= ──────────────────────────────────
   document.addEventListener('DOMContentLoaded', () => {
     const params = new URLSearchParams(window.location.search);
     const id = params.get('id') || 'soccer';
+    formState.activityId = id;
+
     const a = ACTIVITIES_DATA[id];
-    if (!a) return;
+    if (!a) { document.body.innerHTML = '<div style="padding:60px;text-align:center;"><h2>Activity not found.</h2><a href="results.html">← Browse activities</a></div>'; return; }
+
+    // Update page title
+    document.title = 'Book — ' + a.title + ' | SF-Kids';
 
     // Summary strip
-    document.getElementById('bs-icon').textContent = a.emoji;
+    document.getElementById('bs-icon').textContent  = a.emoji;
     document.getElementById('bs-title').textContent = a.title;
-    document.getElementById('bs-meta').textContent = a.provider + ' · ' + a.neighborhood + ' · ' + a.price + (a.priceUnit ? ' ' + a.priceUnit : '');
+    document.getElementById('bs-meta').textContent  = a.provider + ' · ' + a.neighborhood + ' · ' + a.price + (a.priceUnit ? ' ' + a.priceUnit : '');
 
     // Time slots
     const slotsContainer = document.getElementById('booking-slots');
-    if (slotsContainer) {
-      slotsContainer.innerHTML = a.slots.map((s, i) => {
-        const full = i === a.fullSlot;
-        return `<div class="time-slot${i === 0 && !full ? ' selected' : ''}"
-          onclick="selectSlot(this)" data-full="${full}"
-          style="${full ? 'opacity:0.4;cursor:not-allowed;' : ''}">${s}${full ? '<br><span style="font-size:10px;font-weight:400;">Full</span>' : ''}</div>`;
-      }).join('');
-    }
+    slotsContainer.innerHTML = a.slots.map((s, i) => {
+      const full = i === a.fullSlot;
+      return `<div class="time-slot${i === 0 && !full ? ' selected' : ''}"
+        onclick="selectSlot(this)" data-full="${full}" data-slot="${s}"
+        style="${full ? 'opacity:0.4;cursor:not-allowed;' : ''}">${s}${full ? '<br><span style="font-size:10px;font-weight:400;">Full</span>' : ''}</div>`;
+    }).join('');
 
-    // Order summary line
-    const priceNum = parseFloat(a.price.replace('$', '')) || 0;
-    document.getElementById('summary-spots').textContent = '1 child';
+    // Refresh live availability badges
+    const dateVal = document.getElementById('date-input').value;
+    refreshSlotAvailability(id, dateVal);
+
+    // Refresh when date changes
+    document.getElementById('date-input').addEventListener('change', e => {
+      refreshSlotAvailability(id, e.target.value);
+    });
+
+    // Order summary initial state
+    const priceNum = parseFloat(a.price.replace('$','')) || 0;
+    document.getElementById('summary-activity-line').textContent = a.title + ' · Session';
+    document.getElementById('summary-spots').textContent    = '1 child';
     document.getElementById('summary-subtotal').textContent = a.price === 'Free' ? 'Free' : '$' + priceNum.toFixed(2);
-    document.getElementById('summary-fee').textContent = a.price === 'Free' ? '$0.00' : '$' + (priceNum * 0.03).toFixed(2);
-    document.getElementById('summary-total').textContent = a.price === 'Free' ? 'Free' : '$' + (priceNum * 1.03).toFixed(2);
+    document.getElementById('summary-fee').textContent      = a.price === 'Free' ? '$0.00' : '$' + (priceNum * 0.03).toFixed(2);
+    document.getElementById('summary-total').textContent    = a.price === 'Free' ? 'Free' : '$' + (priceNum * 1.03).toFixed(2);
 
-    // Step 3 activity label in summary
-    const activityLine = document.getElementById('summary-activity-line');
-    if (activityLine) activityLine.textContent = a.title + ' · Session';
-
-    // Wire "Complete Booking" to pass id
-    const completeBtn = document.getElementById('complete-btn');
-    if (completeBtn) completeBtn.href = 'confirmation.html?id=' + id;
-
-    // Spots selector recalculate
-    const spotsEl = document.querySelector('#panel-1 select');
-    if (spotsEl) {
-      spotsEl.addEventListener('change', () => {
-        const spots = parseInt(spotsEl.value) || 1;
-        const sub = priceNum * spots;
-        const fee = sub * 0.03;
-        const label = spots === 1 ? '1 child' : spots + ' children';
-        document.getElementById('summary-spots').textContent = label;
-        document.getElementById('summary-subtotal').textContent = a.price === 'Free' ? 'Free' : '$' + sub.toFixed(2);
-        document.getElementById('summary-fee').textContent = a.price === 'Free' ? '$0.00' : '$' + fee.toFixed(2);
-        document.getElementById('summary-total').textContent = a.price === 'Free' ? 'Free' : '$' + (sub + fee).toFixed(2);
-      });
-    }
+    // Recalculate when spots selector changes
+    document.getElementById('spots-select').addEventListener('change', recalcSummary);
   });
 </script>
 </body>

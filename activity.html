@@ -6,6 +6,7 @@
 <title id="page-title">Activity — SF-Kids</title>
 <link rel="stylesheet" href="styles.css">
 <script src="activities-data.js"></script>
+<script src="booking-api.js"></script>
 </head>
 <body>
 
@@ -239,8 +240,9 @@
       <div class="booking-total"><span id="sidebar-line1">${a.price === 'Free' ? 'Free' : a.price + ' × 1 session'}</span><span id="sidebar-subtotal">${a.price === 'Free' ? '' : a.price + '.00'}</span></div>
       <div class="booking-total"><span>SF-Kids fee</span><span id="sidebar-fee">${a.price === 'Free' ? '$0.00' : '$' + (priceNum * 0.03).toFixed(2)}</span></div>
       <div class="booking-total total"><span>Total</span><span id="sidebar-total">${a.price === 'Free' ? 'Free' : '$' + (priceNum * 1.03).toFixed(2)}</span></div>
-      <a href="booking.html?id=${a.id}" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;margin-top:16px;">Book Now →</a>
-      <p style="font-size:11.5px;color:var(--muted);text-align:center;margin-top:10px;">Free cancellation up to 24 hours before</p>`;
+      <a href="booking.html?id=${a.id}" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;margin-top:16px;" id="book-now-btn">Book Now →</a>
+      <p style="font-size:11.5px;color:var(--muted);text-align:center;margin-top:10px;">Free cancellation up to 24 hours before</p>
+      <div id="sidebar-avail-banner" style="display:none;font-size:12px;font-weight:600;text-align:center;margin-top:8px;padding:8px 12px;border-radius:6px;"></div>`;
   }
 
   function updateSidebarTotal() {
@@ -259,6 +261,49 @@
   }
 
   buildPage();
+
+  // ── Live availability: check each slot in the sidebar ─────────
+  async function checkSidebarAvailability(activityId, date) {
+    const a = ACTIVITIES_DATA[activityId];
+    if (!a) return;
+    const slotEls = document.querySelectorAll('#booking-card .time-slot');
+    for (let i = 0; i < a.slots.length; i++) {
+      const el = slotEls[i];
+      if (!el || el.dataset.full === 'true') continue;
+      const avail = await checkAvailability(activityId, a.slots[i], date);
+      if (avail.unconfigured) return;
+      let badge = el.querySelector('.slot-avail');
+      if (!badge) {
+        badge = document.createElement('span');
+        badge.style.cssText = 'display:block;font-size:10px;font-weight:600;margin-top:2px;';
+        el.appendChild(badge);
+      }
+      if (avail.isFull) {
+        el.dataset.full  = 'true';
+        el.style.opacity = '0.4';
+        el.style.cursor  = 'not-allowed';
+        el.classList.remove('selected');
+        badge.style.color = '#9CA3AF';
+        badge.textContent  = 'Full';
+      } else if (avail.available <= 3) {
+        badge.style.color = '#EF4444';
+        badge.textContent  = avail.available + ' spot' + (avail.available === 1 ? '' : 's') + ' left';
+      } else {
+        badge.style.color = '#10B981';
+        badge.textContent  = avail.available + ' spots available';
+      }
+    }
+  }
+
+  // Refresh availability after sidebar builds
+  (function initAvailability() {
+    const params = new URLSearchParams(window.location.search);
+    const id  = params.get('id') || 'soccer';
+    const dateEl = document.querySelector('#booking-card input[type="date"]');
+    const date = dateEl ? dateEl.value : '2026-05-03';
+    checkSidebarAvailability(id, date);
+    if (dateEl) dateEl.addEventListener('change', e => checkSidebarAvailability(id, e.target.value));
+  })();
 </script>
 </body>
 </html>

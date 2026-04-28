@@ -30,7 +30,7 @@
 
     <h1>You're all set!</h1>
     <p>Your booking is confirmed. A confirmation has been sent to your email.</p>
-    <p style="font-size:13px;color:#9CA3AF;margin-top:4px;">Booking reference: <strong style="color:var(--navy);">#SFK-2026-8841</strong></p>
+    <p style="font-size:13px;color:#9CA3AF;margin-top:4px;">Booking reference: <strong style="color:var(--navy);" id="conf-ref">#SFK-2026-8841</strong></p>
 
     <!-- Booking summary -->
     <div class="confirm-ref" id="confirm-ref">
@@ -159,11 +159,13 @@
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const params = new URLSearchParams(window.location.search);
-    const id = params.get('id') || 'soccer';
-    const a = ACTIVITIES_DATA[id];
+    const id  = params.get('id')  || 'soccer';
+    const ref = params.get('ref') || 'SFK-2026-8841';
+    const a   = ACTIVITIES_DATA[id];
     if (!a) return;
 
-    document.getElementById('conf-title').textContent = a.title;
+    document.getElementById('conf-ref').textContent      = '#' + ref;
+    document.getElementById('conf-title').textContent    = a.title;
     document.getElementById('conf-provider').textContent = a.provider;
     document.getElementById('conf-location').textContent = a.neighborhood;
     const priceNum = parseFloat(a.price.replace('$', '')) || 0;
