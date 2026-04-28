@@ -344,8 +344,10 @@ button { cursor: pointer; font-family: inherit; }
 .map-panel {
   position: sticky; top: calc(var(--nav-h) + 56px);
   border-radius: var(--radius); border: 1px solid var(--rule);
-  overflow: hidden; height: 520px;
+  overflow: visible; height: 520px;
 }
+/* Inner map tile area clips to border-radius without blocking popups */
+#sf-map { width: 100%; height: 100%; border-radius: var(--radius); overflow: hidden; }
 #sf-map { width: 100%; height: 100%; }
 .map-location-btn {
   position: absolute; bottom: 16px; right: 16px; z-index: 1000;

@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="activities-data.js"></script>
 <style>
   .results-search-bar {
     background: var(--light); border-bottom: 1px solid var(--rule);
@@ -476,22 +477,22 @@
 <script>
   // ── Activity data for map markers ──────────────────────────────
   const ACTIVITIES = [
-    { title: 'Presidio Youth Soccer Camp',      lat: 37.7989, lng: -122.4662, cat: 'sports',    featured: true  },
-    { title: 'Golden Gate Park Nature Walk',     lat: 37.7694, lng: -122.4862, cat: 'outdoors',  featured: true  },
-    { title: 'Exploratorium Kids Science Lab',   lat: 37.8015, lng: -122.3979, cat: 'science',   featured: false },
-    { title: 'Mission Arts & Crafts Studio',     lat: 37.7599, lng: -122.4148, cat: 'arts',      featured: false },
-    { title: 'Marina Swim Lessons for Tots',     lat: 37.8030, lng: -122.4360, cat: 'swimming',  featured: false },
-    { title: 'Noe Valley Music for Babies',      lat: 37.7502, lng: -122.4337, cat: 'music',     featured: false },
-    { title: 'Baby Sensory Play Morning',        lat: 37.7609, lng: -122.4350, cat: 'sensory',   featured: false },
-    { title: 'Young Performers Theatre',         lat: 37.7925, lng: -122.4382, cat: 'theater',   featured: false },
-    { title: 'Toddler Tumble & Play Gym',        lat: 37.7511, lng: -122.4837, cat: 'movement',  featured: false },
-    { title: 'Inclusive Art Studio',             lat: 37.7578, lng: -122.4128, cat: 'arts',      featured: false },
-    { title: 'Adaptive Swim Program',            lat: 37.7800, lng: -122.4836, cat: 'swimming',  featured: false },
-    { title: 'Sensory-Friendly Dance',           lat: 37.7759, lng: -122.4245, cat: 'movement',  featured: false },
-    { title: 'GG Park Summer Day Camp',          lat: 37.7695, lng: -122.4870, cat: 'camps',     featured: false },
-    { title: 'Code & Robotics Summer Camp',      lat: 37.7785, lng: -122.4056, cat: 'camps',     featured: false },
-    { title: 'Young Artists Summer Studio',      lat: 37.7790, lng: -122.4070, cat: 'camps',     featured: false },
-    { title: 'Multi-Sport Summer Camp',          lat: 37.7985, lng: -122.4655, cat: 'camps',     featured: false },
+    { id: 'soccer',        lat: 37.7989, lng: -122.4662, cat: 'sports'   },
+    { id: 'nature-walk',   lat: 37.7694, lng: -122.4862, cat: 'outdoors' },
+    { id: 'science-lab',   lat: 37.8015, lng: -122.3979, cat: 'science'  },
+    { id: 'arts-crafts',   lat: 37.7599, lng: -122.4148, cat: 'arts'     },
+    { id: 'swim-tots',     lat: 37.8030, lng: -122.4360, cat: 'swimming' },
+    { id: 'music-babies',  lat: 37.7502, lng: -122.4337, cat: 'music'    },
+    { id: 'sensory-play',  lat: 37.7609, lng: -122.4350, cat: 'sensory'  },
+    { id: 'theater',       lat: 37.7925, lng: -122.4382, cat: 'theater'  },
+    { id: 'gym',           lat: 37.7511, lng: -122.4837, cat: 'movement' },
+    { id: 'art-inclusive', lat: 37.7578, lng: -122.4128, cat: 'arts'     },
+    { id: 'adaptive-swim', lat: 37.7800, lng: -122.4836, cat: 'swimming' },
+    { id: 'sensory-dance', lat: 37.7759, lng: -122.4245, cat: 'movement' },
+    { id: 'gg-camp',       lat: 37.7695, lng: -122.4870, cat: 'camps'    },
+    { id: 'robotics-camp', lat: 37.7785, lng: -122.4056, cat: 'camps'    },
+    { id: 'art-camp',      lat: 37.7790, lng: -122.4070, cat: 'camps'    },
+    { id: 'sport-camp',    lat: 37.7985, lng: -122.4655, cat: 'camps'    },
   ];
 
   // ── Map init ───────────────────────────────────────────────────
@@ -504,21 +505,42 @@
 
   const coralIcon = L.divIcon({
     className: '',
-    html: '<div style="width:28px;height:28px;background:#FF6B47;border:3px solid #fff;border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,0.25);display:flex;align-items:center;justify-content:center;font-size:12px;">📍</div>',
-    iconSize: [28, 28], iconAnchor: [14, 14]
+    html: '<div style="width:30px;height:30px;background:#FF6B47;border:3px solid #fff;border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,0.3);cursor:pointer;"></div>',
+    iconSize: [30, 30], iconAnchor: [15, 15], popupAnchor: [0, -18]
   });
   const featuredIcon = L.divIcon({
     className: '',
-    html: '<div style="width:32px;height:32px;background:#F59E0B;border:3px solid #fff;border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;font-size:13px;">⭐</div>',
-    iconSize: [32, 32], iconAnchor: [16, 16]
+    html: '<div style="width:34px;height:34px;background:#F59E0B;border:3px solid #fff;border-radius:50%;box-shadow:0 2px 10px rgba(0,0,0,0.35);display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer;">⭐</div>',
+    iconSize: [34, 34], iconAnchor: [17, 17], popupAnchor: [0, -20]
   });
 
   let allMarkers = [];
   ACTIVITIES.forEach(a => {
-    const icon = a.featured ? featuredIcon : coralIcon;
+    const data = ACTIVITIES_DATA[a.id];
+    if (!data) return;
+    const icon = data.featured ? featuredIcon : coralIcon;
+    const priceDisplay = data.price === 'Free' ? 'Free' : data.price + ' ' + data.priceUnit;
+    const specialTag = data.special ? '<span style="display:inline-block;background:#F3E8FF;color:#7C3AED;font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;margin-top:4px;">💛 Special Needs Friendly</span>' : '';
+    const featuredTag = data.featured ? '<span style="display:inline-block;background:#FEF3C7;color:#92400E;font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;margin-left:4px;">⭐ Featured</span>' : '';
+    const popupHTML = `
+      <div style="min-width:200px;padding:2px 0;">
+        <div style="font-size:20px;margin-bottom:6px;">${data.emoji}</div>
+        <strong style="font-size:13px;color:#0D1B2A;line-height:1.3;display:block;">${data.title}</strong>
+        <div style="font-size:11.5px;color:#64748B;margin-top:2px;">${data.provider}</div>
+        <div style="display:flex;align-items:center;gap:6px;margin-top:6px;flex-wrap:wrap;">
+          <span style="font-size:11px;background:#F1F5F9;color:#0D1B2A;padding:2px 8px;border-radius:20px;">📍 ${data.neighborhood}</span>
+          <span style="font-size:11px;background:#F1F5F9;color:#0D1B2A;padding:2px 8px;border-radius:20px;">⏱ ${data.duration}</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;margin-top:6px;">
+          <span style="font-size:13px;font-weight:700;color:#FF6B47;">${priceDisplay}</span>
+          <span style="font-size:11.5px;color:#64748B;">⭐ ${data.rating} (${data.reviewCount})</span>
+        </div>
+        <div style="margin-top:4px;">${specialTag}${featuredTag}</div>
+        <a href="activity.html?id=${a.id}" style="display:block;margin-top:10px;background:#FF6B47;color:#fff;text-align:center;padding:7px 12px;border-radius:8px;font-size:12px;font-weight:700;text-decoration:none;">View &amp; Book →</a>
+      </div>`;
     const marker = L.marker([a.lat, a.lng], { icon })
       .addTo(map)
-      .bindPopup(`<strong style="font-size:13px;color:#0D1B2A;">${a.title}</strong>${a.featured ? '<br><span style="font-size:11px;color:#F59E0B;font-weight:700;">⭐ Featured</span>' : ''}`, { maxWidth: 200 });
+      .bindPopup(popupHTML, { maxWidth: 240, minWidth: 220 });
     allMarkers.push({ marker, cat: a.cat });
   });
 
