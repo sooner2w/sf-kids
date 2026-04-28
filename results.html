@@ -38,8 +38,8 @@
     </a>
     <ul class="nav-links">
       <li><a href="results.html" class="active">Browse Activities</a></li>
-      <li><a href="#">Camps</a></li>
-      <li><a href="#">This Weekend</a></li>
+      <li><a href="results.html?filter=camps">Camps</a></li>
+      <li><a href="results.html?filter=weekend">This Weekend</a></li>
       <li><a href="list-your-activity.html" class="nav-cta">List Your Activity</a></li>
     </ul>
   </div>
@@ -65,16 +65,15 @@
 <!-- ── Filters ────────────────────────────────────────────────── -->
 <div class="filters-bar">
   <div class="filters-inner">
-    <button class="filter-chip active">All <span class="filter-chip-arrow">▾</span></button>
-    <button class="filter-chip">⚽ Sports</button>
-    <button class="filter-chip">🎨 Arts</button>
-    <button class="filter-chip">🏕️ Camps</button>
-    <button class="filter-chip">🌿 Outdoors</button>
-    <button class="filter-chip">🎵 Music</button>
-    <button class="filter-chip">🔬 Science</button>
-    <button class="filter-chip">Price <span class="filter-chip-arrow">▾</span></button>
-    <button class="filter-chip">Distance <span class="filter-chip-arrow">▾</span></button>
-    <button class="filter-chip">Date <span class="filter-chip-arrow">▾</span></button>
+    <button class="filter-chip active" data-filter="all">All</button>
+    <button class="filter-chip" data-filter="weekend">📅 This Weekend</button>
+    <button class="filter-chip" data-filter="camps">🏕️ Camps</button>
+    <button class="filter-chip" data-filter="sports">⚽ Sports</button>
+    <button class="filter-chip" data-filter="arts">🎨 Arts</button>
+    <button class="filter-chip" data-filter="outdoors">🌿 Outdoors</button>
+    <button class="filter-chip" data-filter="music">🎵 Music</button>
+    <button class="filter-chip" data-filter="science">🔬 Science</button>
+    <button class="filter-chip" data-filter="swimming">🏊 Swimming</button>
   </div>
 </div>
 
@@ -84,11 +83,11 @@
 
     <!-- Left: activity list -->
     <div>
-      <p class="results-count"><strong>47 activities</strong> found in San Francisco</p>
+      <p class="results-count" id="results-count"><strong>47 activities</strong> found in San Francisco</p>
 
-      <div class="cards-grid" style="grid-template-columns: repeat(auto-fill, minmax(260px,1fr));">
+      <div class="cards-grid" id="cards-grid" style="grid-template-columns: repeat(auto-fill, minmax(260px,1fr));">
 
-        <a href="activity.html" class="card">
+        <a href="activity.html" class="card" data-cat="sports" data-schedule="weekend">
           <div class="card-img" style="background:linear-gradient(135deg,#DBEAFE,#93C5FD)">⚽</div>
           <div class="card-img-badge">Ages 6–12</div>
           <div class="card-img-save">🤍</div>
@@ -107,7 +106,7 @@
           </div>
         </a>
 
-        <a href="activity.html" class="card">
+        <a href="activity.html" class="card" data-cat="outdoors" data-schedule="weekend">
           <div class="card-img" style="background:linear-gradient(135deg,#D1FAE5,#6EE7B7)">🌿</div>
           <div class="card-img-badge">Ages 4–10</div>
           <div class="card-img-save">❤️</div>
@@ -126,7 +125,7 @@
           </div>
         </a>
 
-        <a href="activity.html" class="card">
+        <a href="activity.html" class="card" data-cat="science" data-schedule="weekend">
           <div class="card-img" style="background:linear-gradient(135deg,#EDE9FE,#C4B5FD)">🔬</div>
           <div class="card-img-badge">Ages 5–13</div>
           <div class="card-img-save">🤍</div>
@@ -145,7 +144,7 @@
           </div>
         </a>
 
-        <a href="activity.html" class="card">
+        <a href="activity.html" class="card" data-cat="arts" data-schedule="weekend">
           <div class="card-img" style="background:linear-gradient(135deg,#FEF9C3,#FDE047)">🎨</div>
           <div class="card-img-badge">Ages 3–8</div>
           <div class="card-img-save">🤍</div>
@@ -164,7 +163,7 @@
           </div>
         </a>
 
-        <a href="activity.html" class="card">
+        <a href="activity.html" class="card" data-cat="swimming" data-schedule="weekday">
           <div class="card-img" style="background:linear-gradient(135deg,#CFFAFE,#67E8F9)">🏊</div>
           <div class="card-img-badge">Ages 0–6</div>
           <div class="card-img-save">🤍</div>
@@ -183,7 +182,7 @@
           </div>
         </a>
 
-        <a href="activity.html" class="card">
+        <a href="activity.html" class="card" data-cat="music" data-schedule="weekday">
           <div class="card-img" style="background:linear-gradient(135deg,#FCE7F3,#F9A8D4)">🎵</div>
           <div class="card-img-badge">Ages 0–3</div>
           <div class="card-img-save">🤍</div>
@@ -202,7 +201,7 @@
           </div>
         </a>
 
-        <a href="activity.html" class="card">
+        <a href="activity.html" class="card" data-cat="sensory" data-schedule="weekday">
           <div class="card-img" style="background:linear-gradient(135deg,#FEF3C7,#FCD34D)">🧸</div>
           <div class="card-img-badge">Ages 0–2</div>
           <div class="card-img-save">🤍</div>
@@ -221,7 +220,7 @@
           </div>
         </a>
 
-        <a href="activity.html" class="card">
+        <a href="activity.html" class="card" data-cat="theater" data-schedule="weekend">
           <div class="card-img" style="background:linear-gradient(135deg,#E0F2FE,#7DD3FC)">🎭</div>
           <div class="card-img-badge">Ages 7–13</div>
           <div class="card-img-save">🤍</div>
@@ -240,7 +239,7 @@
           </div>
         </a>
 
-        <a href="activity.html" class="card">
+        <a href="activity.html" class="card" data-cat="movement" data-schedule="weekend">
           <div class="card-img" style="background:linear-gradient(135deg,#D1FAE5,#34D399)">🤸</div>
           <div class="card-img-badge">Ages 1–3</div>
           <div class="card-img-save">🤍</div>
@@ -256,6 +255,83 @@
           <div class="card-footer">
             <div class="card-price">$22 <span>/ session</span></div>
             <div class="card-rating">⭐ 4.7 <span style="color:var(--muted);font-weight:400">(51)</span></div>
+          </div>
+        </a>
+
+        <!-- Camp cards (hidden by default, shown when Camps filter active) -->
+        <a href="activity.html" class="card" data-cat="camps" data-schedule="weekend">
+          <div class="card-img" style="background:linear-gradient(135deg,#D1FAE5,#6EE7B7)">⛺</div>
+          <div class="card-img-badge">Ages 6–13</div>
+          <div class="card-img-save">🤍</div>
+          <div class="card-body">
+            <span class="card-cat">Camps</span>
+            <span class="card-title">Golden Gate Park Summer Day Camp</span>
+            <span class="card-provider">SF Recreation & Parks</span>
+            <div class="card-meta">
+              <span class="card-tag">📍 GG Park</span>
+              <span class="card-tag">⏱ Full day</span>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="card-price">$120 <span>/ week</span></div>
+            <div class="card-rating">⭐ 4.8 <span style="color:var(--muted);font-weight:400">(203)</span></div>
+          </div>
+        </a>
+
+        <a href="activity.html" class="card" data-cat="camps" data-schedule="weekend">
+          <div class="card-img" style="background:linear-gradient(135deg,#EDE9FE,#C4B5FD)">🤖</div>
+          <div class="card-img-badge">Ages 8–13</div>
+          <div class="card-img-save">🤍</div>
+          <div class="card-body">
+            <span class="card-cat">Camps · STEM</span>
+            <span class="card-title">Code & Robotics Summer Camp</span>
+            <span class="card-provider">iD Tech Camps SF</span>
+            <div class="card-meta">
+              <span class="card-tag">📍 SoMa</span>
+              <span class="card-tag">⏱ Full day</span>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="card-price">$299 <span>/ week</span></div>
+            <div class="card-rating">⭐ 4.9 <span style="color:var(--muted);font-weight:400">(178)</span></div>
+          </div>
+        </a>
+
+        <a href="activity.html" class="card" data-cat="camps" data-schedule="weekend">
+          <div class="card-img" style="background:linear-gradient(135deg,#FEF9C3,#FDE047)">🎨</div>
+          <div class="card-img-badge">Ages 5–12</div>
+          <div class="card-img-save">🤍</div>
+          <div class="card-body">
+            <span class="card-cat">Camps · Arts</span>
+            <span class="card-title">Young Artists Summer Studio</span>
+            <span class="card-provider">SFMOMA Education</span>
+            <div class="card-meta">
+              <span class="card-tag">📍 SoMa</span>
+              <span class="card-tag">⏱ Half day</span>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="card-price">$185 <span>/ week</span></div>
+            <div class="card-rating">⭐ 4.9 <span style="color:var(--muted);font-weight:400">(91)</span></div>
+          </div>
+        </a>
+
+        <a href="activity.html" class="card" data-cat="camps" data-schedule="weekend">
+          <div class="card-img" style="background:linear-gradient(135deg,#CFFAFE,#67E8F9)">⚽</div>
+          <div class="card-img-badge">Ages 6–12</div>
+          <div class="card-img-save">🤍</div>
+          <div class="card-body">
+            <span class="card-cat">Camps · Sports</span>
+            <span class="card-title">Multi-Sport Summer Camp</span>
+            <span class="card-provider">Bay Area Youth Athletics</span>
+            <div class="card-meta">
+              <span class="card-tag">📍 Presidio</span>
+              <span class="card-tag">⏱ Full day</span>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="card-price">$250 <span>/ week</span></div>
+            <div class="card-rating">⭐ 4.8 <span style="color:var(--muted);font-weight:400">(144)</span></div>
           </div>
         </a>
 
@@ -324,12 +400,65 @@
 </footer>
 
 <script>
-  // Filter chip toggle
+  const filterLabels = {
+    all: '47 activities found in San Francisco',
+    weekend: 'This Weekend — activities happening Sat & Sun',
+    camps: 'Summer Camps in San Francisco',
+    sports: 'Sports activities in San Francisco',
+    arts: 'Arts & Crafts activities in San Francisco',
+    outdoors: 'Outdoor activities in San Francisco',
+    music: 'Music activities in San Francisco',
+    science: 'Science activities in San Francisco',
+    swimming: 'Swimming lessons in San Francisco',
+  };
+
+  function applyFilter(filter) {
+    const cards = document.querySelectorAll('#cards-grid .card');
+    let visible = 0;
+
+    cards.forEach(card => {
+      const cat = card.dataset.cat || '';
+      const schedule = card.dataset.schedule || '';
+      let show = false;
+
+      if (filter === 'all') {
+        show = true;
+      } else if (filter === 'weekend') {
+        show = schedule === 'weekend';
+      } else {
+        show = cat === filter || cat.includes(filter);
+      }
+
+      card.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+
+    const label = filterLabels[filter] || (visible + ' activities found');
+    document.getElementById('results-count').innerHTML =
+      '<strong>' + visible + ' activities</strong> — ' + label.split('—')[1]?.trim() || label;
+
+    // Update active chip
+    document.querySelectorAll('.filter-chip').forEach(c => {
+      c.classList.toggle('active', c.dataset.filter === filter);
+    });
+  }
+
+  // Wire up filter chips
   document.querySelectorAll('.filter-chip').forEach(chip => {
     chip.addEventListener('click', function() {
-      document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-      this.classList.add('active');
+      applyFilter(this.dataset.filter);
+      // Update URL param without page reload
+      const url = new URL(window.location);
+      url.searchParams.set('filter', this.dataset.filter);
+      history.replaceState({}, '', url);
     });
+  });
+
+  // Read URL param on load (handles nav links like ?filter=camps)
+  window.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    const filter = params.get('filter') || 'all';
+    applyFilter(filter);
   });
 </script>
 </body>
