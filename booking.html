@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Book — Presidio Youth Soccer Camp | SF-Kids</title>
 <link rel="stylesheet" href="styles.css">
+<script src="activities-data.js"></script>
 <style>
   .booking-summary {
     background: var(--light); border: 1px solid var(--rule);
@@ -62,11 +63,11 @@
 <div style="max-width:560px;margin:0 auto;padding:0 24px 80px;">
 
   <!-- Summary strip -->
-  <div class="booking-summary">
-    <div class="booking-summary-icon">⚽</div>
+  <div class="booking-summary" id="booking-summary-strip">
+    <div class="booking-summary-icon" id="bs-icon">⚽</div>
     <div>
-      <div class="booking-summary-title">Presidio Youth Soccer Camp</div>
-      <div class="booking-summary-meta">Bay Area Youth Athletics · Presidio, SF · $45 / session</div>
+      <div class="booking-summary-title" id="bs-title">Loading…</div>
+      <div class="booking-summary-meta" id="bs-meta"></div>
     </div>
   </div>
 
@@ -82,12 +83,7 @@
 
     <div class="form-group">
       <label class="form-label">Time slot</label>
-      <div class="time-slots">
-        <div class="time-slot selected" onclick="selectSlot(this)">9:00 AM</div>
-        <div class="time-slot" onclick="selectSlot(this)">11:00 AM</div>
-        <div class="time-slot" onclick="selectSlot(this)" style="opacity:0.4;cursor:not-allowed;">1:00 PM<br><span style="font-size:10px;font-weight:400;">Full</span></div>
-        <div class="time-slot" onclick="selectSlot(this)">3:00 PM</div>
-      </div>
+      <div class="time-slots" id="booking-slots"></div>
     </div>
 
     <div class="form-group">
@@ -154,7 +150,7 @@
 
     <!-- Order summary -->
     <div style="background:var(--light);border-radius:var(--radius-sm);padding:16px;margin-bottom:20px;">
-      <div class="booking-total"><span>Presidio Soccer Camp · May 3 · 9:00 AM</span><span></span></div>
+      <div class="booking-total"><span id="summary-activity-line">Activity · Session</span><span></span></div>
       <div class="booking-total" style="margin-top:6px;"><span id="summary-spots">1 child</span><span id="summary-subtotal">$45.00</span></div>
       <div class="booking-total"><span>SF-Kids service fee <span style="font-size:11px;color:var(--muted);">(3%)</span></span><span id="summary-fee">$1.35</span></div>
       <hr style="border:none;border-top:1px solid var(--rule);margin:12px 0;">
@@ -198,7 +194,7 @@
 
     <div style="display:flex;gap:10px;">
       <button class="btn btn-secondary" onclick="goStep(2)" style="flex:1;justify-content:center;">← Back</button>
-      <a href="confirmation.html" class="btn btn-primary" style="flex:2;justify-content:center;">Complete Booking →</a>
+      <a href="confirmation.html" class="btn btn-primary" style="flex:2;justify-content:center;" id="complete-btn">Complete Booking →</a>
     </div>
   </div>
 
@@ -232,34 +228,63 @@
   }
 
   function selectSlot(el) {
-    if (el.style.opacity === '0.4') return;
+    if (el.dataset.full === 'true') return;
     document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
     el.classList.add('selected');
   }
 
-  // ── Pricing calculator ─────────────────────────────────────────
-  const PRICE_PER_CHILD = 45;
-  const SERVICE_FEE_RATE = 0.03;
-
-  function updatePricing() {
-    const spotsEl = document.querySelector('#panel-1 .form-select');
-    const spots = spotsEl ? parseInt(spotsEl.value) || 1 : 1;
-    const subtotal = PRICE_PER_CHILD * spots;
-    const fee = Math.round(subtotal * SERVICE_FEE_RATE * 100) / 100;
-    const total = subtotal + fee;
-
-    const label = spots === 1 ? '1 child' : spots + ' children';
-    document.getElementById('summary-spots').textContent = label;
-    document.getElementById('summary-subtotal').textContent = '$' + subtotal.toFixed(2);
-    document.getElementById('summary-fee').textContent = '$' + fee.toFixed(2);
-    document.getElementById('summary-total').textContent = '$' + total.toFixed(2);
-  }
-
-  // Recalculate when spots selector changes
+  // ── Boot: populate from ?id= ───────────────────────────────────
   document.addEventListener('DOMContentLoaded', () => {
-    const spotsEl = document.querySelector('#panel-1 .form-select');
-    if (spotsEl) spotsEl.addEventListener('change', updatePricing);
-    updatePricing();
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id') || 'soccer';
+    const a = ACTIVITIES_DATA[id];
+    if (!a) return;
+
+    // Summary strip
+    document.getElementById('bs-icon').textContent = a.emoji;
+    document.getElementById('bs-title').textContent = a.title;
+    document.getElementById('bs-meta').textContent = a.provider + ' · ' + a.neighborhood + ' · ' + a.price + (a.priceUnit ? ' ' + a.priceUnit : '');
+
+    // Time slots
+    const slotsContainer = document.getElementById('booking-slots');
+    if (slotsContainer) {
+      slotsContainer.innerHTML = a.slots.map((s, i) => {
+        const full = i === a.fullSlot;
+        return `<div class="time-slot${i === 0 && !full ? ' selected' : ''}"
+          onclick="selectSlot(this)" data-full="${full}"
+          style="${full ? 'opacity:0.4;cursor:not-allowed;' : ''}">${s}${full ? '<br><span style="font-size:10px;font-weight:400;">Full</span>' : ''}</div>`;
+      }).join('');
+    }
+
+    // Order summary line
+    const priceNum = parseFloat(a.price.replace('$', '')) || 0;
+    document.getElementById('summary-spots').textContent = '1 child';
+    document.getElementById('summary-subtotal').textContent = a.price === 'Free' ? 'Free' : '$' + priceNum.toFixed(2);
+    document.getElementById('summary-fee').textContent = a.price === 'Free' ? '$0.00' : '$' + (priceNum * 0.03).toFixed(2);
+    document.getElementById('summary-total').textContent = a.price === 'Free' ? 'Free' : '$' + (priceNum * 1.03).toFixed(2);
+
+    // Step 3 activity label in summary
+    const activityLine = document.getElementById('summary-activity-line');
+    if (activityLine) activityLine.textContent = a.title + ' · Session';
+
+    // Wire "Complete Booking" to pass id
+    const completeBtn = document.getElementById('complete-btn');
+    if (completeBtn) completeBtn.href = 'confirmation.html?id=' + id;
+
+    // Spots selector recalculate
+    const spotsEl = document.querySelector('#panel-1 select');
+    if (spotsEl) {
+      spotsEl.addEventListener('change', () => {
+        const spots = parseInt(spotsEl.value) || 1;
+        const sub = priceNum * spots;
+        const fee = sub * 0.03;
+        const label = spots === 1 ? '1 child' : spots + ' children';
+        document.getElementById('summary-spots').textContent = label;
+        document.getElementById('summary-subtotal').textContent = a.price === 'Free' ? 'Free' : '$' + sub.toFixed(2);
+        document.getElementById('summary-fee').textContent = a.price === 'Free' ? '$0.00' : '$' + fee.toFixed(2);
+        document.getElementById('summary-total').textContent = a.price === 'Free' ? 'Free' : '$' + (sub + fee).toFixed(2);
+      });
+    }
   });
 </script>
 </body>

@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Presidio Youth Soccer Camp — SF-Kids</title>
+<title id="page-title">Activity — SF-Kids</title>
 <link rel="stylesheet" href="styles.css">
+<script src="activities-data.js"></script>
 </head>
 <body>
 
@@ -29,7 +30,7 @@
   <p style="font-size:13px;color:var(--muted);">
     <a href="index.html" style="color:var(--muted);">Home</a> &nbsp;›&nbsp;
     <a href="results.html" style="color:var(--muted);">Browse</a> &nbsp;›&nbsp;
-    <span style="color:var(--navy);">Presidio Youth Soccer Camp</span>
+    <span id="breadcrumb-title" style="color:var(--navy);">Activity</span>
   </p>
 </div>
 
@@ -40,157 +41,42 @@
     <!-- Left: content -->
     <div>
       <!-- Gallery -->
-      <div class="detail-gallery">
-        <div class="gallery-main">⚽</div>
-        <div class="gallery-sm">🏃</div>
-        <div class="gallery-sm">🥅</div>
-      </div>
+      <div class="detail-gallery" id="gallery"></div>
 
       <!-- Badges -->
-      <div class="detail-badges">
-        <span class="badge badge-age">👦 Ages 6–12</span>
-        <span class="badge badge-price">💰 $45 / session</span>
-        <span class="badge badge-time">⏱ 2 hours</span>
-        <span class="badge" style="background:var(--light);color:var(--navy);">📍 Presidio, SF</span>
-        <span class="badge" style="background:var(--light);color:var(--navy);">⚽ Sports</span>
-      </div>
+      <div class="detail-badges" id="badges"></div>
 
-      <h1 class="detail-title">Presidio Youth Soccer Camp</h1>
+      <h1 class="detail-title" id="detail-title"></h1>
 
-      <div class="detail-provider">
-        <span>🏫 Bay Area Youth Athletics</span>
-        <span style="color:var(--rule);">|</span>
-        <a href="#" style="color:var(--coral);font-size:13px;">View provider →</a>
-      </div>
+      <div class="detail-provider" id="detail-provider"></div>
 
-      <div class="detail-rating">
-        <span class="stars">★★★★★</span>
-        <span>4.9</span>
-        <span style="color:var(--muted);font-weight:400;font-size:13px;">(128 reviews)</span>
-        <span style="color:var(--rule);">|</span>
-        <span style="color:var(--success);font-size:13px;font-weight:600;">✓ 400+ bookings</span>
-      </div>
+      <div class="detail-rating" id="detail-rating"></div>
 
-      <p class="detail-desc">
-        Join the most popular youth soccer program in San Francisco! Our certified coaches run skill-building sessions at the beautiful Presidio fields every Saturday and Sunday. Whether your child is a total beginner or a budding player, we group kids by skill level so everyone gets the right challenge. We focus on fun, teamwork, and building a lifelong love of the game.
-      </p>
-      <p class="detail-desc">
-        Sessions include drills, small-sided games, and a cool-down stretch. All coaches are US Soccer certified and background-checked. Cleats recommended but not required.
-      </p>
+      <div id="detail-desc"></div>
 
       <h3 style="font-size:16px;font-weight:700;color:var(--navy);margin-bottom:12px;">What's included</h3>
-      <ul class="detail-list">
-        <li>Certified, background-checked coach (1:8 ratio)</li>
-        <li>All training equipment and pinnies</li>
-        <li>Skill assessment and group placement</li>
-        <li>Post-session progress card</li>
-        <li>Water break and snack (please bring a water bottle)</li>
-      </ul>
+      <ul class="detail-list" id="included-list"></ul>
 
       <h3 style="font-size:16px;font-weight:700;color:var(--navy);margin-bottom:12px;margin-top:24px;">What to bring</h3>
-      <ul class="detail-list">
-        <li>Water bottle</li>
-        <li>Athletic clothes</li>
-        <li>Cleats (sneakers are fine)</li>
-        <li>Sunscreen</li>
-      </ul>
+      <ul class="detail-list" id="bring-list"></ul>
 
       <!-- Provider trust block -->
-      <div style="background:var(--light);border-radius:var(--radius);padding:20px 24px;margin-top:32px;display:flex;gap:16px;align-items:center;">
-        <div style="width:52px;height:52px;background:var(--coral-lt);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;">🏫</div>
-        <div>
-          <p style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:2px;">Bay Area Youth Athletics</p>
-          <p style="font-size:12.5px;color:var(--muted);">Running programs in SF since 2014 · 2,400+ kids coached · Background-checked staff</p>
-          <a href="#" style="font-size:13px;color:var(--coral);font-weight:600;">See all their activities →</a>
-        </div>
-      </div>
+      <div id="provider-block" style="background:var(--light);border-radius:var(--radius);padding:20px 24px;margin-top:32px;display:flex;gap:16px;align-items:center;"></div>
 
       <!-- Reviews -->
-      <div class="reviews">
-        <h3>Parent Reviews</h3>
-
-        <div class="review-card">
-          <div class="review-header">
-            <span class="reviewer">Sarah M. · Mom of a 8-year-old</span>
-            <span class="review-date">March 2026</span>
-          </div>
-          <div style="color:var(--yellow);font-size:13px;margin-bottom:6px;">★★★★★</div>
-          <p class="review-text">My son has been asking to come back every weekend since his first session. The coaches are so patient and actually know how to keep kids engaged. Worth every penny!</p>
-        </div>
-
-        <div class="review-card">
-          <div class="review-header">
-            <span class="reviewer">David K. · Dad of a 6-year-old</span>
-            <span class="review-date">February 2026</span>
-          </div>
-          <div style="color:var(--yellow);font-size:13px;margin-bottom:6px;">★★★★★</div>
-          <p class="review-text">We've tried a few soccer programs in the city and this is by far the best organized. Easy booking, great location at the Presidio, and the staff is amazing with the kids.</p>
-        </div>
-
-        <div class="review-card">
-          <div class="review-header">
-            <span class="reviewer">Priya L. · Mom of twins, ages 9</span>
-            <span class="review-date">January 2026</span>
-          </div>
-          <div style="color:var(--yellow);font-size:13px;margin-bottom:6px;">★★★★☆</div>
-          <p class="review-text">Really great program. Both my kids loved it. Would love if there were more afternoon time slots on weekdays, but the weekend sessions work great for us.</p>
-        </div>
-      </div>
+      <div class="reviews" id="reviews-section"></div>
     </div>
 
     <!-- Right: booking card -->
     <div>
-      <div class="booking-card">
-        <div class="booking-card-price">$45 <span>/ session per child</span></div>
-
-        <div class="form-group">
-          <label class="form-label">Select a date</label>
-          <input type="date" class="form-input" value="2026-05-03">
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Available times</label>
-          <div class="time-slots">
-            <div class="time-slot selected" onclick="selectSlot(this)">9:00 AM</div>
-            <div class="time-slot" onclick="selectSlot(this)">11:00 AM</div>
-            <div class="time-slot" onclick="selectSlot(this)" style="opacity:0.4;cursor:not-allowed;">1:00 PM<br><span style="font-size:10px;font-weight:400;">Full</span></div>
-            <div class="time-slot" onclick="selectSlot(this)">3:00 PM</div>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Number of children</label>
-          <select class="form-select">
-            <option>1 child</option>
-            <option>2 children</option>
-            <option>3 children</option>
-          </select>
-        </div>
-
-        <hr class="booking-divider">
-        <div class="booking-total"><span>$45 × 1 session</span><span>$45.00</span></div>
-        <div class="booking-total"><span>SF-Kids fee</span><span>$0.00</span></div>
-        <div class="booking-total total"><span>Total</span><span>$45.00</span></div>
-
-        <a href="booking.html" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;margin-top:16px;">Book Now →</a>
-
-        <p style="font-size:11.5px;color:var(--muted);text-align:center;margin-top:10px;">Free cancellation up to 24 hours before</p>
-      </div>
+      <div class="booking-card" id="booking-card"></div>
 
       <!-- Trust signals -->
       <div style="margin-top:16px;display:flex;flex-direction:column;gap:8px;">
-        <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);">
-          <span style="color:var(--success);">✓</span> Instant booking confirmation
-        </div>
-        <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);">
-          <span style="color:var(--success);">✓</span> Background-checked coaches
-        </div>
-        <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);">
-          <span style="color:var(--success);">✓</span> Free cancellation (24hr notice)
-        </div>
-        <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);">
-          <span style="color:var(--success);">✓</span> 400+ happy families
-        </div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);"><span style="color:var(--success);">✓</span> Instant booking confirmation</div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);"><span style="color:var(--success);">✓</span> Background-checked providers</div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);"><span style="color:var(--success);">✓</span> Free cancellation (24hr notice)</div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);"><span style="color:var(--success);">✓</span> Secure payments via SF-Kids</div>
       </div>
     </div>
   </div>
@@ -207,8 +93,8 @@
       <p class="footer-col-title">Discover</p>
       <ul class="footer-links">
         <li><a href="results.html">Browse All</a></li>
-        <li><a href="#">This Weekend</a></li>
-        <li><a href="#">Summer Camps</a></li>
+        <li><a href="results.html?filter=weekend">This Weekend</a></li>
+        <li><a href="results.html?filter=camps">Summer Camps</a></li>
       </ul>
     </div>
     <div>
@@ -222,7 +108,7 @@
     <div>
       <p class="footer-col-title">For Providers</p>
       <ul class="footer-links">
-        <li><a href="#">List Your Activity</a></li>
+        <li><a href="list-your-activity.html">List Your Activity</a></li>
         <li><a href="#">Contact Us</a></li>
       </ul>
     </div>
@@ -234,10 +120,145 @@
 
 <script>
   function selectSlot(el) {
-    if (el.style.opacity === '0.4') return;
+    if (el.dataset.full === 'true') return;
     document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
     el.classList.add('selected');
   }
+
+  function stars(n) {
+    return '★'.repeat(n) + '☆'.repeat(5 - n);
+  }
+
+  function buildPage() {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id') || 'soccer';
+    const a = ACTIVITIES_DATA[id];
+
+    if (!a) {
+      document.body.innerHTML = '<div style="padding:60px;text-align:center;"><h2>Activity not found.</h2><a href="results.html">← Back to results</a></div>';
+      return;
+    }
+
+    // Page title + breadcrumb
+    document.getElementById('page-title').textContent = a.title + ' — SF-Kids';
+    document.getElementById('breadcrumb-title').textContent = a.title;
+
+    // Gallery
+    document.getElementById('gallery').innerHTML = `
+      <div class="gallery-main" style="background:linear-gradient(135deg,${a.gFrom},${a.gTo})">${a.emoji}</div>
+      <div class="gallery-sm" style="background:linear-gradient(135deg,${a.gFrom},${a.gTo})">${a.emoji2}</div>
+      <div class="gallery-sm" style="background:linear-gradient(135deg,${a.gFrom},${a.gTo})">${a.emoji3}</div>`;
+
+    // Badges
+    const specialBadge = a.special ? `<span class="badge" style="background:#F3E8FF;color:#7C3AED;">💛 Special Needs Friendly</span>` : '';
+    const featuredBadge = a.featured ? `<span class="badge" style="background:#FEF3C7;color:#92400E;">⭐ Featured</span>` : '';
+    document.getElementById('badges').innerHTML = `
+      <span class="badge badge-age">👦 ${a.age}</span>
+      <span class="badge badge-price">💰 ${a.price}${a.priceUnit ? ' ' + a.priceUnit : ''}</span>
+      <span class="badge badge-time">⏱ ${a.duration}</span>
+      <span class="badge" style="background:var(--light);color:var(--navy);">📍 ${a.neighborhood}</span>
+      <span class="badge" style="background:var(--light);color:var(--navy);">${a.emoji} ${a.cat}</span>
+      ${specialBadge}${featuredBadge}`;
+
+    // Title + provider
+    document.getElementById('detail-title').textContent = a.title;
+    document.getElementById('detail-provider').innerHTML = `
+      <span>🏫 ${a.provider}</span>
+      <span style="color:var(--rule);">|</span>
+      <a href="#" style="color:var(--coral);font-size:13px;">View provider →</a>`;
+
+    // Rating
+    document.getElementById('detail-rating').innerHTML = `
+      <span class="stars">★★★★★</span>
+      <span>${a.rating}</span>
+      <span style="color:var(--muted);font-weight:400;font-size:13px;">(${a.reviewCount} reviews)</span>
+      <span style="color:var(--rule);">|</span>
+      <span style="color:var(--success);font-size:13px;font-weight:600;">✓ ${a.bookings} bookings</span>`;
+
+    // Description
+    document.getElementById('detail-desc').innerHTML = a.desc.map(p => `<p class="detail-desc">${p}</p>`).join('');
+
+    // Included + bring
+    document.getElementById('included-list').innerHTML = a.included.map(i => `<li>${i}</li>`).join('');
+    document.getElementById('bring-list').innerHTML = a.bring.map(i => `<li>${i}</li>`).join('');
+
+    // Provider trust block
+    document.getElementById('provider-block').innerHTML = `
+      <div style="width:52px;height:52px;background:var(--coral-lt);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;">${a.providerEmoji}</div>
+      <div>
+        <p style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:2px;">${a.provider}</p>
+        <p style="font-size:12.5px;color:var(--muted);">${a.providerDesc}</p>
+        <a href="#" style="font-size:13px;color:var(--coral);font-weight:600;">See all their activities →</a>
+      </div>`;
+
+    // Reviews
+    const reviewsHTML = a.reviews.map(r => `
+      <div class="review-card">
+        <div class="review-header">
+          <span class="reviewer">${r.name}</span>
+          <span class="review-date">${r.date}</span>
+        </div>
+        <div style="color:var(--yellow);font-size:13px;margin-bottom:6px;">${stars(r.stars)}</div>
+        <p class="review-text">${r.text}</p>
+      </div>`).join('');
+    document.getElementById('reviews-section').innerHTML = `<h3>Parent Reviews</h3>${reviewsHTML}`;
+
+    // Booking sidebar
+    const priceNum = parseFloat(a.price.replace('$', '')) || 0;
+    const slotsHTML = a.slots.map((s, i) => {
+      const full = i === a.fullSlot;
+      return `<div class="time-slot${i === 0 && !full ? ' selected' : ''}"
+        onclick="selectSlot(this)"
+        data-full="${full}"
+        style="${full ? 'opacity:0.4;cursor:not-allowed;' : ''}">${s}${full ? '<br><span style="font-size:10px;font-weight:400;">Full</span>' : ''}</div>`;
+    }).join('');
+
+    const priceDisplay = a.price === 'Free'
+      ? '<div class="booking-card-price">Free</div>'
+      : `<div class="booking-card-price">${a.price} <span>${a.priceUnit}</span></div>`;
+
+    document.getElementById('booking-card').innerHTML = `
+      ${priceDisplay}
+      <div class="form-group">
+        <label class="form-label">Select a date</label>
+        <input type="date" class="form-input" value="2026-05-03">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Available times</label>
+        <div class="time-slots">${slotsHTML}</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Number of children</label>
+        <select class="form-select" id="spots-select" onchange="updateSidebarTotal()">
+          <option>1 child</option>
+          <option>2 children</option>
+          <option>3 children</option>
+        </select>
+      </div>
+      <hr class="booking-divider">
+      <div class="booking-total"><span id="sidebar-line1">${a.price === 'Free' ? 'Free' : a.price + ' × 1 session'}</span><span id="sidebar-subtotal">${a.price === 'Free' ? '' : a.price + '.00'}</span></div>
+      <div class="booking-total"><span>SF-Kids fee</span><span id="sidebar-fee">${a.price === 'Free' ? '$0.00' : '$' + (priceNum * 0.03).toFixed(2)}</span></div>
+      <div class="booking-total total"><span>Total</span><span id="sidebar-total">${a.price === 'Free' ? 'Free' : '$' + (priceNum * 1.03).toFixed(2)}</span></div>
+      <a href="booking.html?id=${a.id}" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;margin-top:16px;">Book Now →</a>
+      <p style="font-size:11.5px;color:var(--muted);text-align:center;margin-top:10px;">Free cancellation up to 24 hours before</p>`;
+  }
+
+  function updateSidebarTotal() {
+    const params = new URLSearchParams(window.location.search);
+    const a = ACTIVITIES_DATA[params.get('id') || 'soccer'];
+    if (!a || a.price === 'Free') return;
+    const priceNum = parseFloat(a.price.replace('$', ''));
+    const spotsEl = document.getElementById('spots-select');
+    const spots = spotsEl ? parseInt(spotsEl.value) : 1;
+    const sub = priceNum * spots;
+    const fee = sub * 0.03;
+    document.getElementById('sidebar-line1').textContent = a.price + ' × ' + spots + (spots > 1 ? ' children' : ' session');
+    document.getElementById('sidebar-subtotal').textContent = '$' + sub.toFixed(2);
+    document.getElementById('sidebar-fee').textContent = '$' + fee.toFixed(2);
+    document.getElementById('sidebar-total').textContent = '$' + (sub + fee).toFixed(2);
+  }
+
+  buildPage();
 </script>
 </body>
 </html>

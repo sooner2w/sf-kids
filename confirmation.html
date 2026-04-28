@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Booking Confirmed! — SF-Kids</title>
 <link rel="stylesheet" href="styles.css">
+<script src="activities-data.js"></script>
 </head>
 <body>
 
@@ -32,35 +33,14 @@
     <p style="font-size:13px;color:#9CA3AF;margin-top:4px;">Booking reference: <strong style="color:var(--navy);">#SFK-2026-8841</strong></p>
 
     <!-- Booking summary -->
-    <div class="confirm-ref">
-      <div class="confirm-ref-row">
-        <span>Activity</span>
-        <span>Presidio Youth Soccer Camp</span>
-      </div>
-      <div class="confirm-ref-row">
-        <span>Provider</span>
-        <span>Bay Area Youth Athletics</span>
-      </div>
-      <div class="confirm-ref-row">
-        <span>Location</span>
-        <span>Presidio Fields, SF</span>
-      </div>
-      <div class="confirm-ref-row">
-        <span>Date</span>
-        <span>Saturday, May 3, 2026</span>
-      </div>
-      <div class="confirm-ref-row">
-        <span>Time</span>
-        <span>9:00 AM – 11:00 AM</span>
-      </div>
-      <div class="confirm-ref-row">
-        <span>Child</span>
-        <span>Jamie · Age 8</span>
-      </div>
-      <div class="confirm-ref-row">
-        <span>Total paid</span>
-        <span>$45.00</span>
-      </div>
+    <div class="confirm-ref" id="confirm-ref">
+      <div class="confirm-ref-row"><span>Activity</span><span id="conf-title">—</span></div>
+      <div class="confirm-ref-row"><span>Provider</span><span id="conf-provider">—</span></div>
+      <div class="confirm-ref-row"><span>Location</span><span id="conf-location">—</span></div>
+      <div class="confirm-ref-row"><span>Date</span><span>Saturday, May 3, 2026</span></div>
+      <div class="confirm-ref-row"><span>Time</span><span>9:00 AM</span></div>
+      <div class="confirm-ref-row"><span>Child</span><span>Jamie · Age 8</span></div>
+      <div class="confirm-ref-row"><span>Total paid</span><span id="conf-total">—</span></div>
     </div>
 
     <!-- What's next -->
@@ -177,8 +157,30 @@
 </footer>
 
 <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id') || 'soccer';
+    const a = ACTIVITIES_DATA[id];
+    if (!a) return;
+
+    document.getElementById('conf-title').textContent = a.title;
+    document.getElementById('conf-provider').textContent = a.provider;
+    document.getElementById('conf-location').textContent = a.neighborhood;
+    const priceNum = parseFloat(a.price.replace('$', '')) || 0;
+    document.getElementById('conf-total').textContent = a.price === 'Free' ? 'Free' : '$' + (priceNum * 1.03).toFixed(2);
+
+    // Update "Find More Activities" link
+    const findMore = document.querySelector('.confirm-actions a[href="results.html"]');
+    if (findMore) findMore.href = 'results.html';
+  });
+
   function addToCalendar() {
-    const url = "https://calendar.google.com/calendar/r/eventedit?text=Presidio+Youth+Soccer+Camp&dates=20260503T090000/20260503T110000&details=SF-Kids+Booking+%23SFK-2026-8841&location=Presidio+Fields,+San+Francisco,+CA";
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id') || 'soccer';
+    const a = ACTIVITIES_DATA[id] || ACTIVITIES_DATA['soccer'];
+    const title = encodeURIComponent(a.title);
+    const loc = encodeURIComponent(a.neighborhood + ', San Francisco, CA');
+    const url = `https://calendar.google.com/calendar/r/eventedit?text=${title}&dates=20260503T090000/20260503T110000&details=SF-Kids+Booking+%23SFK-2026-8841&location=${loc}`;
     window.open(url, '_blank');
   }
 </script>
