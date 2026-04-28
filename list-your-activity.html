@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>List Your Activity — SF-Kids</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  .list-hero {
+    background: linear-gradient(135deg, var(--navy) 0%, #1e3a5f 100%);
+    padding: 64px 24px 52px;
+    text-align: center;
+  }
+  .list-hero h1 {
+    font-size: clamp(28px, 5vw, 44px);
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 12px;
+    letter-spacing: -0.5px;
+  }
+  .list-hero p {
+    font-size: 17px;
+    color: rgba(255,255,255,0.75);
+    max-width: 520px;
+    margin: 0 auto 28px;
+    line-height: 1.6;
+  }
+  .list-hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  .list-hero-stat { text-align: center; }
+  .list-hero-stat .num {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--coral);
+  }
+  .list-hero-stat .lbl {
+    font-size: 12px;
+    color: rgba(255,255,255,0.6);
+    margin-top: 2px;
+  }
+
+  .list-layout {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 52px 24px 80px;
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 40px;
+    align-items: start;
+  }
+  @media (max-width: 768px) {
+    .list-layout { grid-template-columns: 1fr; }
+    .list-sidebar { order: -1; }
+  }
+
+  .list-form-card {
+    background: #fff;
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    padding: 32px 28px;
+  }
+  .list-form-card h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 4px;
+  }
+  .list-form-card .section-intro {
+    font-size: 13.5px;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+  .form-section-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--navy);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 8px;
+    margin: 28px 0 18px;
+  }
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  @media (max-width: 540px) { .form-row { grid-template-columns: 1fr; } }
+
+  .form-group { margin-bottom: 16px; }
+  .form-label { display: block; font-size: 13px; font-weight: 600; color: var(--navy); margin-bottom: 6px; }
+  .form-label .opt { font-weight: 400; color: var(--muted); }
+  .form-input, .form-select, .form-textarea {
+    width: 100%; padding: 10px 14px; border: 1.5px solid var(--rule);
+    border-radius: 8px; font-size: 14px; color: var(--navy);
+    font-family: inherit; background: #fff; box-sizing: border-box;
+    transition: border-color 0.15s;
+  }
+  .form-input:focus, .form-select:focus, .form-textarea:focus {
+    outline: none; border-color: var(--coral);
+    box-shadow: 0 0 0 3px rgba(255,107,71,0.1);
+  }
+  .form-textarea { resize: vertical; min-height: 100px; line-height: 1.5; }
+
+  .category-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 4px;
+  }
+  @media (max-width: 480px) { .category-grid { grid-template-columns: repeat(2, 1fr); } }
+  .category-chip {
+    padding: 8px 10px; border: 1.5px solid var(--rule); border-radius: 8px;
+    font-size: 12.5px; font-weight: 600; color: var(--mid); cursor: pointer;
+    text-align: center; transition: all 0.15s; user-select: none;
+  }
+  .category-chip:hover { border-color: var(--coral); color: var(--coral); }
+  .category-chip.selected {
+    background: var(--coral-lt); border-color: var(--coral); color: var(--coral);
+  }
+
+  .age-range-wrap {
+    display: flex; align-items: center; gap: 12px; margin-top: 4px;
+  }
+  .age-range-wrap span { font-size: 13px; color: var(--muted); }
+  .age-range-wrap .form-select { flex: 1; }
+
+  .price-row {
+    display: grid; grid-template-columns: 1fr 1fr auto; gap: 12px; align-items: end;
+  }
+  .free-toggle {
+    display: flex; align-items: center; gap: 8px; padding-bottom: 10px;
+    font-size: 13px; color: var(--mid); cursor: pointer;
+  }
+  .free-toggle input { accent-color: var(--coral); width: 16px; height: 16px; }
+
+  .submit-area {
+    margin-top: 28px;
+    border-top: 1px solid var(--rule);
+    padding-top: 24px;
+  }
+  .submit-area p {
+    font-size: 12px; color: var(--muted); margin-bottom: 14px; line-height: 1.5;
+  }
+  .btn-submit {
+    width: 100%; display: flex; align-items: center; justify-content: center;
+    gap: 8px; padding: 14px; background: var(--coral); color: #fff;
+    border: none; border-radius: 10px; font-size: 16px; font-weight: 700;
+    cursor: pointer; font-family: inherit; transition: background 0.15s;
+  }
+  .btn-submit:hover { background: #e55a38; }
+
+  /* Sidebar */
+  .list-sidebar { display: flex; flex-direction: column; gap: 20px; }
+  .sidebar-card {
+    background: #fff; border: 1px solid var(--rule); border-radius: var(--radius); padding: 22px 20px;
+  }
+  .sidebar-card h3 { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 14px; }
+  .benefit-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+  .benefit-list li {
+    display: flex; align-items: flex-start; gap: 10px; font-size: 13.5px; color: var(--mid);
+  }
+  .benefit-list li .icon { color: var(--success); font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+  .how-list { display: flex; flex-direction: column; gap: 14px; }
+  .how-item { display: flex; gap: 12px; align-items: flex-start; }
+  .how-num {
+    width: 26px; height: 26px; background: var(--coral-lt); color: var(--coral);
+    border-radius: 50%; font-size: 12px; font-weight: 800;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .how-item .text strong { display: block; font-size: 13px; font-weight: 700; color: var(--navy); }
+  .how-item .text span { font-size: 12.5px; color: var(--muted); }
+
+  .testimonial {
+    background: var(--coral-lt); border-radius: var(--radius-sm); padding: 16px;
+    font-size: 13px; color: var(--navy); line-height: 1.5; font-style: italic;
+    margin-bottom: 10px;
+  }
+  .testimonial-author { font-size: 12px; color: var(--muted); font-style: normal; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<!-- ── Nav ──────────────────────────────────────────────────── -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">🎈</div>
+      SF-Kids
+    </a>
+    <ul class="nav-links">
+      <li><a href="results.html">Browse Activities</a></li>
+      <li><a href="list-your-activity.html" class="nav-cta active">List Your Activity</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ── Hero ──────────────────────────────────────────────────── -->
+<div class="list-hero">
+  <h1>Reach thousands of SF families</h1>
+  <p>List your kids activity on SF-Kids and connect with parents actively searching for what you offer — for free.</p>
+  <div class="list-hero-stats">
+    <div class="list-hero-stat">
+      <div class="num">8,400+</div>
+      <div class="lbl">SF families</div>
+    </div>
+    <div class="list-hero-stat">
+      <div class="num">Free</div>
+      <div class="lbl">to list</div>
+    </div>
+    <div class="list-hero-stat">
+      <div class="num">2 min</div>
+      <div class="lbl">to submit</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Form + Sidebar ─────────────────────────────────────────── -->
+<div class="list-layout">
+
+  <!-- LEFT: Form -->
+  <div>
+    <form
+      action="https://formsubmit.co/brandonbreon@gmail.com"
+      method="POST"
+      id="listing-form"
+      onsubmit="handleSubmit(event)"
+    >
+      <!-- FormSubmit hidden config -->
+      <input type="hidden" name="_subject" value="New SF-Kids Activity Listing Submission">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_next" value="https://sooner2w.github.io/sf-kids/listing-submitted.html">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="categories" id="categories-field" value="">
+
+      <div class="list-form-card">
+        <h2>Tell us about your activity</h2>
+        <p class="section-intro">Fill in the details below and we'll review your listing within 1 business day.</p>
+
+        <!-- Provider Info -->
+        <div class="form-section-title">Your Organization</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Business / Organization name</label>
+            <input type="text" name="business_name" class="form-input" placeholder="e.g. Bay Area Youth Athletics" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Your name</label>
+            <input type="text" name="contact_name" class="form-input" placeholder="First and last name" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Email</label>
+            <input type="email" name="email" class="form-input" placeholder="you@email.com" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone</label>
+            <input type="tel" name="phone" class="form-input" placeholder="(415) 555-0000" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Website <span class="opt">(optional)</span></label>
+          <input type="url" name="website" class="form-input" placeholder="https://yourwebsite.com">
+        </div>
+
+        <!-- Activity Info -->
+        <div class="form-section-title">Activity Details</div>
+        <div class="form-group">
+          <label class="form-label">Activity name</label>
+          <input type="text" name="activity_name" class="form-input" placeholder="e.g. Saturday Soccer Camp" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Category</label>
+          <div class="category-grid">
+            <div class="category-chip" onclick="toggleCategory(this)" data-value="Sports">⚽ Sports</div>
+            <div class="category-chip" onclick="toggleCategory(this)" data-value="Arts & Crafts">🎨 Arts & Crafts</div>
+            <div class="category-chip" onclick="toggleCategory(this)" data-value="Science">🔬 Science</div>
+            <div class="category-chip" onclick="toggleCategory(this)" data-value="Music">🎵 Music</div>
+            <div class="category-chip" onclick="toggleCategory(this)" data-value="Outdoors">🌿 Outdoors</div>
+            <div class="category-chip" onclick="toggleCategory(this)" data-value="Swimming">🏊 Swimming</div>
+            <div class="category-chip" onclick="toggleCategory(this)" data-value="Dance">💃 Dance</div>
+            <div class="category-chip" onclick="toggleCategory(this)" data-value="Camps">⛺ Camps</div>
+            <div class="category-chip" onclick="toggleCategory(this)" data-value="Classes">📚 Classes</div>
+            <div class="category-chip" onclick="toggleCategory(this)" data-value="Playdates">🧸 Playdates</div>
+            <div class="category-chip" onclick="toggleCategory(this)" data-value="STEM">🤖 STEM</div>
+            <div class="category-chip" onclick="toggleCategory(this)" data-value="Other">✨ Other</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <textarea name="description" class="form-textarea" placeholder="Describe the activity, what kids will do, what makes it special, and what parents should know..." required></textarea>
+        </div>
+
+        <!-- Age & Logistics -->
+        <div class="form-section-title">Age Range & Logistics</div>
+        <div class="form-group">
+          <label class="form-label">Age range</label>
+          <div class="age-range-wrap">
+            <select name="age_min" class="form-select">
+              <option value="0">0 (infant)</option>
+              <option value="1">1 yr</option>
+              <option value="2">2 yrs</option>
+              <option value="3">3 yrs</option>
+              <option value="4">4 yrs</option>
+              <option value="5">5 yrs</option>
+              <option value="6" selected>6 yrs</option>
+              <option value="7">7 yrs</option>
+              <option value="8">8 yrs</option>
+            </select>
+            <span>to</span>
+            <select name="age_max" class="form-select">
+              <option value="3">3 yrs</option>
+              <option value="4">4 yrs</option>
+              <option value="5">5 yrs</option>
+              <option value="6">6 yrs</option>
+              <option value="8">8 yrs</option>
+              <option value="10">10 yrs</option>
+              <option value="12" selected>12 yrs</option>
+              <option value="13">13 yrs</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Price per session</label>
+            <input type="text" name="price" class="form-input" placeholder="e.g. $45" id="price-input" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Duration</label>
+            <select name="duration" class="form-select">
+              <option>30 minutes</option>
+              <option>45 minutes</option>
+              <option>1 hour</option>
+              <option selected>2 hours</option>
+              <option>3 hours</option>
+              <option>Half day</option>
+              <option>Full day</option>
+              <option>Multi-day / week</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="free-toggle">
+            <input type="checkbox" id="free-check" onchange="toggleFree(this)"> This activity is free
+          </label>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Neighborhood / Location</label>
+            <select name="neighborhood" class="form-select" required>
+              <option value="">Select neighborhood</option>
+              <option>Presidio</option>
+              <option>Golden Gate Park</option>
+              <option>The Mission</option>
+              <option>Noe Valley</option>
+              <option>Marina District</option>
+              <option>Embarcadero / Waterfront</option>
+              <option>Hayes Valley</option>
+              <option>Sunset District</option>
+              <option>Richmond District</option>
+              <option>Pacific Heights</option>
+              <option>Castro</option>
+              <option>Dogpatch / Potrero</option>
+              <option>Bernal Heights</option>
+              <option>SoMa</option>
+              <option>North Beach</option>
+              <option>Multiple locations</option>
+              <option>Online / Virtual</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Schedule / Frequency</label>
+            <select name="schedule" class="form-select">
+              <option>Weekly (Saturdays)</option>
+              <option>Weekly (Sundays)</option>
+              <option>Weekdays</option>
+              <option>Weekends</option>
+              <option>Daily</option>
+              <option>Monthly</option>
+              <option>One-time event</option>
+              <option>Summer camp</option>
+              <option>Flexible / On demand</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Full address <span class="opt">(optional — shown on listing)</span></label>
+          <input type="text" name="address" class="form-input" placeholder="e.g. Presidio Fields, Arguello Blvd, San Francisco, CA">
+        </div>
+
+        <!-- Extras -->
+        <div class="form-section-title">Anything else?</div>
+        <div class="form-group">
+          <label class="form-label">Special notes or requirements <span class="opt">(optional)</span></label>
+          <textarea name="notes" class="form-textarea" style="min-height:72px;" placeholder="e.g. Equipment provided, what to wear, safety policies, COVID precautions, accessibility info..."></textarea>
+        </div>
+
+        <div class="submit-area">
+          <p>By submitting, you agree to SF-Kids' provider guidelines. We'll review your listing and reach out within 1 business day to confirm it's live.</p>
+          <button type="submit" class="btn-submit">
+            Submit My Activity →
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- RIGHT: Sidebar -->
+  <div class="list-sidebar">
+
+    <div class="sidebar-card">
+      <h3>Why list on SF-Kids?</h3>
+      <ul class="benefit-list">
+        <li><span class="icon">✓</span> Free to list — no monthly fees</li>
+        <li><span class="icon">✓</span> Reach 8,400+ active SF families</li>
+        <li><span class="icon">✓</span> Instant booking with no phone tag</li>
+        <li><span class="icon">✓</span> Payments handled securely</li>
+        <li><span class="icon">✓</span> Dedicated provider dashboard (coming soon)</li>
+        <li><span class="icon">✓</span> Featured in "This Weekend" emails</li>
+      </ul>
+    </div>
+
+    <div class="sidebar-card">
+      <h3>How it works</h3>
+      <div class="how-list">
+        <div class="how-item">
+          <div class="how-num">1</div>
+          <div class="text">
+            <strong>Submit this form</strong>
+            <span>Takes about 2 minutes</span>
+          </div>
+        </div>
+        <div class="how-item">
+          <div class="how-num">2</div>
+          <div class="text">
+            <strong>We review & publish</strong>
+            <span>Within 1 business day</span>
+          </div>
+        </div>
+        <div class="how-item">
+          <div class="how-num">3</div>
+          <div class="text">
+            <strong>Parents book directly</strong>
+            <span>Instant confirmations, no back-and-forth</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="testimonial">
+        "We filled 3 new Saturday slots in the first week. SF-Kids parents are genuinely looking for programs like ours."
+      </div>
+      <div class="testimonial-author">— Bay Area Youth Athletics</div>
+    </div>
+
+    <div class="sidebar-card" style="background:var(--light);border:none;">
+      <p style="font-size:13px;color:var(--muted);line-height:1.6;">
+        Questions? Email us at <a href="mailto:brandonbreon@gmail.com" style="color:var(--coral);font-weight:600;">hello@sf-kids.com</a> or browse our <a href="#" style="color:var(--coral);">provider FAQ →</a>
+      </p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── Footer ────────────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">🎈 SF-Kids</div>
+      <p class="footer-tagline">The one-stop shop for kids activities in San Francisco. Ages 0–13, every neighborhood.</p>
+    </div>
+    <div>
+      <p class="footer-col-title">Discover</p>
+      <ul class="footer-links">
+        <li><a href="results.html">Browse All</a></li>
+        <li><a href="#">This Weekend</a></li>
+        <li><a href="#">Summer Camps</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="footer-col-title">Ages</p>
+      <ul class="footer-links">
+        <li><a href="#">Infants (0–1)</a></li>
+        <li><a href="#">Toddlers (2–3)</a></li>
+        <li><a href="#">Elementary (7–10)</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="footer-col-title">For Providers</p>
+      <ul class="footer-links">
+        <li><a href="list-your-activity.html">List Your Activity</a></li>
+        <li><a href="#">Contact Us</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 SF-Kids. All rights reserved.</span>
+    <span>Built for SF parents, by SF parents.</span>
+  </div>
+</footer>
+
+<script>
+  const selected = new Set();
+
+  function toggleCategory(el) {
+    const val = el.dataset.value;
+    if (selected.has(val)) {
+      selected.delete(val);
+      el.classList.remove('selected');
+    } else {
+      selected.add(val);
+      el.classList.add('selected');
+    }
+    document.getElementById('categories-field').value = [...selected].join(', ');
+  }
+
+  function toggleFree(cb) {
+    const priceInput = document.getElementById('price-input');
+    if (cb.checked) {
+      priceInput.value = 'Free';
+      priceInput.disabled = true;
+    } else {
+      priceInput.value = '';
+      priceInput.disabled = false;
+    }
+  }
+
+  function handleSubmit(e) {
+    if (selected.size === 0) {
+      e.preventDefault();
+      alert('Please select at least one category for your activity.');
+      return;
+    }
+  }
+</script>
+</body>
+</html>

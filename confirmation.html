@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Booking Confirmed! — SF-Kids</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ── Nav ──────────────────────────────────────────────────── -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">🎈</div>
+      SF-Kids
+    </a>
+    <ul class="nav-links">
+      <li><a href="results.html">Browse Activities</a></li>
+      <li><a href="list-your-activity.html" class="nav-cta">List Your Activity</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ── Confirmation ───────────────────────────────────────────── -->
+<div class="confirm-wrap">
+  <div class="confirm-card">
+    <div class="confirm-icon">🎉</div>
+
+    <h1>You're all set!</h1>
+    <p>Your booking is confirmed. A confirmation has been sent to your email.</p>
+    <p style="font-size:13px;color:#9CA3AF;margin-top:4px;">Booking reference: <strong style="color:var(--navy);">#SFK-2026-8841</strong></p>
+
+    <!-- Booking summary -->
+    <div class="confirm-ref">
+      <div class="confirm-ref-row">
+        <span>Activity</span>
+        <span>Presidio Youth Soccer Camp</span>
+      </div>
+      <div class="confirm-ref-row">
+        <span>Provider</span>
+        <span>Bay Area Youth Athletics</span>
+      </div>
+      <div class="confirm-ref-row">
+        <span>Location</span>
+        <span>Presidio Fields, SF</span>
+      </div>
+      <div class="confirm-ref-row">
+        <span>Date</span>
+        <span>Saturday, May 3, 2026</span>
+      </div>
+      <div class="confirm-ref-row">
+        <span>Time</span>
+        <span>9:00 AM – 11:00 AM</span>
+      </div>
+      <div class="confirm-ref-row">
+        <span>Child</span>
+        <span>Jamie · Age 8</span>
+      </div>
+      <div class="confirm-ref-row">
+        <span>Total paid</span>
+        <span>$45.00</span>
+      </div>
+    </div>
+
+    <!-- What's next -->
+    <div style="background:var(--coral-lt);border-radius:var(--radius);padding:16px 20px;text-align:left;margin-bottom:16px;">
+      <p style="font-size:13px;font-weight:700;color:var(--navy);margin-bottom:8px;">What to bring on Saturday ⚽</p>
+      <ul style="list-style:none;padding:0;font-size:13px;color:var(--mid);">
+        <li style="padding:3px 0;">✓ Water bottle</li>
+        <li style="padding:3px 0;">✓ Athletic clothes</li>
+        <li style="padding:3px 0;">✓ Cleats or sneakers</li>
+        <li style="padding:3px 0;">✓ Sunscreen</li>
+      </ul>
+    </div>
+
+    <!-- Actions -->
+    <div class="confirm-actions">
+      <a href="#" class="btn btn-secondary" onclick="addToCalendar()">📅 Add to Calendar</a>
+      <a href="results.html" class="btn btn-primary">Find More Activities →</a>
+    </div>
+
+    <p style="font-size:12px;color:var(--muted);margin-top:20px;">
+      Need to cancel? Free cancellation up to 24 hours before the session.
+      <a href="#" style="color:var(--coral);">Manage booking →</a>
+    </p>
+  </div>
+</div>
+
+<!-- ── More activities ────────────────────────────────────────── -->
+<div class="page" style="padding-bottom:60px;">
+  <div class="section-head">
+    <h2>You might also like</h2>
+    <a href="results.html">See all →</a>
+  </div>
+  <div class="cards-grid">
+    <a href="activity.html" class="card">
+      <div class="card-img" style="background:linear-gradient(135deg,#D1FAE5,#6EE7B7)">🌿</div>
+      <div class="card-img-badge">Ages 4–10</div>
+      <div class="card-body">
+        <span class="card-cat">Outdoors</span>
+        <span class="card-title">Golden Gate Park Nature Walk</span>
+        <span class="card-provider">SF Parks & Rec</span>
+        <div class="card-meta"><span class="card-tag">📍 GG Park</span><span class="card-tag">Saturdays</span></div>
+      </div>
+      <div class="card-footer">
+        <div class="card-price">Free</div>
+        <div class="card-rating">⭐ 4.9 <span style="color:var(--muted);font-weight:400">(211)</span></div>
+      </div>
+    </a>
+    <a href="activity.html" class="card">
+      <div class="card-img" style="background:linear-gradient(135deg,#EDE9FE,#C4B5FD)">🔬</div>
+      <div class="card-img-badge">Ages 5–13</div>
+      <div class="card-body">
+        <span class="card-cat">Science</span>
+        <span class="card-title">Exploratorium Kids Science Lab</span>
+        <span class="card-provider">The Exploratorium</span>
+        <div class="card-meta"><span class="card-tag">📍 Embarcadero</span><span class="card-tag">Daily</span></div>
+      </div>
+      <div class="card-footer">
+        <div class="card-price">$35 <span>/ child</span></div>
+        <div class="card-rating">⭐ 4.9 <span style="color:var(--muted);font-weight:400">(347)</span></div>
+      </div>
+    </a>
+    <a href="activity.html" class="card">
+      <div class="card-img" style="background:linear-gradient(135deg,#FEF9C3,#FDE047)">🎨</div>
+      <div class="card-img-badge">Ages 3–8</div>
+      <div class="card-body">
+        <span class="card-cat">Arts & Crafts</span>
+        <span class="card-title">Mission Arts & Crafts Studio</span>
+        <span class="card-provider">Little Makers SF</span>
+        <div class="card-meta"><span class="card-tag">📍 The Mission</span><span class="card-tag">Weekends</span></div>
+      </div>
+      <div class="card-footer">
+        <div class="card-price">$25 <span>/ session</span></div>
+        <div class="card-rating">⭐ 4.8 <span style="color:var(--muted);font-weight:400">(94)</span></div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- ── Footer ────────────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">🎈 SF-Kids</div>
+      <p class="footer-tagline">The one-stop shop for kids activities in San Francisco. Ages 0–13, every neighborhood.</p>
+    </div>
+    <div>
+      <p class="footer-col-title">Discover</p>
+      <ul class="footer-links">
+        <li><a href="results.html">Browse All</a></li>
+        <li><a href="#">This Weekend</a></li>
+        <li><a href="#">Summer Camps</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="footer-col-title">Ages</p>
+      <ul class="footer-links">
+        <li><a href="#">Infants (0–1)</a></li>
+        <li><a href="#">Toddlers (2–3)</a></li>
+        <li><a href="#">Elementary (7–10)</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="footer-col-title">For Providers</p>
+      <ul class="footer-links">
+        <li><a href="#">List Your Activity</a></li>
+        <li><a href="#">Contact Us</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 SF-Kids. All rights reserved.</span>
+    <span>Built for SF parents, by SF parents.</span>
+  </div>
+</footer>
+
+<script>
+  function addToCalendar() {
+    const url = "https://calendar.google.com/calendar/r/eventedit?text=Presidio+Youth+Soccer+Camp&dates=20260503T090000/20260503T110000&details=SF-Kids+Booking+%23SFK-2026-8841&location=Presidio+Fields,+San+Francisco,+CA";
+    window.open(url, '_blank');
+  }
+</script>
+</body>
+</html>

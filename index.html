@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SF-Kids — Find & Book Kids Activities in San Francisco</title>
+<meta name="description" content="The one-stop shop for kids activities in San Francisco. Sports, camps, classes, and events for ages 0–13. Book instantly.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ── Nav ──────────────────────────────────────────────────── -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">🎈</div>
+      SF-Kids
+    </a>
+    <ul class="nav-links">
+      <li><a href="results.html">Browse Activities</a></li>
+      <li><a href="#">Camps</a></li>
+      <li><a href="#">This Weekend</a></li>
+      <li><a href="list-your-activity.html" class="nav-cta">List Your Activity</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ── Hero ─────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">🗺️ San Francisco, CA</div>
+    <h1>Everything your kid<br>wants to do — <span>in one place.</span></h1>
+    <p class="hero-sub">Sports, camps, classes, parks, and events for ages 0–13. Find it, book it, go.</p>
+
+    <!-- Search bar -->
+    <div class="search-bar">
+      <div class="search-field">
+        <span class="search-label">Activity</span>
+        <input type="text" placeholder="Soccer, art class, swimming...">
+      </div>
+      <div class="search-field">
+        <span class="search-label">Child's Age</span>
+        <select>
+          <option value="">Any age</option>
+          <option>0–1 (Infant)</option>
+          <option>2–3 (Toddler)</option>
+          <option>4–6 (Preschool)</option>
+          <option>7–10 (Elementary)</option>
+          <option>11–13 (Tween)</option>
+        </select>
+      </div>
+      <div class="search-field">
+        <span class="search-label">When</span>
+        <input type="text" placeholder="This weekend">
+      </div>
+      <button class="search-btn" onclick="window.location='results.html'">🔍</button>
+    </div>
+  </div>
+</section>
+
+<!-- ── Categories ────────────────────────────────────────────── -->
+<div class="page">
+  <div class="categories">
+    <p class="categories-title">Browse by category</p>
+    <div class="cat-chips">
+      <a href="results.html" class="cat-chip"><span class="cat-chip-icon">⚽</span> Sports</a>
+      <a href="results.html" class="cat-chip"><span class="cat-chip-icon">🎨</span> Arts & Crafts</a>
+      <a href="results.html" class="cat-chip"><span class="cat-chip-icon">🏕️</span> Camps</a>
+      <a href="results.html" class="cat-chip"><span class="cat-chip-icon">🌿</span> Outdoors</a>
+      <a href="results.html" class="cat-chip"><span class="cat-chip-icon">🎵</span> Music</a>
+      <a href="results.html" class="cat-chip"><span class="cat-chip-icon">🔬</span> Science</a>
+      <a href="results.html" class="cat-chip"><span class="cat-chip-icon">🏊</span> Swimming</a>
+      <a href="results.html" class="cat-chip"><span class="cat-chip-icon">🎭</span> Theater</a>
+      <a href="results.html" class="cat-chip"><span class="cat-chip-icon">🍳</span> Cooking</a>
+      <a href="results.html" class="cat-chip"><span class="cat-chip-icon">📚</span> Classes</a>
+    </div>
+  </div>
+
+  <!-- This Weekend -->
+  <div class="section-head">
+    <h2>⚡ This Weekend in SF</h2>
+    <a href="results.html">See all →</a>
+  </div>
+
+  <div class="cards-grid">
+    <!-- Card 1 -->
+    <a href="activity.html" class="card">
+      <div class="card-img" style="background: linear-gradient(135deg,#DBEAFE,#93C5FD); font-size:56px;">⚽</div>
+      <div class="card-img-badge">Ages 6–12</div>
+      <div class="card-img-save">🤍</div>
+      <div class="card-body">
+        <span class="card-cat">Sports</span>
+        <span class="card-title">Presidio Youth Soccer Camp</span>
+        <span class="card-provider">Bay Area Youth Athletics</span>
+        <div class="card-meta">
+          <span class="card-tag">📍 Presidio</span>
+          <span class="card-tag">⏱ 2 hrs</span>
+          <span class="card-tag">Sat & Sun</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="card-price">$45 <span>/ session</span></div>
+        <div class="card-rating">⭐ 4.9 <span style="color:var(--muted);font-weight:400;">(128)</span></div>
+      </div>
+    </a>
+
+    <!-- Card 2 -->
+    <a href="activity.html" class="card">
+      <div class="card-img" style="background: linear-gradient(135deg,#FEF9C3,#FDE047); font-size:56px;">🎨</div>
+      <div class="card-img-badge">Ages 3–8</div>
+      <div class="card-img-save">🤍</div>
+      <div class="card-body">
+        <span class="card-cat">Arts & Crafts</span>
+        <span class="card-title">Mission Arts & Crafts Studio</span>
+        <span class="card-provider">Little Makers SF</span>
+        <div class="card-meta">
+          <span class="card-tag">📍 The Mission</span>
+          <span class="card-tag">⏱ 90 min</span>
+          <span class="card-tag">Weekends</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="card-price">$25 <span>/ session</span></div>
+        <div class="card-rating">⭐ 4.8 <span style="color:var(--muted);font-weight:400;">(94)</span></div>
+      </div>
+    </a>
+
+    <!-- Card 3 -->
+    <a href="activity.html" class="card">
+      <div class="card-img" style="background: linear-gradient(135deg,#D1FAE5,#6EE7B7); font-size:56px;">🌿</div>
+      <div class="card-img-badge">Ages 4–10</div>
+      <div class="card-img-save">❤️</div>
+      <div class="card-body">
+        <span class="card-cat">Outdoors</span>
+        <span class="card-title">Golden Gate Park Nature Walk</span>
+        <span class="card-provider">SF Parks & Rec</span>
+        <div class="card-meta">
+          <span class="card-tag">📍 Golden Gate Park</span>
+          <span class="card-tag">⏱ 2 hrs</span>
+          <span class="card-tag">Saturdays</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="card-price">Free</div>
+        <div class="card-rating">⭐ 4.9 <span style="color:var(--muted);font-weight:400;">(211)</span></div>
+      </div>
+    </a>
+
+    <!-- Card 4 -->
+    <a href="activity.html" class="card">
+      <div class="card-img" style="background: linear-gradient(135deg,#EDE9FE,#C4B5FD); font-size:56px;">🔬</div>
+      <div class="card-img-badge">Ages 5–13</div>
+      <div class="card-img-save">🤍</div>
+      <div class="card-body">
+        <span class="card-cat">Science</span>
+        <span class="card-title">Exploratorium Kids Science Lab</span>
+        <span class="card-provider">The Exploratorium</span>
+        <div class="card-meta">
+          <span class="card-tag">📍 Embarcadero</span>
+          <span class="card-tag">⏱ 2.5 hrs</span>
+          <span class="card-tag">Daily</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="card-price">$35 <span>/ child</span></div>
+        <div class="card-rating">⭐ 4.9 <span style="color:var(--muted);font-weight:400;">(347)</span></div>
+      </div>
+    </a>
+
+    <!-- Card 5 -->
+    <a href="activity.html" class="card">
+      <div class="card-img" style="background: linear-gradient(135deg,#CFFAFE,#67E8F9); font-size:56px;">🏊</div>
+      <div class="card-img-badge">Ages 0–6</div>
+      <div class="card-img-save">🤍</div>
+      <div class="card-body">
+        <span class="card-cat">Swimming</span>
+        <span class="card-title">Marina Swim Lessons for Tots</span>
+        <span class="card-provider">SF Aquatics Program</span>
+        <div class="card-meta">
+          <span class="card-tag">📍 Marina District</span>
+          <span class="card-tag">⏱ 45 min</span>
+          <span class="card-tag">Weekdays</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="card-price">$40 <span>/ session</span></div>
+        <div class="card-rating">⭐ 4.7 <span style="color:var(--muted);font-weight:400;">(83)</span></div>
+      </div>
+    </a>
+
+    <!-- Card 6 -->
+    <a href="activity.html" class="card">
+      <div class="card-img" style="background: linear-gradient(135deg,#FCE7F3,#F9A8D4); font-size:56px;">🎵</div>
+      <div class="card-img-badge">Ages 0–3</div>
+      <div class="card-img-save">🤍</div>
+      <div class="card-body">
+        <span class="card-cat">Music</span>
+        <span class="card-title">Noe Valley Music for Babies</span>
+        <span class="card-provider">Little Notes Music Studio</span>
+        <div class="card-meta">
+          <span class="card-tag">📍 Noe Valley</span>
+          <span class="card-tag">⏱ 45 min</span>
+          <span class="card-tag">Wednesdays</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="card-price">$20 <span>/ session</span></div>
+        <div class="card-rating">⭐ 5.0 <span style="color:var(--muted);font-weight:400;">(62)</span></div>
+      </div>
+    </a>
+  </div>
+
+  <!-- How it works -->
+  <div class="how-it-works">
+    <div class="section-head">
+      <h2>How SF-Kids works</h2>
+    </div>
+    <div class="hiw-steps">
+      <div class="hiw-step">
+        <div class="hiw-icon">🔍</div>
+        <p class="hiw-num">Step 01</p>
+        <p class="hiw-title">Find the right activity</p>
+        <p class="hiw-desc">Search by type, age, neighborhood, or date. No more digging through 10 different websites.</p>
+      </div>
+      <div class="hiw-step">
+        <div class="hiw-icon">📅</div>
+        <p class="hiw-num">Step 02</p>
+        <p class="hiw-title">Pick a time and book</p>
+        <p class="hiw-desc">See real availability, pick your slot, and book instantly — no back-and-forth emails.</p>
+      </div>
+      <div class="hiw-step">
+        <div class="hiw-icon">🎉</div>
+        <p class="hiw-num">Step 03</p>
+        <p class="hiw-title">Show up and enjoy</p>
+        <p class="hiw-desc">Get a confirmation with everything you need. Just show up — your kid handles the rest.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Baby & Infant section -->
+  <div class="section-head" style="margin-top: 8px;">
+    <h2>👶 For Your Littlest Ones (Ages 0–3)</h2>
+    <a href="results.html">See all infant activities →</a>
+  </div>
+  <div class="cards-grid" style="margin-bottom:60px;">
+    <a href="activity.html" class="card">
+      <div class="card-img" style="background: linear-gradient(135deg,#FEF3C7,#FCD34D); font-size:56px;">🧸</div>
+      <div class="card-img-badge">Ages 0–2</div>
+      <div class="card-img-save">🤍</div>
+      <div class="card-body">
+        <span class="card-cat">Sensory Play</span>
+        <span class="card-title">Baby Sensory Play Morning</span>
+        <span class="card-provider">Tiny Explorers SF</span>
+        <div class="card-meta">
+          <span class="card-tag">📍 Castro</span>
+          <span class="card-tag">⏱ 60 min</span>
+          <span class="card-tag">Tuesdays</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="card-price">$15 <span>/ session</span></div>
+        <div class="card-rating">⭐ 4.9 <span style="color:var(--muted);font-weight:400;">(44)</span></div>
+      </div>
+    </a>
+    <a href="activity.html" class="card">
+      <div class="card-img" style="background: linear-gradient(135deg,#E0E7FF,#A5B4FC); font-size:56px;">📖</div>
+      <div class="card-img-badge">Ages 0–3</div>
+      <div class="card-img-save">🤍</div>
+      <div class="card-body">
+        <span class="card-cat">Learning</span>
+        <span class="card-title">Storytime & Sing-Along</span>
+        <span class="card-provider">SF Public Library</span>
+        <div class="card-meta">
+          <span class="card-tag">📍 Haight-Ashbury</span>
+          <span class="card-tag">⏱ 45 min</span>
+          <span class="card-tag">Mondays & Thursdays</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="card-price">Free</div>
+        <div class="card-rating">⭐ 4.8 <span style="color:var(--muted);font-weight:400;">(76)</span></div>
+      </div>
+    </a>
+    <a href="activity.html" class="card">
+      <div class="card-img" style="background: linear-gradient(135deg,#D1FAE5,#34D399); font-size:56px;">🤸</div>
+      <div class="card-img-badge">Ages 1–3</div>
+      <div class="card-img-save">🤍</div>
+      <div class="card-body">
+        <span class="card-cat">Movement</span>
+        <span class="card-title">Toddler Tumble & Play Gym</span>
+        <span class="card-provider">Gymboree Play & Music</span>
+        <div class="card-meta">
+          <span class="card-tag">📍 Sunset District</span>
+          <span class="card-tag">⏱ 60 min</span>
+          <span class="card-tag">Daily</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="card-price">$22 <span>/ session</span></div>
+        <div class="card-rating">⭐ 4.7 <span style="color:var(--muted);font-weight:400;">(51)</span></div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- ── Footer ────────────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">🎈 SF-Kids</div>
+      <p class="footer-tagline">The one-stop shop for kids activities in San Francisco. Ages 0–13, every neighborhood.</p>
+    </div>
+    <div>
+      <p class="footer-col-title">Discover</p>
+      <ul class="footer-links">
+        <li><a href="results.html">Browse All</a></li>
+        <li><a href="#">This Weekend</a></li>
+        <li><a href="#">Summer Camps</a></li>
+        <li><a href="#">Free Activities</a></li>
+        <li><a href="#">By Neighborhood</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="footer-col-title">Ages</p>
+      <ul class="footer-links">
+        <li><a href="#">Infants (0–1)</a></li>
+        <li><a href="#">Toddlers (2–3)</a></li>
+        <li><a href="#">Preschool (4–6)</a></li>
+        <li><a href="#">Elementary (7–10)</a></li>
+        <li><a href="#">Tweens (11–13)</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="footer-col-title">For Providers</p>
+      <ul class="footer-links">
+        <li><a href="#">List Your Activity</a></li>
+        <li><a href="#">How It Works</a></li>
+        <li><a href="#">Pricing</a></li>
+        <li><a href="#">Contact Us</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 SF-Kids. All rights reserved.</span>
+    <span>Built for SF parents, by SF parents.</span>
+  </div>
+</footer>
+
+</body>
+</html>

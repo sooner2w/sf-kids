@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book — Presidio Youth Soccer Camp | SF-Kids</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  .booking-summary {
+    background: var(--light); border: 1px solid var(--rule);
+    border-radius: var(--radius); padding: 16px 18px;
+    margin-bottom: 24px; display: flex; gap: 14px; align-items: center;
+  }
+  .booking-summary-icon {
+    width: 52px; height: 52px; border-radius: 10px;
+    background: linear-gradient(135deg,#DBEAFE,#93C5FD);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px; flex-shrink: 0;
+  }
+  .booking-summary-title { font-size: 14px; font-weight: 700; color: var(--navy); }
+  .booking-summary-meta { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+  .step-panel { display: none; }
+  .step-panel.active { display: block; }
+</style>
+</head>
+<body>
+
+<!-- ── Nav ──────────────────────────────────────────────────── -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">🎈</div>
+      SF-Kids
+    </a>
+    <ul class="nav-links">
+      <li><a href="results.html">Browse Activities</a></li>
+      <li><a href="#">Camps</a></li>
+      <li><a href="#" class="nav-cta">List Your Activity</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ── Step indicator ────────────────────────────────────────── -->
+<div class="step-indicator">
+  <div class="step active" id="step-label-1">
+    <div class="step-circle" id="step-circle-1">1</div>
+    <span>Date & Time</span>
+  </div>
+  <div class="step-line" id="line-1"></div>
+  <div class="step" id="step-label-2">
+    <div class="step-circle" id="step-circle-2">2</div>
+    <span>Child Details</span>
+  </div>
+  <div class="step-line" id="line-2"></div>
+  <div class="step" id="step-label-3">
+    <div class="step-circle" id="step-circle-3">3</div>
+    <span>Confirm & Pay</span>
+  </div>
+</div>
+
+<!-- ── Booking form ───────────────────────────────────────────── -->
+<div style="max-width:560px;margin:0 auto;padding:0 24px 80px;">
+
+  <!-- Summary strip -->
+  <div class="booking-summary">
+    <div class="booking-summary-icon">⚽</div>
+    <div>
+      <div class="booking-summary-title">Presidio Youth Soccer Camp</div>
+      <div class="booking-summary-meta">Bay Area Youth Athletics · Presidio, SF · $45 / session</div>
+    </div>
+  </div>
+
+  <!-- STEP 1 -->
+  <div class="booking-form step-panel active" id="panel-1">
+    <h2>Pick your date & time</h2>
+    <p class="subtitle">Choose when works best for your family.</p>
+
+    <div class="form-group">
+      <label class="form-label">Date</label>
+      <input type="date" class="form-input" value="2026-05-03">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Time slot</label>
+      <div class="time-slots">
+        <div class="time-slot selected" onclick="selectSlot(this)">9:00 AM</div>
+        <div class="time-slot" onclick="selectSlot(this)">11:00 AM</div>
+        <div class="time-slot" onclick="selectSlot(this)" style="opacity:0.4;cursor:not-allowed;">1:00 PM<br><span style="font-size:10px;font-weight:400;">Full</span></div>
+        <div class="time-slot" onclick="selectSlot(this)">3:00 PM</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Number of spots</label>
+      <select class="form-select">
+        <option>1 child</option>
+        <option>2 children</option>
+        <option>3 children</option>
+      </select>
+    </div>
+
+    <button class="btn btn-primary btn-lg" style="width:100%;justify-content:center;margin-top:8px;" onclick="goStep(2)">Continue →</button>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="booking-form step-panel" id="panel-2">
+    <h2>Child details</h2>
+    <p class="subtitle">Help us match your child to the right group.</p>
+
+    <div class="form-group">
+      <label class="form-label">Child's first name</label>
+      <input type="text" class="form-input" placeholder="e.g. Jamie">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Child's age</label>
+      <select class="form-select">
+        <option>Select age</option>
+        <option>6 years old</option>
+        <option>7 years old</option>
+        <option>8 years old</option>
+        <option>9 years old</option>
+        <option>10 years old</option>
+        <option>11 years old</option>
+        <option>12 years old</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Experience level</label>
+      <select class="form-select">
+        <option>Never played before</option>
+        <option>Played a little (1–2 seasons)</option>
+        <option>Intermediate (3+ seasons)</option>
+        <option>Competitive player</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Any allergies or medical notes? <span style="color:var(--muted);font-weight:400;">(optional)</span></label>
+      <input type="text" class="form-input" placeholder="e.g. Bee sting allergy — carries EpiPen">
+    </div>
+
+    <div style="display:flex;gap:10px;margin-top:8px;">
+      <button class="btn btn-secondary" onclick="goStep(1)" style="flex:1;justify-content:center;">← Back</button>
+      <button class="btn btn-primary" onclick="goStep(3)" style="flex:2;justify-content:center;">Continue →</button>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="booking-form step-panel" id="panel-3">
+    <h2>Confirm & Pay</h2>
+    <p class="subtitle">Almost there — review your booking and complete payment.</p>
+
+    <!-- Order summary -->
+    <div style="background:var(--light);border-radius:var(--radius-sm);padding:16px;margin-bottom:20px;">
+      <div class="booking-total"><span>Presidio Soccer Camp · May 3 · 9:00 AM</span><span></span></div>
+      <div class="booking-total" style="margin-top:6px;"><span>1 child</span><span>$45.00</span></div>
+      <div class="booking-total"><span>SF-Kids booking fee</span><span style="color:var(--success);">Free</span></div>
+      <hr style="border:none;border-top:1px solid var(--rule);margin:12px 0;">
+      <div class="booking-total total"><span>Total due today</span><span>$45.00</span></div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Your name</label>
+      <input type="text" class="form-input" placeholder="First and last name">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Email</label>
+      <input type="email" class="form-input" placeholder="you@email.com">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Phone</label>
+      <input type="tel" class="form-input" placeholder="(415) 555-0000">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Card number</label>
+      <input type="text" class="form-input" placeholder="•••• •••• •••• ••••">
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div class="form-group">
+        <label class="form-label">Expiry</label>
+        <input type="text" class="form-input" placeholder="MM / YY">
+      </div>
+      <div class="form-group">
+        <label class="form-label">CVC</label>
+        <input type="text" class="form-input" placeholder="•••">
+      </div>
+    </div>
+
+    <p style="font-size:11.5px;color:var(--muted);margin-bottom:16px;">
+      🔒 Payments are secure and encrypted. You won't be charged until the provider confirms.
+    </p>
+
+    <div style="display:flex;gap:10px;">
+      <button class="btn btn-secondary" onclick="goStep(2)" style="flex:1;justify-content:center;">← Back</button>
+      <a href="confirmation.html" class="btn btn-primary" style="flex:2;justify-content:center;">Complete Booking →</a>
+    </div>
+  </div>
+
+</div>
+
+<!-- ── Footer ────────────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="footer-bottom" style="border-top:none;padding-top:24px;">
+    <span>© 2026 SF-Kids. All rights reserved.</span>
+    <span><a href="index.html" style="color:#94A3B8;">← Back to SF-Kids</a></span>
+  </div>
+</footer>
+
+<script>
+  function goStep(n) {
+    [1,2,3].forEach(i => {
+      document.getElementById('panel-'+i).classList.toggle('active', i === n);
+      const label = document.getElementById('step-label-'+i);
+      const circle = document.getElementById('step-circle-'+i);
+      label.classList.remove('active','done');
+      if (i === n) label.classList.add('active');
+      if (i < n) { label.classList.add('done'); circle.textContent = '✓'; }
+      else if (i === n) circle.textContent = i;
+      else circle.textContent = i;
+    });
+    [1,2].forEach(i => {
+      const line = document.getElementById('line-'+i);
+      if (line) line.classList.toggle('done', i < n);
+    });
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  }
+
+  function selectSlot(el) {
+    if (el.style.opacity === '0.4') return;
+    document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
+    el.classList.add('selected');
+  }
+</script>
+</body>
+</html>
