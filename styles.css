@@ -343,15 +343,31 @@ button { cursor: pointer; font-family: inherit; }
 .results-count strong { color: var(--navy); }
 .map-panel {
   position: sticky; top: calc(var(--nav-h) + 56px);
-  background: var(--light); border-radius: var(--radius);
-  border: 1px solid var(--rule); overflow: hidden;
-  height: 520px;
-  display: flex; align-items: center; justify-content: center;
-  flex-direction: column; gap: 10px; color: var(--muted);
+  border-radius: var(--radius); border: 1px solid var(--rule);
+  overflow: hidden; height: 520px;
 }
-.map-placeholder-icon { font-size: 40px; }
-.map-placeholder-text { font-size: 13px; font-weight: 600; color: var(--navy); }
-.map-placeholder-sub { font-size: 12px; color: var(--muted); }
+#sf-map { width: 100%; height: 100%; }
+.map-location-btn {
+  position: absolute; bottom: 16px; right: 16px; z-index: 1000;
+  background: var(--coral); color: #fff; border: none; border-radius: 8px;
+  padding: 8px 14px; font-size: 13px; font-weight: 700;
+  font-family: inherit; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  display: flex; align-items: center; gap: 6px;
+}
+.map-location-btn:hover { background: #e55a38; }
+
+/* Featured card */
+.card-featured-badge {
+  position: absolute; top: 10px; left: 10px; z-index: 2;
+  background: #F59E0B; color: #fff;
+  font-size: 10.5px; font-weight: 800; letter-spacing: 0.4px;
+  padding: 3px 9px; border-radius: 20px;
+  text-transform: uppercase;
+}
+.card[data-featured="true"] {
+  border: 2px solid #F59E0B;
+  box-shadow: 0 0 0 3px rgba(245,158,11,0.12);
+}
 
 /* ── Activity detail ─────────────────────────────────────────── */
 .detail-layout {

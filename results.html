@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Browse Activities — SF-Kids</title>
 <link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
   .results-search-bar {
     background: var(--light); border-bottom: 1px solid var(--rule);
@@ -94,10 +96,11 @@
 
       <div class="cards-grid" id="cards-grid" style="grid-template-columns: repeat(auto-fill, minmax(260px,1fr));">
 
-        <a href="activity.html" class="card" data-cat="sports" data-schedule="weekend">
+        <a href="activity.html" class="card" data-cat="sports" data-schedule="weekend" data-featured="true">
           <div class="card-img" style="background:linear-gradient(135deg,#DBEAFE,#93C5FD)">⚽</div>
           <div class="card-img-badge">Ages 6–12</div>
           <div class="card-img-save">🤍</div>
+          <div class="card-featured-badge">⭐ Featured</div>
           <div class="card-body">
             <span class="card-cat">Sports</span>
             <span class="card-title">Presidio Youth Soccer Camp</span>
@@ -113,10 +116,11 @@
           </div>
         </a>
 
-        <a href="activity.html" class="card" data-cat="outdoors" data-schedule="weekend" data-special="true">
+        <a href="activity.html" class="card" data-cat="outdoors" data-schedule="weekend" data-special="true" data-featured="true">
           <div class="card-img" style="background:linear-gradient(135deg,#D1FAE5,#6EE7B7)">🌿</div>
           <div class="card-img-badge">Ages 4–10</div>
           <div class="card-img-save">❤️</div>
+          <div class="card-featured-badge">⭐ Featured</div>
           <div class="card-body">
             <span class="card-cat">Outdoors</span>
             <span class="card-title">Golden Gate Park Nature Walk</span>
@@ -420,11 +424,9 @@
     </div>
 
     <!-- Right: Map -->
-    <div class="map-panel">
-      <div class="map-placeholder-icon">🗺️</div>
-      <p class="map-placeholder-text">Map View</p>
-      <p class="map-placeholder-sub">See activities near you</p>
-      <button style="margin-top:12px;padding:8px 18px;background:var(--coral);color:white;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;">Enable Location</button>
+    <div class="map-panel" style="position:relative;">
+      <div id="sf-map"></div>
+      <button class="map-location-btn" onclick="enableLocation()">📍 Near Me</button>
     </div>
 
   </div>
@@ -472,68 +474,141 @@
 </footer>
 
 <script>
+  // ── Activity data for map markers ──────────────────────────────
+  const ACTIVITIES = [
+    { title: 'Presidio Youth Soccer Camp',      lat: 37.7989, lng: -122.4662, cat: 'sports',    featured: true  },
+    { title: 'Golden Gate Park Nature Walk',     lat: 37.7694, lng: -122.4862, cat: 'outdoors',  featured: true  },
+    { title: 'Exploratorium Kids Science Lab',   lat: 37.8015, lng: -122.3979, cat: 'science',   featured: false },
+    { title: 'Mission Arts & Crafts Studio',     lat: 37.7599, lng: -122.4148, cat: 'arts',      featured: false },
+    { title: 'Marina Swim Lessons for Tots',     lat: 37.8030, lng: -122.4360, cat: 'swimming',  featured: false },
+    { title: 'Noe Valley Music for Babies',      lat: 37.7502, lng: -122.4337, cat: 'music',     featured: false },
+    { title: 'Baby Sensory Play Morning',        lat: 37.7609, lng: -122.4350, cat: 'sensory',   featured: false },
+    { title: 'Young Performers Theatre',         lat: 37.7925, lng: -122.4382, cat: 'theater',   featured: false },
+    { title: 'Toddler Tumble & Play Gym',        lat: 37.7511, lng: -122.4837, cat: 'movement',  featured: false },
+    { title: 'Inclusive Art Studio',             lat: 37.7578, lng: -122.4128, cat: 'arts',      featured: false },
+    { title: 'Adaptive Swim Program',            lat: 37.7800, lng: -122.4836, cat: 'swimming',  featured: false },
+    { title: 'Sensory-Friendly Dance',           lat: 37.7759, lng: -122.4245, cat: 'movement',  featured: false },
+    { title: 'GG Park Summer Day Camp',          lat: 37.7695, lng: -122.4870, cat: 'camps',     featured: false },
+    { title: 'Code & Robotics Summer Camp',      lat: 37.7785, lng: -122.4056, cat: 'camps',     featured: false },
+    { title: 'Young Artists Summer Studio',      lat: 37.7790, lng: -122.4070, cat: 'camps',     featured: false },
+    { title: 'Multi-Sport Summer Camp',          lat: 37.7985, lng: -122.4655, cat: 'camps',     featured: false },
+  ];
+
+  // ── Map init ───────────────────────────────────────────────────
+  const map = L.map('sf-map', { zoomControl: true }).setView([37.7749, -122.4394], 13);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    maxZoom: 18
+  }).addTo(map);
+
+  const coralIcon = L.divIcon({
+    className: '',
+    html: '<div style="width:28px;height:28px;background:#FF6B47;border:3px solid #fff;border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,0.25);display:flex;align-items:center;justify-content:center;font-size:12px;">📍</div>',
+    iconSize: [28, 28], iconAnchor: [14, 14]
+  });
+  const featuredIcon = L.divIcon({
+    className: '',
+    html: '<div style="width:32px;height:32px;background:#F59E0B;border:3px solid #fff;border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;font-size:13px;">⭐</div>',
+    iconSize: [32, 32], iconAnchor: [16, 16]
+  });
+
+  let allMarkers = [];
+  ACTIVITIES.forEach(a => {
+    const icon = a.featured ? featuredIcon : coralIcon;
+    const marker = L.marker([a.lat, a.lng], { icon })
+      .addTo(map)
+      .bindPopup(`<strong style="font-size:13px;color:#0D1B2A;">${a.title}</strong>${a.featured ? '<br><span style="font-size:11px;color:#F59E0B;font-weight:700;">⭐ Featured</span>' : ''}`, { maxWidth: 200 });
+    allMarkers.push({ marker, cat: a.cat });
+  });
+
+  function enableLocation() {
+    if (!navigator.geolocation) { alert('Location not supported by your browser.'); return; }
+    const btn = document.querySelector('.map-location-btn');
+    btn.textContent = '⏳ Locating...';
+    navigator.geolocation.getCurrentPosition(
+      pos => {
+        const { latitude: lat, longitude: lng } = pos.coords;
+        map.setView([lat, lng], 14);
+        L.circleMarker([lat, lng], {
+          radius: 10, fillColor: '#3B82F6', color: '#fff',
+          weight: 3, fillOpacity: 0.9
+        }).addTo(map).bindPopup('<strong>You are here</strong>').openPopup();
+        btn.textContent = '📍 Near Me';
+      },
+      () => { btn.textContent = '📍 Near Me'; alert('Could not get your location.'); }
+    );
+  }
+
+  // ── Filter logic ───────────────────────────────────────────────
   const filterLabels = {
-    all: '47 activities found in San Francisco',
+    all:     '47 activities found in San Francisco',
     weekend: 'This Weekend — activities happening Sat & Sun',
-    camps: 'Summer Camps in San Francisco',
-    sports: 'Sports activities in San Francisco',
-    arts: 'Arts & Crafts activities in San Francisco',
-    outdoors: 'Outdoor activities in San Francisco',
-    music: 'Music activities in San Francisco',
+    camps:   'Summer Camps in San Francisco',
+    sports:  'Sports activities in San Francisco',
+    arts:    'Arts & Crafts activities in San Francisco',
+    outdoors:'Outdoor activities in San Francisco',
+    music:   'Music activities in San Francisco',
     science: 'Science activities in San Francisco',
-    swimming: 'Swimming lessons in San Francisco',
+    swimming:'Swimming lessons in San Francisco',
     special: 'Special Needs Friendly activities in San Francisco',
   };
 
   function applyFilter(filter) {
-    const cards = document.querySelectorAll('#cards-grid .card');
+    const grid = document.getElementById('cards-grid');
+    const cards = [...grid.querySelectorAll('.card')];
     let visible = 0;
 
     cards.forEach(card => {
-      const cat = card.dataset.cat || '';
+      const cat      = card.dataset.cat || '';
       const schedule = card.dataset.schedule || '';
-      const special = card.dataset.special === 'true';
+      const special  = card.dataset.special === 'true';
       let show = false;
 
-      if (filter === 'all') {
-        show = true;
-      } else if (filter === 'weekend') {
-        show = schedule === 'weekend';
-      } else if (filter === 'special') {
-        show = special;
-      } else {
-        show = cat === filter || cat.includes(filter);
-      }
+      if      (filter === 'all')     show = true;
+      else if (filter === 'weekend') show = schedule === 'weekend';
+      else if (filter === 'special') show = special;
+      else                           show = cat === filter || cat.includes(filter);
 
       card.style.display = show ? '' : 'none';
       if (show) visible++;
     });
 
-    const label = filterLabels[filter] || (visible + ' activities found');
-    document.getElementById('results-count').innerHTML =
-      '<strong>' + visible + ' activities</strong> — ' + label.split('—')[1]?.trim() || label;
+    // Sort: featured cards always first
+    const sorted = cards.filter(c => c.style.display !== 'none');
+    sorted.sort((a, b) => (b.dataset.featured === 'true') - (a.dataset.featured === 'true'));
+    sorted.forEach(c => grid.appendChild(c));
 
-    // Update active chip
-    document.querySelectorAll('.filter-chip').forEach(c => {
-      c.classList.toggle('active', c.dataset.filter === filter);
+    const label = filterLabels[filter] || '';
+    const suffix = label.includes('—') ? ' — ' + label.split('—')[1].trim() : ' found in San Francisco';
+    document.getElementById('results-count').innerHTML = `<strong>${visible} activities</strong>${suffix}`;
+
+    document.querySelectorAll('.filter-chip').forEach(c =>
+      c.classList.toggle('active', c.dataset.filter === filter)
+    );
+
+    // Show only relevant map markers
+    allMarkers.forEach(({ marker, cat }) => {
+      const show =
+        filter === 'all' ||
+        filter === 'weekend' ||
+        filter === 'special' ||
+        cat === filter || cat.includes(filter);
+      if (show) map.addLayer(marker); else map.removeLayer(marker);
     });
   }
 
-  // Wire up filter chips
   document.querySelectorAll('.filter-chip').forEach(chip => {
-    chip.addEventListener('click', function() {
+    chip.addEventListener('click', function () {
       applyFilter(this.dataset.filter);
-      // Update URL param without page reload
       const url = new URL(window.location);
       url.searchParams.set('filter', this.dataset.filter);
       history.replaceState({}, '', url);
     });
   });
 
-  // Read URL param on load (handles nav links like ?filter=camps)
   window.addEventListener('DOMContentLoaded', () => {
-    const params = new URLSearchParams(window.location.search);
-    const filter = params.get('filter') || 'all';
+    const filter = new URLSearchParams(window.location.search).get('filter') || 'all';
     applyFilter(filter);
   });
 </script>

@@ -155,10 +155,10 @@
     <!-- Order summary -->
     <div style="background:var(--light);border-radius:var(--radius-sm);padding:16px;margin-bottom:20px;">
       <div class="booking-total"><span>Presidio Soccer Camp · May 3 · 9:00 AM</span><span></span></div>
-      <div class="booking-total" style="margin-top:6px;"><span>1 child</span><span>$45.00</span></div>
-      <div class="booking-total"><span>SF-Kids booking fee</span><span style="color:var(--success);">Free</span></div>
+      <div class="booking-total" style="margin-top:6px;"><span id="summary-spots">1 child</span><span id="summary-subtotal">$45.00</span></div>
+      <div class="booking-total"><span>SF-Kids service fee <span style="font-size:11px;color:var(--muted);">(3%)</span></span><span id="summary-fee">$1.35</span></div>
       <hr style="border:none;border-top:1px solid var(--rule);margin:12px 0;">
-      <div class="booking-total total"><span>Total due today</span><span>$45.00</span></div>
+      <div class="booking-total total"><span>Total due today</span><span id="summary-total">$46.35</span></div>
     </div>
 
     <div class="form-group">
@@ -236,6 +236,31 @@
     document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
     el.classList.add('selected');
   }
+
+  // ── Pricing calculator ─────────────────────────────────────────
+  const PRICE_PER_CHILD = 45;
+  const SERVICE_FEE_RATE = 0.03;
+
+  function updatePricing() {
+    const spotsEl = document.querySelector('#panel-1 .form-select');
+    const spots = spotsEl ? parseInt(spotsEl.value) || 1 : 1;
+    const subtotal = PRICE_PER_CHILD * spots;
+    const fee = Math.round(subtotal * SERVICE_FEE_RATE * 100) / 100;
+    const total = subtotal + fee;
+
+    const label = spots === 1 ? '1 child' : spots + ' children';
+    document.getElementById('summary-spots').textContent = label;
+    document.getElementById('summary-subtotal').textContent = '$' + subtotal.toFixed(2);
+    document.getElementById('summary-fee').textContent = '$' + fee.toFixed(2);
+    document.getElementById('summary-total').textContent = '$' + total.toFixed(2);
+  }
+
+  // Recalculate when spots selector changes
+  document.addEventListener('DOMContentLoaded', () => {
+    const spotsEl = document.querySelector('#panel-1 .form-select');
+    if (spotsEl) spotsEl.addEventListener('change', updatePricing);
+    updatePricing();
+  });
 </script>
 </body>
 </html>
