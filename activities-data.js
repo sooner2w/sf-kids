@@ -4,8 +4,8 @@ const ACTIVITIES_DATA = {
   'soccer': {
     id: 'soccer', emoji: '⚽', emoji2: '🏃', emoji3: '🥅',
     gFrom: '#DBEAFE', gTo: '#93C5FD',
-    title: 'Presidio Youth Soccer Camp', provider: 'Bay Area Youth Athletics',
-    providerEmoji: '🏫', providerDesc: 'Running programs in SF since 2014 · 2,400+ kids coached · Background-checked staff',
+    title: 'Presidio Youth Soccer Camp', provider: 'Soccer Stars SF',
+    providerEmoji: '🏫', providerDesc: 'Youth soccer programs across San Francisco neighborhoods · Certified coaches · All skill levels welcome',
     cat: 'Sports', age: 'Ages 6–12', price: '$45', priceUnit: '/ session per child',
     duration: '2 hours', neighborhood: 'Presidio, SF', rating: '4.9', reviewCount: 128, bookings: '400+',
     schedule: 'Saturdays & Sundays', featured: true, special: false,
@@ -70,8 +70,8 @@ const ACTIVITIES_DATA = {
   'arts-crafts': {
     id: 'arts-crafts', emoji: '🎨', emoji2: '✂️', emoji3: '🖌️',
     gFrom: '#FEF9C3', gTo: '#FDE047',
-    title: 'Mission Arts & Crafts Studio', provider: 'Little Makers SF',
-    providerEmoji: '🎨', providerDesc: 'Neighborhood art studio for kids since 2018 · Inclusive, low-pressure creative space',
+    title: 'Mission Arts & Crafts Studio', provider: 'Little Makers Studio',
+    providerEmoji: '🎨', providerDesc: 'Neighborhood art studio for kids · Open studio sessions, mini maker playgroups · Warm, welcoming creative space',
     cat: 'Arts & Crafts', age: 'Ages 3–8', price: '$25', priceUnit: '/ session',
     duration: '90 min', neighborhood: 'The Mission, SF', rating: '4.8', reviewCount: 94, bookings: '500+',
     schedule: 'Weekends', featured: false, special: false,
@@ -114,8 +114,8 @@ const ACTIVITIES_DATA = {
   'music-babies': {
     id: 'music-babies', emoji: '🎵', emoji2: '🎶', emoji3: '🥁',
     gFrom: '#FCE7F3', gTo: '#F9A8D4',
-    title: 'Noe Valley Music for Babies', provider: 'Little Notes Music Studio',
-    providerEmoji: '🎵', providerDesc: 'Specialized in early childhood music education · Research-backed curriculum · Ages 0–5',
+    title: 'Noe Valley Music for Babies', provider: 'Music Together SF',
+    providerEmoji: '🎵', providerDesc: 'Award-winning music classes for babies & toddlers · Serving SF families since 2001 · Research-backed curriculum',
     cat: 'Music', age: 'Ages 0–3', price: '$20', priceUnit: '/ session',
     duration: '45 min', neighborhood: 'Noe Valley, SF', rating: '5.0', reviewCount: 62, bookings: '200+',
     schedule: 'Wednesdays & Saturdays', featured: false, special: true,
@@ -136,8 +136,8 @@ const ACTIVITIES_DATA = {
   'sensory-play': {
     id: 'sensory-play', emoji: '🧸', emoji2: '🎠', emoji3: '🌈',
     gFrom: '#FEF3C7', gTo: '#FCD34D',
-    title: 'Baby Sensory Play Morning', provider: 'Tiny Explorers SF',
-    providerEmoji: '🧸', providerDesc: 'Sensory play specialists for infants and toddlers · Trained in child development and sensory integration',
+    title: 'Baby Sensory Play Morning', provider: 'SF Rec & Parks Early Childhood',
+    providerEmoji: '🧸', providerDesc: 'City-run early childhood programs for infants & toddlers · Free and low-cost · Neighborhood locations across SF',
     cat: 'Sensory Play', age: 'Ages 0–2', price: '$15', priceUnit: '/ session',
     duration: '60 min', neighborhood: 'Castro, SF', rating: '4.9', reviewCount: 44, bookings: '150+',
     schedule: 'Tuesdays & Thursdays', featured: false, special: true,
@@ -224,8 +224,8 @@ const ACTIVITIES_DATA = {
   'adaptive-swim': {
     id: 'adaptive-swim', emoji: '🏊', emoji2: '🌊', emoji3: '💙',
     gFrom: '#CFFAFE', gTo: '#67E8F9',
-    title: 'Adaptive Swim Program', provider: 'SF Therapeutic Aquatics',
-    providerEmoji: '🏊', providerDesc: 'Therapeutic swim specialists · Serving children with physical and developmental differences since 2009',
+    title: 'Adaptive Swim Program', provider: 'Pomeroy Therapeutic Swim',
+    providerEmoji: '🏊', providerDesc: 'SF\'s leading therapeutic aquatics provider · Warm water pool · Programs for children with physical and developmental differences',
     cat: 'Swimming', age: 'Ages 2–13', price: '$35', priceUnit: '/ session',
     duration: '45 min', neighborhood: 'Richmond, SF', rating: '4.9', reviewCount: 58, bookings: '200+',
     schedule: 'Weekdays', featured: false, special: true,
@@ -246,8 +246,8 @@ const ACTIVITIES_DATA = {
   'sensory-dance': {
     id: 'sensory-dance', emoji: '🌟', emoji2: '💃', emoji3: '🎶',
     gFrom: '#FEF3C7', gTo: '#FCD34D',
-    title: 'Sensory-Friendly Dance & Movement', provider: 'Accessible Arts SF',
-    providerEmoji: '🌟', providerDesc: 'Inclusive performing arts for children of all abilities · Hayes Valley studio since 2015',
+    title: 'Sensory-Friendly Dance & Movement', provider: 'SF Ballet Adaptive Programs',
+    providerEmoji: '🌟', providerDesc: 'San Francisco Ballet\'s sensory-friendly & adaptive dance programs · Welcoming children of all abilities',
     cat: 'Movement', age: 'Ages 4–12', price: '$25', priceUnit: '/ session',
     duration: '60 min', neighborhood: 'Hayes Valley, SF', rating: '4.9', reviewCount: 41, bookings: '160+',
     schedule: 'Weekends', featured: false, special: true,
@@ -334,8 +334,8 @@ const ACTIVITIES_DATA = {
   'sport-camp': {
     id: 'sport-camp', emoji: '⚽', emoji2: '🏀', emoji3: '🎾',
     gFrom: '#CFFAFE', gTo: '#67E8F9',
-    title: 'Multi-Sport Summer Camp', provider: 'Bay Area Youth Athletics',
-    providerEmoji: '🏫', providerDesc: 'Running programs in SF since 2014 · 2,400+ kids coached · Background-checked staff',
+    title: 'Multi-Sport Summer Camp', provider: 'Soccer Stars SF',
+    providerEmoji: '🏫', providerDesc: 'Youth sports programs across San Francisco neighborhoods · Certified coaches · All skill levels welcome',
     cat: 'Camps · Sports', age: 'Ages 6–12', price: '$250', priceUnit: '/ week',
     duration: 'Full day (8:30am–4:30pm)', neighborhood: 'Presidio, SF', rating: '4.8', reviewCount: 144, bookings: '500+',
     schedule: 'Summer (June–August)', featured: false, special: false,
@@ -357,22 +357,22 @@ const ACTIVITIES_DATA = {
 
 // Capacity limits, organizer contacts, and provider URLs
 const ACTIVITY_CAPACITY = {
-  'soccer':         { capacity: 16, organizerEmail: 'coach@bayareayouthathletics.com',   providerUrl: '#' },
+  'soccer':         { capacity: 16, organizerEmail: 'info@soccerstars.com',               providerUrl: 'https://www.soccerstars.com/ca/sanfrancisco/' },
   'nature-walk':    { capacity: 24, organizerEmail: 'programs@sfrecpark.org',             providerUrl: 'https://sfrecpark.org' },
   'science-lab':    { capacity: 8,  organizerEmail: 'education@exploratorium.edu',        providerUrl: 'https://www.exploratorium.edu' },
-  'arts-crafts':    { capacity: 12, organizerEmail: 'studio@littlemakersf.com',           providerUrl: '#' },
+  'arts-crafts':    { capacity: 12, organizerEmail: 'hello@little-makers-studio.com',     providerUrl: 'https://www.little-makers-studio.com' },
   'swim-tots':      { capacity: 6,  organizerEmail: 'aquatics@sfrecpark.org',             providerUrl: 'https://sfrecpark.org/aquatics' },
-  'music-babies':   { capacity: 10, organizerEmail: 'hello@littlenotessf.com',            providerUrl: '#' },
-  'sensory-play':   { capacity: 8,  organizerEmail: 'play@tinyexplorers.com',             providerUrl: '#' },
-  'theater':        { capacity: 14, organizerEmail: 'info@yptsf.org',                     providerUrl: 'https://www.ypt.org' },
+  'music-babies':   { capacity: 10, organizerEmail: 'info@musictogethersf.com',           providerUrl: 'https://www.musictogethersf.com' },
+  'sensory-play':   { capacity: 8,  organizerEmail: 'earlychildhood@sfrecpark.org',       providerUrl: 'https://sfrecpark.org/1729/Early-Childhood-Programs' },
+  'theater':        { capacity: 14, organizerEmail: 'info@ypt.org',                       providerUrl: 'https://www.ypt.org' },
   'gym':            { capacity: 12, organizerEmail: 'sf@gymboree.com',                    providerUrl: 'https://www.gymboree.com' },
   'art-inclusive':  { capacity: 8,  organizerEmail: 'education@creativityexplored.org',   providerUrl: 'https://www.creativityexplored.org' },
-  'adaptive-swim':  { capacity: 4,  organizerEmail: 'info@sftherapeuticaquatics.com',     providerUrl: '#' },
-  'sensory-dance':  { capacity: 10, organizerEmail: 'classes@accessibleartsf.org',        providerUrl: '#' },
+  'adaptive-swim':  { capacity: 4,  organizerEmail: 'info@prrcsf.org',                    providerUrl: 'https://www.prrcsf.org/therapeutic-swim' },
+  'sensory-dance':  { capacity: 10, organizerEmail: 'education@sfballet.org',             providerUrl: 'https://www.sfballet.org/community/sensory-friendly-adaptive-programs/' },
   'gg-camp':        { capacity: 20, organizerEmail: 'camps@sfrecpark.org',                providerUrl: 'https://sfrecpark.org' },
   'robotics-camp':  { capacity: 8,  organizerEmail: 'sf@idtech.com',                      providerUrl: 'https://www.idtech.com' },
   'art-camp':       { capacity: 15, organizerEmail: 'education@sfmoma.org',               providerUrl: 'https://www.sfmoma.org/learn' },
-  'sport-camp':     { capacity: 20, organizerEmail: 'camps@bayareayouthathletics.com',    providerUrl: '#' }
+  'sport-camp':     { capacity: 20, organizerEmail: 'info@soccerstars.com',               providerUrl: 'https://www.soccerstars.com/ca/sanfrancisco/' }
 };
 
 // Merge capacity + organizer into ACTIVITIES_DATA at load time
