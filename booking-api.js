@@ -8,7 +8,7 @@
  * It will look like: https://sf-kids-booking.YOUR-NAME.workers.dev
  */
 
-const WORKER_URL = 'https://sf-kids-booking.YOUR-SUBDOMAIN.workers.dev';
+const WORKER_URL = 'https://sf-kids-booking.brandonbreon.workers.dev';
 
 function _isConfigured() {
   return !WORKER_URL.includes('YOUR-SUBDOMAIN');
