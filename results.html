@@ -57,8 +57,8 @@
 <!-- ── Inline search ─────────────────────────────────────────── -->
 <div class="results-search-bar">
   <div class="results-search-inner">
-    <input type="text" value="All activities" placeholder="Search...">
-    <select style="padding:10px 14px;border:1.5px solid var(--rule);border-radius:8px;font-size:14px;font-family:inherit;color:var(--mid);background:white;outline:none;">
+    <input id="search-input" type="text" placeholder="Search activities, providers, neighborhoods…" autocomplete="off">
+    <select id="age-select" style="padding:10px 14px;border:1.5px solid var(--rule);border-radius:8px;font-size:14px;font-family:inherit;color:var(--mid);background:white;outline:none;">
       <option>Any age</option>
       <option>0–1 (Infant)</option>
       <option>2–3 (Toddler)</option>
@@ -66,8 +66,7 @@
       <option>7–10 (Elementary)</option>
       <option>11–13 (Tween)</option>
     </select>
-    <input type="text" placeholder="This weekend" style="max-width:160px;">
-    <button class="results-search-btn">Update Search</button>
+    <button id="search-btn" class="results-search-btn">Search</button>
   </div>
 </div>
 
@@ -542,7 +541,7 @@
     const marker = L.marker([a.lat, a.lng], { icon })
       .addTo(map)
       .bindPopup(popupHTML, { maxWidth: 240, minWidth: 220 });
-    allMarkers.push({ marker, cat: a.cat, free: data.price === 'Free' });
+    allMarkers.push({ marker, cat: a.cat, free: data.price === 'Free', title: data.title.toLowerCase(), provider: data.provider.toLowerCase(), neighborhood: data.neighborhood.toLowerCase() });
   });
 
   function enableLocation() {
@@ -624,8 +623,63 @@
     });
   }
 
+  // ── Search ───────────────────────────────────────────────────
+  const ageRanges = {
+    '0–1 (Infant)':      [0,  1],
+    '2–3 (Toddler)':     [2,  3],
+    '4–6 (Preschool)':   [4,  6],
+    '7–10 (Elementary)': [7,  10],
+    '11–13 (Tween)':     [11, 13],
+  };
+
+  function applySearch() {
+    const query  = document.getElementById('search-input').value.trim().toLowerCase();
+    const ageVal = document.getElementById('age-select').value;
+    const grid   = document.getElementById('cards-grid');
+    const cards  = [...grid.querySelectorAll('.card')];
+    let visible  = 0;
+
+    cards.forEach(card => {
+      const text = card.textContent.toLowerCase();
+      const matchesQuery = !query || text.includes(query);
+
+      let matchesAge = true;
+      if (ageVal !== 'Any age' && ageRanges[ageVal]) {
+        const [minAge, maxAge] = ageRanges[ageVal];
+        const badge = card.querySelector('.card-img-badge')?.textContent || '';
+        const m = badge.match(/(\d+)[–\-](\d+)/);
+        if (m) matchesAge = parseInt(m[1]) <= maxAge && parseInt(m[2]) >= minAge;
+      }
+
+      const show = matchesQuery && matchesAge;
+      card.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+
+    // Reset filter chips visually to "All"
+    document.querySelectorAll('.filter-chip').forEach(c =>
+      c.classList.toggle('active', c.dataset.filter === 'all')
+    );
+
+    const suffix = query ? ` matching "${query}"` : ' found in San Francisco';
+    document.getElementById('results-count').innerHTML = `<strong>${visible} activities</strong>${suffix}`;
+
+    // Filter map markers to match search
+    allMarkers.forEach(({ marker, title, provider, neighborhood }) => {
+      const show = !query || title.includes(query) || provider.includes(query) || neighborhood.includes(query);
+      if (show) map.addLayer(marker); else map.removeLayer(marker);
+    });
+  }
+
+  document.getElementById('search-btn').addEventListener('click', applySearch);
+  document.getElementById('search-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') applySearch();
+  });
+  document.getElementById('age-select').addEventListener('change', applySearch);
+
   document.querySelectorAll('.filter-chip').forEach(chip => {
     chip.addEventListener('click', function () {
+      document.getElementById('search-input').value = '';
       applyFilter(this.dataset.filter);
       const url = new URL(window.location);
       url.searchParams.set('filter', this.dataset.filter);
