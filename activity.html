@@ -166,7 +166,10 @@
     document.getElementById('detail-provider').innerHTML = `
       <span>🏫 ${a.provider}</span>
       <span style="color:var(--rule);">|</span>
-      <a href="#" style="color:var(--coral);font-size:13px;">View provider →</a>`;
+      ${a.providerUrl && a.providerUrl !== '#'
+        ? `<a href="${a.providerUrl}" target="_blank" rel="noopener noreferrer" style="color:var(--coral);font-size:13px;">View provider →</a>`
+        : `<span style="color:var(--muted);font-size:13px;">View provider</span>`
+      }`;
 
     // Rating
     document.getElementById('detail-rating').innerHTML = `

@@ -355,24 +355,24 @@ const ACTIVITIES_DATA = {
 
 };
 
-// Capacity limits and organizer contacts — update organizer emails before going live
+// Capacity limits, organizer contacts, and provider URLs
 const ACTIVITY_CAPACITY = {
-  'soccer':         { capacity: 16, organizerEmail: 'coach@bayareayouthathletics.com' },
-  'nature-walk':    { capacity: 24, organizerEmail: 'programs@sfrecpark.org' },
-  'science-lab':    { capacity: 8,  organizerEmail: 'education@exploratorium.edu' },
-  'arts-crafts':    { capacity: 12, organizerEmail: 'studio@littlemakersf.com' },
-  'swim-tots':      { capacity: 6,  organizerEmail: 'aquatics@sfrecpark.org' },
-  'music-babies':   { capacity: 10, organizerEmail: 'hello@littlenotessf.com' },
-  'sensory-play':   { capacity: 8,  organizerEmail: 'play@tinyexplorers.com' },
-  'theater':        { capacity: 14, organizerEmail: 'info@yptsf.org' },
-  'gym':            { capacity: 12, organizerEmail: 'sf@gymboree.com' },
-  'art-inclusive':  { capacity: 8,  organizerEmail: 'education@creativityexplored.org' },
-  'adaptive-swim':  { capacity: 4,  organizerEmail: 'info@sftherapeuticaquatics.com' },
-  'sensory-dance':  { capacity: 10, organizerEmail: 'classes@accessibleartsf.org' },
-  'gg-camp':        { capacity: 20, organizerEmail: 'camps@sfrecpark.org' },
-  'robotics-camp':  { capacity: 8,  organizerEmail: 'sf@idtech.com' },
-  'art-camp':       { capacity: 15, organizerEmail: 'education@sfmoma.org' },
-  'sport-camp':     { capacity: 20, organizerEmail: 'camps@bayareayouthathletics.com' }
+  'soccer':         { capacity: 16, organizerEmail: 'coach@bayareayouthathletics.com',   providerUrl: '#' },
+  'nature-walk':    { capacity: 24, organizerEmail: 'programs@sfrecpark.org',             providerUrl: 'https://sfrecpark.org' },
+  'science-lab':    { capacity: 8,  organizerEmail: 'education@exploratorium.edu',        providerUrl: 'https://www.exploratorium.edu' },
+  'arts-crafts':    { capacity: 12, organizerEmail: 'studio@littlemakersf.com',           providerUrl: '#' },
+  'swim-tots':      { capacity: 6,  organizerEmail: 'aquatics@sfrecpark.org',             providerUrl: 'https://sfrecpark.org/aquatics' },
+  'music-babies':   { capacity: 10, organizerEmail: 'hello@littlenotessf.com',            providerUrl: '#' },
+  'sensory-play':   { capacity: 8,  organizerEmail: 'play@tinyexplorers.com',             providerUrl: '#' },
+  'theater':        { capacity: 14, organizerEmail: 'info@yptsf.org',                     providerUrl: 'https://www.ypt.org' },
+  'gym':            { capacity: 12, organizerEmail: 'sf@gymboree.com',                    providerUrl: 'https://www.gymboree.com' },
+  'art-inclusive':  { capacity: 8,  organizerEmail: 'education@creativityexplored.org',   providerUrl: 'https://www.creativityexplored.org' },
+  'adaptive-swim':  { capacity: 4,  organizerEmail: 'info@sftherapeuticaquatics.com',     providerUrl: '#' },
+  'sensory-dance':  { capacity: 10, organizerEmail: 'classes@accessibleartsf.org',        providerUrl: '#' },
+  'gg-camp':        { capacity: 20, organizerEmail: 'camps@sfrecpark.org',                providerUrl: 'https://sfrecpark.org' },
+  'robotics-camp':  { capacity: 8,  organizerEmail: 'sf@idtech.com',                      providerUrl: 'https://www.idtech.com' },
+  'art-camp':       { capacity: 15, organizerEmail: 'education@sfmoma.org',               providerUrl: 'https://www.sfmoma.org/learn' },
+  'sport-camp':     { capacity: 20, organizerEmail: 'camps@bayareayouthathletics.com',    providerUrl: '#' }
 };
 
 // Merge capacity + organizer into ACTIVITIES_DATA at load time
