@@ -640,8 +640,8 @@
     let visible  = 0;
 
     cards.forEach(card => {
-      const text = card.textContent.toLowerCase();
-      const matchesQuery = !query || text.includes(query);
+      const searchIndex  = card.dataset.search || card.textContent.toLowerCase();
+      const matchesQuery = !query || searchIndex.includes(query);
 
       let matchesAge = true;
       if (ageVal !== 'Any age' && ageRanges[ageVal]) {
@@ -671,6 +671,15 @@
     });
   }
 
+  // Build a search index on each card so we don't rely on full textContent
+  document.querySelectorAll('#cards-grid .card').forEach(card => {
+    const title    = card.querySelector('.card-title')?.textContent    || '';
+    const provider = card.querySelector('.card-provider')?.textContent || '';
+    const cat      = card.querySelector('.card-cat')?.textContent      || '';
+    const tags     = [...card.querySelectorAll('.card-tag')].map(t => t.textContent).join(' ');
+    card.dataset.search = (title + ' ' + provider + ' ' + cat + ' ' + tags).toLowerCase();
+  });
+
   document.getElementById('search-btn').addEventListener('click', applySearch);
   document.getElementById('search-input').addEventListener('keydown', e => {
     if (e.key === 'Enter') applySearch();
@@ -687,10 +696,9 @@
     });
   });
 
-  window.addEventListener('DOMContentLoaded', () => {
-    const filter = new URLSearchParams(window.location.search).get('filter') || 'all';
-    applyFilter(filter);
-  });
+  // Run on load — DOMContentLoaded has already fired since this script is at page bottom
+  const _initFilter = new URLSearchParams(window.location.search).get('filter') || 'all';
+  applyFilter(_initFilter);
 </script>
 </body>
 </html>
