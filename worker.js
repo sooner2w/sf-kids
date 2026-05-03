@@ -65,8 +65,9 @@ export default {
         return json({ error: 'Missing parameters: activityId, timeSlot, date' }, 400, origin);
       }
 
+      // OR covers both: text field ("2026-05-03") and Airtable Date field type (DATESTR)
       const formula = encodeURIComponent(
-        `AND({ActivityID}="${activityId}",{TimeSlot}="${timeSlot}",{Date}="${date}",{Status}!="Cancelled")`
+        `AND({ActivityID}="${activityId}",{TimeSlot}="${timeSlot}",OR({Date}="${date}",DATESTR({Date})="${date}"),{Status}!="Cancelled")`
       );
 
       try {
@@ -76,7 +77,7 @@ export default {
         if (!res.ok) throw new Error(`Airtable ${res.status}`);
         const data   = await res.json();
         const booked = data.records.reduce((sum, r) => sum + (r.fields.Spots || 1), 0);
-        return json({ booked }, 200, origin);
+        return json({ booked, debug: { formula: decodeURIComponent(formula), records: data.records.length } }, 200, origin);
       } catch (e) {
         return json({ error: e.message }, 502, origin);
       }
