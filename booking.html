@@ -246,7 +246,7 @@
 
 <script>
   // ── Shared state across steps ────────────────────────────────
-  const formState = { activityId: null, date: null, timeSlot: null, spots: 1 };
+  const formState = { activityId: null, date: null, timeSlot: null, spots: 1, childName: '', childAge: '' };
 
   // ── Step navigation ──────────────────────────────────────────
   function goStep(n) {
@@ -293,6 +293,8 @@
     if (!name) { showAlert('step2-alert', 'Please enter your child\'s first name.'); return; }
     if (!age)  { showAlert('step2-alert', 'Please select your child\'s age.'); return; }
     hideAlert('step2-alert');
+    formState.childName = name;
+    formState.childAge  = age;
     goStep(3);
     // Check live availability when entering step 3
     checkStep3Availability();
@@ -371,8 +373,8 @@
     });
 
     if (result.success) {
-      const childName = encodeURIComponent(document.getElementById('child-name').value.trim());
-      const childAge  = encodeURIComponent(document.getElementById('child-age').value);
+      const childName = encodeURIComponent(formState.childName);
+      const childAge  = encodeURIComponent(formState.childAge);
       window.location.href = `confirmation.html?id=${formState.activityId}&ref=${result.bookingRef}&child=${childName}&age=${childAge}`;
     } else {
       btn.classList.remove('btn-loading');
