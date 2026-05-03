@@ -371,7 +371,9 @@
     });
 
     if (result.success) {
-      window.location.href = `confirmation.html?id=${formState.activityId}&ref=${result.bookingRef}`;
+      const childName = encodeURIComponent(document.getElementById('child-name').value.trim());
+      const childAge  = encodeURIComponent(document.getElementById('child-age').value);
+      window.location.href = `confirmation.html?id=${formState.activityId}&ref=${result.bookingRef}&child=${childName}&age=${childAge}`;
     } else {
       btn.classList.remove('btn-loading');
       btn.textContent = 'Complete Booking →';
