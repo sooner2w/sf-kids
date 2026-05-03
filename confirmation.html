@@ -39,7 +39,7 @@
       <div class="confirm-ref-row"><span>Location</span><span id="conf-location">—</span></div>
       <div class="confirm-ref-row"><span>Date</span><span>Saturday, May 3, 2026</span></div>
       <div class="confirm-ref-row"><span>Time</span><span>9:00 AM</span></div>
-      <div class="confirm-ref-row"><span>Child</span><span>Jamie · Age 8</span></div>
+      <div class="confirm-ref-row"><span>Child</span><span id="conf-child">—</span></div>
       <div class="confirm-ref-row"><span>Total paid</span><span id="conf-total">—</span></div>
     </div>
 
@@ -164,10 +164,17 @@
     const a   = ACTIVITIES_DATA[id];
     if (!a) return;
 
+    const childName = decodeURIComponent(params.get('child') || '');
+    const childAge  = decodeURIComponent(params.get('age')   || '');
+    const childText = childName
+      ? (childAge ? `${childName} · Age ${childAge}` : childName)
+      : '—';
+
     document.getElementById('conf-ref').textContent      = '#' + ref;
     document.getElementById('conf-title').textContent    = a.title;
     document.getElementById('conf-provider').textContent = a.provider;
     document.getElementById('conf-location').textContent = a.neighborhood;
+    document.getElementById('conf-child').textContent    = childText;
     const priceNum = parseFloat(a.price.replace('$', '')) || 0;
     document.getElementById('conf-total').textContent = a.price === 'Free' ? 'Free' : '$' + (priceNum * 1.03).toFixed(2);
 
