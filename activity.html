@@ -195,17 +195,27 @@
         <a href="#" style="font-size:13px;color:var(--coral);font-weight:600;">See all their activities →</a>
       </div>`;
 
-    // Reviews
-    const reviewsHTML = a.reviews.map(r => `
-      <div class="review-card">
-        <div class="review-header">
-          <span class="reviewer">${r.name}</span>
-          <span class="review-date">${r.date}</span>
+    // Reviews — link to real provider reviews, no fabricated content
+    const reviewSearch = encodeURIComponent(a.provider + ' San Francisco reviews');
+    const googleUrl = `https://www.google.com/search?q=${reviewSearch}`;
+    const yelpUrl   = `https://www.yelp.com/search?find_desc=${encodeURIComponent(a.provider)}&find_loc=San+Francisco%2C+CA`;
+    document.getElementById('reviews-section').innerHTML = `
+      <h3>Parent Reviews</h3>
+      <div style="background:var(--light);border:1.5px solid var(--rule);border-radius:var(--radius);padding:28px 24px;text-align:center;">
+        <div style="font-size:32px;margin-bottom:10px;">⭐</div>
+        <p style="font-weight:700;color:var(--navy);margin-bottom:6px;">See what parents are saying</p>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:20px;">Read verified reviews for ${a.provider} directly on Google and Yelp.</p>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+          <a href="${googleUrl}" target="_blank" rel="noopener noreferrer"
+             style="display:inline-flex;align-items:center;gap:6px;background:white;border:1.5px solid var(--rule);color:var(--navy);font-size:13px;font-weight:600;padding:9px 18px;border-radius:8px;text-decoration:none;">
+            🔍 Google Reviews
+          </a>
+          <a href="${yelpUrl}" target="_blank" rel="noopener noreferrer"
+             style="display:inline-flex;align-items:center;gap:6px;background:white;border:1.5px solid var(--rule);color:var(--navy);font-size:13px;font-weight:600;padding:9px 18px;border-radius:8px;text-decoration:none;">
+            ⭐ Yelp Reviews
+          </a>
         </div>
-        <div style="color:var(--yellow);font-size:13px;margin-bottom:6px;">${stars(r.stars)}</div>
-        <p class="review-text">${r.text}</p>
-      </div>`).join('');
-    document.getElementById('reviews-section').innerHTML = `<h3>Parent Reviews</h3>${reviewsHTML}`;
+      </div>`;
 
     // Booking sidebar
     const priceNum = parseFloat(a.price.replace('$', '')) || 0;

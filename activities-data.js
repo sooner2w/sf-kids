@@ -15,12 +15,7 @@ const ACTIVITIES_DATA = {
       'Sessions include drills, small-sided games, and a cool-down stretch. All coaches are US Soccer certified and background-checked. Cleats recommended but not required.'
     ],
     included: ['Certified coach (1:8 ratio)','All training equipment and pinnies','Skill assessment and group placement','Post-session progress card','Water break included'],
-    bring: ['Water bottle','Athletic clothes','Cleats or sneakers','Sunscreen'],
-    reviews: [
-      { name: 'Sarah M. · Mom of an 8-year-old', date: 'March 2026', stars: 5, text: 'My son has been asking to come back every weekend. The coaches are patient and keep kids engaged. Worth every penny!' },
-      { name: 'David K. · Dad of a 6-year-old', date: 'February 2026', stars: 5, text: 'Best organized soccer program in the city. Easy booking, great Presidio location, and amazing staff.' },
-      { name: 'Priya L. · Mom of twins, ages 9', date: 'January 2026', stars: 4, text: 'Really great program. Both my kids loved it. Would love more weekday afternoon slots.' }
-    ]
+    bring: ['Water bottle','Athletic clothes','Cleats or sneakers','Sunscreen']
   },
 
   'nature-walk': {
@@ -37,12 +32,7 @@ const ACTIVITIES_DATA = {
       'Walks are gentle and stroller/wheelchair friendly. Special needs accommodations available. Guides adapt the experience to each group\'s age and energy level.'
     ],
     included: ['Certified naturalist guide','Nature activity booklet','Magnifying glasses and bug viewers','Accessible paved paths','Completely free — always'],
-    bring: ['Water bottle','Comfortable shoes','Light jacket','Curiosity!'],
-    reviews: [
-      { name: 'Marcus T. · Dad of a 5-year-old', date: 'April 2026', stars: 5, text: 'Our daughter talked about the butterflies for weeks. The guide was incredible and it\'s free! We come back almost every month.' },
-      { name: 'Keiko R. · Mom of a 7-year-old', date: 'March 2026', stars: 5, text: 'My son who struggles in traditional settings thrived on this walk. So inclusive and patient. Highly recommend for all kids.' },
-      { name: 'Tom & Lisa B. · Parents of 3', date: 'February 2026', stars: 5, text: 'Brought ages 4, 7, and 10 — all three engaged the whole time. Pitched perfectly for mixed ages.' }
-    ]
+    bring: ['Water bottle','Comfortable shoes','Light jacket','Curiosity!']
   },
 
   'science-lab': {
@@ -59,12 +49,7 @@ const ACTIVITIES_DATA = {
       'Small groups of 8 ensure every child gets hands-on time. No prior science knowledge needed. Museum exhibit access included before and after the session.'
     ],
     included: ['Guided lab with Exploratorium educator (1:6)','All science materials and equipment','Take-home experiment card','Museum exhibit access included','Every session has a unique theme'],
-    bring: ['Water bottle','Closed-toe shoes (required for lab)','Questions and curiosity!'],
-    reviews: [
-      { name: 'Aisha N. · Mom of a 9-year-old', date: 'April 2026', stars: 5, text: 'My daughter came home wanting to be a scientist. The educators make complex concepts completely accessible for kids.' },
-      { name: 'James W. · Dad of a 6-year-old', date: 'March 2026', stars: 5, text: 'Best $35 spent on a kids activity in SF. Lab session plus full museum access — incredible value.' },
-      { name: 'Sofia M. · Mom of a 12-year-old', date: 'February 2026', stars: 4, text: 'My son loved it. Would love even more advanced options for the 12-13 age range — he wanted more challenge.' }
-    ]
+    bring: ['Water bottle','Closed-toe shoes (required for lab)','Questions and curiosity!']
   },
 
   'arts-crafts': {
@@ -81,12 +66,7 @@ const ACTIVITIES_DATA = {
       'No artistic experience needed. Sessions are guided but open-ended — we set the theme, kids take it wherever their imagination goes. Every child takes their creation home.'
     ],
     included: ['All art supplies and materials','Themed project each session','Smocks provided','Take-home finished artwork','Experienced children\'s art educators'],
-    bring: ['Clothes that can get messy','Enthusiasm to create!'],
-    reviews: [
-      { name: 'Rachel P. · Mom of a 4-year-old', date: 'April 2026', stars: 5, text: 'My daughter absolutely loves it here. No pressure, just pure joy. We come back every other weekend.' },
-      { name: 'Omar A. · Dad of a 6-year-old', date: 'March 2026', stars: 5, text: 'My shy son was immediately comfortable here. He\'s been asking to go back since we left.' },
-      { name: 'Nadia K. · Mom of twins, ages 5', date: 'January 2026', stars: 4, text: 'Both kids had a wonderful time. Would love slightly longer sessions — 90 min goes by so fast!' }
-    ]
+    bring: ['Clothes that can get messy','Enthusiasm to create!']
   },
 
   'swim-tots': {
@@ -103,12 +83,7 @@ const ACTIVITIES_DATA = {
       'Instructors follow the Red Cross Water Safety curriculum. Small group sizes ensure individual attention. Heated indoor pool — comfortable year-round.'
     ],
     included: ['Red Cross certified swim instructor','Pool flotation devices provided','Progress tracking after each session','Heated indoor pool','Parent observation area'],
-    bring: ['Swim diaper (under 3)','Swimsuit','Towel','Change of clothes','Goggles (optional)'],
-    reviews: [
-      { name: 'Jen L. · Mom of a 2-year-old', date: 'April 2026', stars: 5, text: 'My son was terrified of water. After 4 sessions he was splashing and laughing. The instructor was amazing with his fear.' },
-      { name: 'Carlos M. · Dad of a 4-year-old', date: 'March 2026', stars: 4, text: 'Great program. My daughter is starting to float on her own! Parking can be tricky in the Marina though.' },
-      { name: 'Yuki T. · Mom of a 1-year-old', date: 'February 2026', stars: 5, text: 'Parent-and-me swim class was the best thing we\'ve done together. Warm pool, gentle instructor. Already booked next block.' }
-    ]
+    bring: ['Swim diaper (under 3)','Swimsuit','Towel','Change of clothes','Goggles (optional)']
   },
 
   'music-babies': {
@@ -125,12 +100,7 @@ const ACTIVITIES_DATA = {
       'Classes are gentle, low-stimulation, and follow a predictable structure — great for children with sensory sensitivities. Parents participate fully throughout. No musical experience needed!'
     ],
     included: ['Live music by early childhood specialist','Instrument exploration basket','Lap activities and movement songs','Sensory-friendly low-stimulation environment','Take-home song sheet each week'],
-    bring: ['Cozy outfit for movement','Favorite soft toy if helpful for transitions'],
-    reviews: [
-      { name: 'Mei C. · Mom of a 10-month-old', date: 'April 2026', stars: 5, text: 'I was skeptical — music class for a baby? Converted after the first session. My daughter lights up the moment we walk in.' },
-      { name: 'Dani R. · Mom of a 2-year-old with sensory needs', date: 'March 2026', stars: 5, text: 'Other music classes were too loud for my son. This one was calm, structured, warm. He participated more than ever in a group.' },
-      { name: 'Ben & Tara S. · Parents of 18-month twins', date: 'January 2026', stars: 5, text: 'Highlight of our week. $20 is the best deal in SF for this quality of class.' }
-    ]
+    bring: ['Cozy outfit for movement','Favorite soft toy if helpful for transitions']
   },
 
   'sensory-play': {
@@ -147,12 +117,7 @@ const ACTIVITIES_DATA = {
       'Sessions are kept small (max 8 babies) to ensure a calm, unhurried environment. Ideal for children who may be overwhelmed by louder group settings. Parents stay and play throughout.'
     ],
     included: ['All sensory materials (non-toxic, baby-safe)','Themed play stations','Max 8 babies per session','Floor mats and cushions provided','Sanitized materials every session'],
-    bring: ['Change of clothes (things will get messy!)','Favorite comfort object','Snack for after'],
-    reviews: [
-      { name: 'Fatima A. · Mom of a 7-month-old', date: 'April 2026', stars: 5, text: 'Calm, focused, safe — and my daughter was completely absorbed for the whole hour. Already booked the next 4 sessions.' },
-      { name: 'Chris & Mia L. · Parents of a 14-month-old', date: 'March 2026', stars: 5, text: 'Our son has sensory sensitivities. This was perfect — small, structured, and the facilitator introduced new textures at exactly his pace.' },
-      { name: 'Priya N. · Mom of a 2-year-old', date: 'February 2026', stars: 4, text: 'Great concept beautifully executed. The light table station was a huge hit. Will be back!' }
-    ]
+    bring: ['Change of clothes (things will get messy!)','Favorite comfort object','Snack for after']
   },
 
   'theater': {
@@ -169,12 +134,7 @@ const ACTIVITIES_DATA = {
       'Led by professional theater educators, each session builds toward a short sharing performance. No prior experience needed. Age-grouped sessions ensure the right challenge and social connection.'
     ],
     included: ['2 professional theater educators per session','Script and scene work materials','Improv warm-up games','End-of-session parent sharing (10 min)','Monthly progress notes to parents'],
-    bring: ['Comfortable clothes for movement','Water bottle','Willingness to be silly!'],
-    reviews: [
-      { name: 'Vanessa H. · Mom of a 10-year-old', date: 'April 2026', stars: 5, text: 'My introverted daughter found her voice here. After 3 months she was performing in front of strangers with complete confidence.' },
-      { name: 'Michael T. · Dad of an 8-year-old', date: 'March 2026', stars: 5, text: 'Theater was never on our radar — now my son is a much better communicator. Side effect of great theater training.' },
-      { name: 'Anna S. · Mom of a 12-year-old', date: 'February 2026', stars: 4, text: 'Excellent program. A year in and the growth is remarkable. Educators genuinely care about each kid.' }
-    ]
+    bring: ['Comfortable clothes for movement','Water bottle','Willingness to be silly!']
   },
 
   'gym': {
@@ -191,12 +151,7 @@ const ACTIVITIES_DATA = {
       'Each session follows a loose structure with free play, guided movement, bubbles, and a parachute finale. Parents participate throughout. A great way to burn energy, build body confidence, and meet local families.'
     ],
     included: ['Fully padded age-appropriate gym equipment','Structured and free-play balance','Bubble time and parachute activity','Clean, safe indoor space','Gymboree educator facilitated'],
-    bring: ['Grippy socks (no shoes on gym floor)','Change of clothes','Water bottle'],
-    reviews: [
-      { name: 'Lisa M. · Mom of an 18-month-old', date: 'April 2026', stars: 5, text: 'This is our toddler\'s happy place. He would go every day if he could. The equipment is perfect for his size.' },
-      { name: 'Derek P. · Dad of a 2-year-old', date: 'March 2026', stars: 4, text: 'Great for burning energy on a rainy SF Saturday. My daughter loves the bubbles and parachute at the end.' },
-      { name: 'Hong W. · Mom of twins, 2 years', date: 'January 2026', stars: 5, text: 'Absolute chaos and absolute joy — exactly right for this age. Staff manage a room full of toddlers with impressive calm.' }
-    ]
+    bring: ['Grippy socks (no shoes on gym floor)','Change of clothes','Water bottle']
   },
 
   'art-inclusive': {
@@ -213,12 +168,7 @@ const ACTIVITIES_DATA = {
       'Sessions are structured but never rigid. Kids choose their medium, pace, and expression. Every child leaves with something they made themselves.'
     ],
     included: ['Trained adaptive art educators (1:4 ratio)','Full range of media (paint, clay, collage, drawing)','Sensory-friendly materials available','Child-led flexible structure','Take-home finished artwork every session'],
-    bring: ['Comfortable clothes','Any sensory tools your child uses','A snack for after'],
-    reviews: [
-      { name: 'Sandra L. · Mom of a 7-year-old with autism', date: 'April 2026', stars: 5, text: 'I\'ve cried happy tears watching my son here. He communicates through art in ways he can\'t verbally. The educators understand him deeply.' },
-      { name: 'Phil R. · Dad of a 9-year-old with ADHD', date: 'March 2026', stars: 5, text: 'No rushing, no redirecting. Just creating. My daughter thrives here. The staff are exceptional human beings.' },
-      { name: 'Gina M. · Mom of a 5-year-old', date: 'February 2026', stars: 5, text: 'We came without a formal diagnosis — just wanted a gentler art class. Every child is met where they are.' }
-    ]
+    bring: ['Comfortable clothes','Any sensory tools your child uses','A snack for after']
   },
 
   'adaptive-swim': {
@@ -235,12 +185,7 @@ const ACTIVITIES_DATA = {
       'Sessions take place in a warm private pool. Goals are set collaboratively with parents at the first session and tracked over time. Equipment and flotation aids always available.'
     ],
     included: ['Certified therapeutic aquatics instructor (1:1 or 1:2)','Warm water pool (90°F)','All adaptive flotation equipment','Written progress notes after each session','Parent goal-setting included'],
-    bring: ['Swimsuit','Towel','Swim diaper if needed','Any medical notes for the instructor'],
-    reviews: [
-      { name: 'Maria G. · Mom of a 6-year-old with CP', date: 'April 2026', stars: 5, text: 'SF Therapeutic Aquatics changed our family\'s life. My daughter can now float independently. The instructor is a miracle worker.' },
-      { name: 'Sam T. · Dad of an 8-year-old with autism', date: 'March 2026', stars: 5, text: 'My son had a severe water phobia. After 6 sessions he was putting his face in the water. Trust was built slowly, never pushed.' },
-      { name: 'Jennifer K. · Mom of a 4-year-old', date: 'January 2026', stars: 5, text: 'The therapeutic approach works for any kid needing a gentler introduction to water. Highly recommend.' }
-    ]
+    bring: ['Swimsuit','Towel','Swim diaper if needed','Any medical notes for the instructor']
   },
 
   'sensory-dance': {
@@ -257,12 +202,7 @@ const ACTIVITIES_DATA = {
       'No performance pressure, no uniforms, no mirrors. Just joyful movement and creative expression. Children with autism, sensory differences, anxiety, and physical disabilities are warmly welcomed.'
     ],
     included: ['Certified inclusive dance educator','Sensory-adapted studio (adjustable lighting)','Predictable class structure with visual schedule','Props and movement tools provided','Parent presence welcome throughout'],
-    bring: ['Comfortable clothes','Non-slip socks or soft shoes','Water bottle','Preferred sensory items'],
-    reviews: [
-      { name: 'Rosa P. · Mom of a 7-year-old with SPD', date: 'April 2026', stars: 5, text: 'My daughter has never been able to participate in a group class before. Here, she dances. I cannot overstate what this means to our family.' },
-      { name: 'Alex J. · Dad of a 5-year-old with autism', date: 'March 2026', stars: 5, text: 'The visual schedule on the wall made all the difference. My son knew what was coming and stayed regulated the whole class.' },
-      { name: 'Terri B. · Mom of a 9-year-old', date: 'February 2026', stars: 4, text: 'We came for anxiety, not a formal diagnosis — and it\'s been wonderful. Works for any child who needs a low-pressure environment.' }
-    ]
+    bring: ['Comfortable clothes','Non-slip socks or soft shoes','Water bottle','Preferred sensory items']
   },
 
   'gg-camp': {
@@ -279,12 +219,7 @@ const ACTIVITIES_DATA = {
       'Weeks are themed — ecology, team sports, creative arts, and more. 1:8 staff ratio. Extended care available 7:30am–6pm for an additional fee.'
     ],
     included: ['Full-day programming (8am–5pm)','All activity materials','Daily snack','Field trips within Golden Gate Park','Camp t-shirt on first day'],
-    bring: ['Packed lunch','Water bottle','Sunscreen','Athletic shoes','Change of clothes'],
-    reviews: [
-      { name: 'Brenda T. · Mom of a 9-year-old', date: 'Summer 2025', stars: 5, text: 'Best summer camp in the city for the price. Came home exhausted and happy every single day.' },
-      { name: 'Kevin A. · Dad of an 11-year-old', date: 'Summer 2025', stars: 5, text: 'Three summers here. Consistent quality, different themes each year. The Golden Gate Park setting can\'t be beat.' },
-      { name: 'Julia N. · Mom of a 7-year-old', date: 'Summer 2025', stars: 4, text: 'Great value. Well organized drop-off and pick-up. My son\'s only complaint was that it ended.' }
-    ]
+    bring: ['Packed lunch','Water bottle','Sunscreen','Athletic shoes','Change of clothes']
   },
 
   'robotics-camp': {
@@ -301,12 +236,7 @@ const ACTIVITIES_DATA = {
       'Campers complete a real project by Friday and present it to families. No prior coding experience required for beginner tracks; advanced tracks available for kids who\'ve already been coding.'
     ],
     included: ['Week-long project-based curriculum','All tech equipment (laptops, robotics kits)','Daily snack','Friday family showcase','Certificate and digital portfolio'],
-    bring: ['Packed lunch','Water bottle','A notebook','Enthusiasm for tech!'],
-    reviews: [
-      { name: 'Amy Z. · Mom of a 10-year-old', date: 'Summer 2025', stars: 5, text: 'My daughter had never coded. By Friday she\'d built a working Python game. Instructors are passionate and great with kids.' },
-      { name: 'Ryan K. · Dad of a 12-year-old', date: 'Summer 2025', stars: 5, text: 'Expensive but worth every dollar. My son wrote his first Python program. The Friday showcase was genuinely impressive.' },
-      { name: 'Tina L. · Mom of a 9-year-old', date: 'Summer 2025', stars: 4, text: 'Great outcomes. Just make sure to pick the right track for your child\'s level — beginner vs. intermediate.' }
-    ]
+    bring: ['Packed lunch','Water bottle','A notebook','Enthusiasm for tech!']
   },
 
   'art-camp': {
@@ -323,12 +253,7 @@ const ACTIVITIES_DATA = {
       'Morning sessions combine gallery exploration and studio art-making. Taught by SFMOMA\'s award-winning education team.'
     ],
     included: ['Museum access with educator-led gallery tours','Professional-grade art materials','Morning snack','Portfolio folder for the week\'s work','End-of-week mini-exhibition for families'],
-    bring: ['Clothes that can get painty','Packed lunch for after','Sketchbook if you have one'],
-    reviews: [
-      { name: 'Chloe B. · Mom of an 8-year-old', date: 'Summer 2025', stars: 5, text: 'Having a world-class museum as a classroom changes everything. My daughter made paintings I\'d honestly hang in my home.' },
-      { name: 'Nathan P. · Dad of an 11-year-old', date: 'Summer 2025', stars: 5, text: 'This week gave my son vocabulary, technique, and total confidence in calling himself an artist.' },
-      { name: 'Monica S. · Mom of a 6-year-old', date: 'Summer 2025', stars: 4, text: 'Beautifully run. Half day works perfectly for younger kids. We did two weeks this summer.' }
-    ]
+    bring: ['Clothes that can get painty','Packed lunch for after','Sketchbook if you have one']
   },
 
   'sport-camp': {
@@ -345,12 +270,7 @@ const ACTIVITIES_DATA = {
       'Each sport is taught in 90-minute blocks by sport-specific coaches. Afternoons include team games and friendly competitions. Skill-grouped teams ensure every child is appropriately challenged.'
     ],
     included: ['All sports equipment','Six sport rotations across the week','Certified background-checked coaches','Daily snack','Camp t-shirt on day one'],
-    bring: ['Athletic shoes (cleats optional)','Packed lunch','Water bottle','Sunscreen'],
-    reviews: [
-      { name: 'Jason M. · Dad of a 9-year-old', date: 'Summer 2025', stars: 5, text: 'My son didn\'t know which sport he liked. After this camp he\'s decided on basketball. Mission accomplished!' },
-      { name: 'Grace L. · Mom of a 7-year-old', date: 'Summer 2025', stars: 5, text: 'The Presidio is a gorgeous setting and rotating sports kept my daughter fully engaged all week.' },
-      { name: 'Victor N. · Dad of an 11-year-old', date: 'Summer 2025', stars: 4, text: 'Great camp. My son would have preferred more soccer time but the variety is the point for a multi-sport camp.' }
-    ]
+    bring: ['Athletic shoes (cleats optional)','Packed lunch','Water bottle','Sunscreen']
   }
 
 };
