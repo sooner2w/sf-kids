@@ -75,6 +75,7 @@
 <div class="filters-bar">
   <div class="filters-inner">
     <button class="filter-chip active" data-filter="all">All</button>
+    <button class="filter-chip" data-filter="free">🆓 Free</button>
     <button class="filter-chip" data-filter="weekend">📅 This Weekend</button>
     <button class="filter-chip" data-filter="camps">🏕️ Camps</button>
     <button class="filter-chip" data-filter="sports">⚽ Sports</button>
@@ -117,7 +118,7 @@
           </div>
         </a>
 
-        <a href="activity.html?id=nature-walk" class="card" data-cat="outdoors" data-schedule="weekend" data-special="true" data-featured="true">
+        <a href="activity.html?id=nature-walk" class="card" data-cat="outdoors" data-schedule="weekend" data-special="true" data-featured="true" data-free="true">
           <div class="card-img" style="background:linear-gradient(135deg,#D1FAE5,#6EE7B7)">🌿</div>
           <div class="card-img-badge">Ages 4–10</div>
           <div class="card-img-save">❤️</div>
@@ -541,7 +542,7 @@
     const marker = L.marker([a.lat, a.lng], { icon })
       .addTo(map)
       .bindPopup(popupHTML, { maxWidth: 240, minWidth: 220 });
-    allMarkers.push({ marker, cat: a.cat });
+    allMarkers.push({ marker, cat: a.cat, free: data.price === 'Free' });
   });
 
   function enableLocation() {
@@ -574,6 +575,7 @@
     science: 'Science activities in San Francisco',
     swimming:'Swimming lessons in San Francisco',
     special: 'Special Needs Friendly activities in San Francisco',
+    free:    'Free activities in San Francisco',
   };
 
   function applyFilter(filter) {
@@ -588,6 +590,7 @@
       let show = false;
 
       if      (filter === 'all')     show = true;
+      else if (filter === 'free')    show = card.dataset.free === 'true';
       else if (filter === 'weekend') show = schedule === 'weekend';
       else if (filter === 'special') show = special;
       else                           show = cat === filter || cat.includes(filter);
@@ -610,11 +613,12 @@
     );
 
     // Show only relevant map markers
-    allMarkers.forEach(({ marker, cat }) => {
+    allMarkers.forEach(({ marker, cat, free }) => {
       const show =
         filter === 'all' ||
         filter === 'weekend' ||
-        filter === 'special' ||
+        (filter === 'free' && free) ||
+        (filter === 'special') ||
         cat === filter || cat.includes(filter);
       if (show) map.addLayer(marker); else map.removeLayer(marker);
     });
