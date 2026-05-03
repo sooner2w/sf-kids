@@ -174,8 +174,8 @@
 
   <!-- STEP 3 — Confirm & Pay -->
   <div class="booking-form step-panel" id="panel-3">
-    <h2>Confirm & Pay</h2>
-    <p class="subtitle">Review your booking and complete payment.</p>
+    <h2 id="step3-heading">Confirm & Pay</h2>
+    <p class="subtitle" id="step3-subtitle">Review your booking and complete payment.</p>
 
     <!-- Order summary -->
     <div style="background:var(--light);border-radius:var(--radius-sm);padding:16px;margin-bottom:20px;">
@@ -204,25 +204,27 @@
       <input type="tel" class="form-input" id="parent-phone" placeholder="(415) 555-0000">
     </div>
 
-    <div class="form-group">
-      <label class="form-label">Card number</label>
-      <input type="text" class="form-input" id="card-number" placeholder="•••• •••• •••• ••••" maxlength="19">
-    </div>
-
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+    <div id="payment-fields">
       <div class="form-group">
-        <label class="form-label">Expiry</label>
-        <input type="text" class="form-input" id="card-expiry" placeholder="MM / YY" maxlength="7">
+        <label class="form-label">Card number</label>
+        <input type="text" class="form-input" id="card-number" placeholder="•••• •••• •••• ••••" maxlength="19">
       </div>
-      <div class="form-group">
-        <label class="form-label">CVC</label>
-        <input type="text" class="form-input" id="card-cvc" placeholder="•••" maxlength="4">
-      </div>
-    </div>
 
-    <p style="font-size:11.5px;color:var(--muted);margin-bottom:16px;">
-      🔒 Payments are secure and encrypted. You won't be charged until the provider confirms.
-    </p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div class="form-group">
+          <label class="form-label">Expiry</label>
+          <input type="text" class="form-input" id="card-expiry" placeholder="MM / YY" maxlength="7">
+        </div>
+        <div class="form-group">
+          <label class="form-label">CVC</label>
+          <input type="text" class="form-input" id="card-cvc" placeholder="•••" maxlength="4">
+        </div>
+      </div>
+
+      <p style="font-size:11.5px;color:var(--muted);margin-bottom:16px;">
+        🔒 Payments are secure and encrypted. You won't be charged until the provider confirms.
+      </p>
+    </div>
 
     <div id="step3-alert" class="booking-alert error"></div>
 
@@ -334,15 +336,20 @@
     const parentName  = document.getElementById('parent-name').value.trim();
     const parentEmail = document.getElementById('parent-email').value.trim();
     const parentPhone = document.getElementById('parent-phone').value.trim();
-    const cardNumber  = document.getElementById('card-number').value.trim();
-    const cardExpiry  = document.getElementById('card-expiry').value.trim();
-    const cardCvc     = document.getElementById('card-cvc').value.trim();
+    const a = ACTIVITIES_DATA[formState.activityId];
+    const isFree = a && a.price === 'Free';
 
     if (!parentName)  { showAlert('step3-alert', 'Please enter your name.');  return; }
     if (!parentEmail || !parentEmail.includes('@')) { showAlert('step3-alert', 'Please enter a valid email address.'); return; }
-    if (!cardNumber || cardNumber.replace(/\s/g,'').length < 13) { showAlert('step3-alert', 'Please enter a valid card number.'); return; }
-    if (!cardExpiry) { showAlert('step3-alert', 'Please enter your card expiry date.'); return; }
-    if (!cardCvc)    { showAlert('step3-alert', 'Please enter your CVC.');    return; }
+
+    if (!isFree) {
+      const cardNumber = document.getElementById('card-number').value.trim();
+      const cardExpiry = document.getElementById('card-expiry').value.trim();
+      const cardCvc    = document.getElementById('card-cvc').value.trim();
+      if (!cardNumber || cardNumber.replace(/\s/g,'').length < 13) { showAlert('step3-alert', 'Please enter a valid card number.'); return; }
+      if (!cardExpiry) { showAlert('step3-alert', 'Please enter your card expiry date.'); return; }
+      if (!cardCvc)    { showAlert('step3-alert', 'Please enter your CVC.');    return; }
+    }
 
     // Lock the button and show loading
     const btn = document.getElementById('complete-btn');
@@ -471,6 +478,14 @@
 
     // Recalculate when spots selector changes
     document.getElementById('spots-select').addEventListener('change', recalcSummary);
+
+    // Hide payment fields for free activities
+    if (a.price === 'Free') {
+      document.getElementById('payment-fields').style.display = 'none';
+      document.getElementById('step3-heading').textContent  = 'Confirm Booking';
+      document.getElementById('step3-subtitle').textContent = 'Review your details and confirm your free spot.';
+      document.getElementById('complete-btn').textContent   = 'Confirm Booking →';
+    }
   });
 </script>
 </body>
