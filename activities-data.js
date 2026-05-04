@@ -55,18 +55,18 @@ const ACTIVITIES_DATA = {
   'arts-crafts': {
     id: 'arts-crafts', emoji: '🎨', emoji2: '✂️', emoji3: '🖌️',
     gFrom: '#FEF9C3', gTo: '#FDE047',
-    title: 'Mission Arts & Crafts Studio', provider: 'Little Makers Studio',
-    providerEmoji: '🎨', providerDesc: 'Neighborhood art studio for kids · Open studio sessions, mini maker playgroups · Warm, welcoming creative space',
-    cat: 'Arts & Crafts', age: 'Ages 3–8', price: '$25', priceUnit: '/ session',
-    duration: '90 min', neighborhood: 'The Mission, SF', rating: '4.8', reviewCount: 94, bookings: '500+',
+    title: 'Kids Arts & Crafts Studio', provider: 'Maker Studio Kidz',
+    providerEmoji: '🎨', providerDesc: 'SF arts and STEM studio for kids ages 2–14 · Open studio sessions, maker playgroups, and classes · San Francisco',
+    cat: 'Arts & Crafts', age: 'Ages 2–14', price: '$25', priceUnit: '/ session',
+    duration: '90 min', neighborhood: 'San Francisco', rating: '4.8', reviewCount: 0, bookings: '',
     schedule: 'Weekends', featured: false, special: false,
     slots: ['10:00 AM','12:00 PM','2:00 PM'], fullSlot: -1,
     desc: [
-      'A creative sanctuary for little makers in the heart of the Mission! Each session is themed — collage, watercolors, clay, or mixed-media. Our studio is mess-friendly and stress-free.',
-      'No artistic experience needed. Sessions are guided but open-ended — we set the theme, kids take it wherever their imagination goes. Every child takes their creation home.'
+      'A creative space built for little makers. Maker Studio Kidz offers arts, crafts, and STEM sessions for kids ages 2–14. Each session is themed — collage, watercolors, clay, or mixed-media — in a mess-friendly, stress-free environment.',
+      'No artistic experience needed. Sessions are guided but open-ended — instructors set the theme and kids take it wherever their imagination goes. Every child takes their creation home.'
     ],
     included: ['All art supplies and materials','Themed project each session','Smocks provided','Take-home finished artwork','Experienced children\'s art educators'],
-    bring: ['Clothes that can get messy','Enthusiasm to create!']
+    bring: ['Clothes that can get messy','Enthusiasm to create']
   },
 
   'swim-tots': {
@@ -123,8 +123,8 @@ const ACTIVITIES_DATA = {
   'theater': {
     id: 'theater', emoji: '🎭', emoji2: '🎬', emoji3: '🎤',
     gFrom: '#E0F2FE', gTo: '#7DD3FC',
-    title: 'Young Performers Theatre Workshop', provider: 'YPT San Francisco',
-    providerEmoji: '🎭', providerDesc: 'Award-winning youth theater company · Over 30 years developing young performers in SF',
+    title: 'Young Performers Theatre Workshop', provider: 'Young Performers Theatre',
+    providerEmoji: '🎭', providerDesc: 'Award-winning nonprofit youth theater company at Fort Mason Center · Over 30 years developing young performers in SF',
     cat: 'Theater', age: 'Ages 7–13', price: '$30', priceUnit: '/ session',
     duration: '2 hours', neighborhood: 'Pacific Heights, SF', rating: '4.8', reviewCount: 57, bookings: '250+',
     schedule: 'Weekends', featured: false, special: false,
@@ -140,18 +140,18 @@ const ACTIVITIES_DATA = {
   'gym': {
     id: 'gym', emoji: '🤸', emoji2: '🏋️', emoji3: '⭕',
     gFrom: '#D1FAE5', gTo: '#34D399',
-    title: 'Toddler Tumble & Play Gym', provider: 'Gymboree Play & Music',
-    providerEmoji: '🤸', providerDesc: 'Trusted toddler development program · Research-based curriculum · SF Sunset location',
-    cat: 'Movement', age: 'Ages 1–3', price: '$22', priceUnit: '/ session',
-    duration: '60 min', neighborhood: 'Sunset, SF', rating: '4.7', reviewCount: 51, bookings: '180+',
-    schedule: 'Weekends', featured: false, special: false,
-    slots: ['9:00 AM','10:30 AM','12:00 PM'], fullSlot: -1,
+    title: 'Toddler Gym & Movement Play', provider: 'SF Recreation & Park Dept.',
+    providerEmoji: '🤸', providerDesc: 'City-run toddler movement classes at recreation centers across SF · Low-cost and sliding-scale · sfrecpark.org',
+    cat: 'Movement', age: 'Ages 1–5', price: '$10', priceUnit: '/ session',
+    duration: '60 min', neighborhood: 'Multiple locations, SF', rating: '4.7', reviewCount: 0, bookings: '',
+    schedule: 'Weekdays & Weekends (varies by location)', featured: false, special: false,
+    slots: ['Morning sessions','Weekend sessions — check sfrecpark.org for schedule'], fullSlot: -1,
     desc: [
-      'Let those little legs loose! Gymboree\'s toddler gym sessions support gross motor development through climbing, crawling, jumping, rolling, and balancing. Equipment is sized perfectly for ages 1–3 — safe, padded, and endlessly fun.',
-      'Each session follows a loose structure with free play, guided movement, bubbles, and a parachute finale. Parents participate throughout. A great way to burn energy, build body confidence, and meet local families.'
+      'Let those little legs loose. SF Recreation & Park runs toddler movement and gym play classes at recreation centers across the city — low-cost, city-run, and widely available.',
+      'Sessions support gross motor development through climbing, crawling, jumping, rolling, and balancing on age-appropriate equipment. Parent participation encouraged. A great way to burn energy and meet local families.'
     ],
-    included: ['Fully padded age-appropriate gym equipment','Structured and free-play balance','Bubble time and parachute activity','Clean, safe indoor space','Gymboree educator facilitated'],
-    bring: ['Grippy socks (no shoes on gym floor)','Change of clothes','Water bottle']
+    included: ['Age-appropriate padded gym equipment','Structured and free-play balance','Parent participation throughout','Indoor heated space'],
+    bring: ['Grippy socks or bare feet','Change of clothes','Water bottle']
   },
 
   'art-inclusive': {
@@ -373,6 +373,227 @@ const ACTIVITIES_DATA = {
     ],
     included: ['All equipment provided','Foam pit access','Trained circus arts instructors'],
     bring: ['Stretchy clothes','Bare feet or grip socks','Water bottle']
+  },
+
+  'cal-academy': {
+    id: 'cal-academy', emoji: '🦋', emoji2: '🔭', emoji3: '🐠',
+    gFrom: '#F0FDF4', gTo: '#4ADE80',
+    title: 'California Academy of Sciences', provider: 'California Academy of Sciences',
+    providerEmoji: '🔬', providerDesc: 'World-class natural history museum in Golden Gate Park · Living rainforest, planetarium, 4-story aquarium, and NightLife · Golden Gate Park, Inner Sunset',
+    cat: 'Science', age: 'All ages', price: '$39', priceUnit: '/ child',
+    duration: 'Self-paced visit (3–4 hrs)', neighborhood: 'Golden Gate Park, SF', rating: '4.8', reviewCount: 0, bookings: '',
+    schedule: 'Daily 9:30am–5pm (Mon–Sat), 11am–5pm Sun', featured: true, special: false,
+    slots: ['Morning visit','Afternoon visit'], fullSlot: -1,
+    desc: [
+      'One living roof, four floors of wonder. The California Academy of Sciences in Golden Gate Park houses a living rainforest dome, a 4-story Philippine Coral Reef aquarium, and a digital planetarium — all under a wildflower rooftop.',
+      'Built for kids of all ages. The Osher Rainforest lets you walk inside a tropical ecosystem with free-flying butterflies and birds. Touch pools, live penguin habitats, and rotating science exhibits keep repeat visits fresh. EBT cardholders pay just $5.'
+    ],
+    included: ['Rainforest access','Aquarium','Planetarium show (included with admission)','Naturalist-led programs throughout the day'],
+    bring: ['Timed entry tickets (book online to save time)','Layers — the rainforest is warm, the rest of the museum is cool']
+  },
+
+  'aquarium-bay': {
+    id: 'aquarium-bay', emoji: '🦈', emoji2: '🐙', emoji3: '🌊',
+    gFrom: '#DBEAFE', gTo: '#38BDF8',
+    title: 'Aquarium of the Bay', provider: 'Aquarium of the Bay',
+    providerEmoji: '🦈', providerDesc: 'Walk-through shark and bat ray tunnels on Pier 39 · Touch pools with stingrays and sea stars · Live river otters · Fisherman\'s Wharf',
+    cat: 'Science', age: 'All ages', price: '$20', priceUnit: '/ child',
+    duration: 'Self-paced visit (1.5–2 hrs)', neighborhood: 'Fisherman\'s Wharf, SF', rating: '4.3', reviewCount: 0, bookings: '',
+    schedule: 'Daily 10am–8pm', featured: false, special: false,
+    slots: ['Morning visit','Afternoon visit'], fullSlot: -1,
+    desc: [
+      'Walk through the Bay, literally. Aquarium of the Bay\'s walk-through glass tunnels put you face-to-face with sharks, bat rays, and thousands of fish that call San Francisco Bay home.',
+      'Touch pools let kids get hands-on with stingrays, anemones, and sea stars. Four live river otters are a family favorite. The nonprofit supports Bay ecosystem research and runs free K–12 field trip programs for Bay Area schools.'
+    ],
+    included: ['Full aquarium access','Touch pool stations','Otter exhibit'],
+    bring: ['Book online for savings','Camera — the tunnel photos are worth it']
+  },
+
+  'sf-zoo': {
+    id: 'sf-zoo', emoji: '🦁', emoji2: '🦒', emoji3: '🐧',
+    gFrom: '#FEF9C3', gTo: '#FDE047',
+    title: 'San Francisco Zoo & Gardens', provider: 'San Francisco Zoo & Gardens',
+    providerEmoji: '🦁', providerDesc: 'SF\'s beloved zoo on Ocean Beach · Giraffes, penguins, lemurs, and a vintage carousel · Zoo Camp available in summer · Sloat Blvd at 45th Ave',
+    cat: 'Outdoors · Science', age: 'All ages', price: '$20', priceUnit: '/ child',
+    duration: 'Self-paced visit (3–4 hrs)', neighborhood: 'Sunset / Ocean Beach, SF', rating: '4.5', reviewCount: 0, bookings: '',
+    schedule: 'Daily 10am–5pm', featured: true, special: false,
+    slots: ['All-day open visit'], fullSlot: -1,
+    desc: [
+      'A full day at the ocean\'s edge. SF Zoo is home to 2,000+ animals including African giraffes you can feed, a penguin colony, lemur forest, and a restored children\'s playground. The antique carousel has been spinning since 1921.',
+      'Summer Zoo Camp (K–5th grade) is one of SF\'s most sought-after programs, selling out months in advance. Daily zookeeper talks, animal feedings, and conservation programs are included with admission. SF residents get free monthly admission days.'
+    ],
+    included: ['Full zoo access','Daily zookeeper talks','Children\'s playground','Carousel (additional fee)'],
+    bring: ['Layers — Ocean Beach is often foggy','Packed lunch or use the café','Book Zoo Camp early — it sells out']
+  },
+
+  'mission-cliffs': {
+    id: 'mission-cliffs', emoji: '🧗', emoji2: '🪨', emoji3: '💪',
+    gFrom: '#FEF3C7', gTo: '#FB923C',
+    title: 'Youth Climbing at Mission Cliffs', provider: 'Touchstone Climbing — Mission Cliffs',
+    providerEmoji: '🧗', providerDesc: 'SF\'s original climbing gym · 23,000 sq ft · 50-foot lead wall · Youth camps and family climbing · 2295 Harrison St, Mission District',
+    cat: 'Sports · Movement', age: 'Ages 7–12 (camps)', price: '$25', priceUnit: '/ day pass',
+    duration: 'Open gym or structured camp', neighborhood: 'Mission District, SF', rating: '4.6', reviewCount: 0, bookings: '',
+    schedule: 'Year-round — weekday & weekend camps', featured: false, special: false,
+    slots: ['Summer day camp','School break camp','Family open climb'], fullSlot: -1,
+    desc: [
+      'SF\'s most storied climbing gym. Mission Cliffs has been the go-to for SF climbers since 1994 — 23,000 sq ft of routes from beginner to advanced, including a 50-foot lead wall and 2,000 sq ft bouldering area.',
+      'Youth camps run all summer and during school breaks for ages 7–12. No experience needed — instructors start kids from scratch. Touchstone\'s Access to Climbing (ATC) program provides free or subsidized access for families on government assistance.'
+    ],
+    included: ['Gear rental (harness + shoes)','Belayer supervision','Youth camp: all instruction and snacks'],
+    bring: ['Athletic clothes','Water bottle','Socks']
+  },
+
+  'sailing-ti': {
+    id: 'sailing-ti', emoji: '⛵', emoji2: '🌊', emoji3: '🏆',
+    gFrom: '#DBEAFE', gTo: '#60A5FA',
+    title: 'Youth Sailing — SF Bay', provider: 'Treasure Island Sailing Center',
+    providerEmoji: '⛵', providerDesc: 'Nonprofit youth sailing on San Francisco Bay · Sliding-scale tuition (free for low-income families) · Ages 6–17 · Treasure Island',
+    cat: 'Sports · Outdoors', age: 'Ages 6–17', price: 'Free–$', priceUnit: '(sliding scale)',
+    duration: 'Multi-week sessions', neighborhood: 'Treasure Island / SF Bay', rating: '4.8', reviewCount: 0, bookings: '',
+    schedule: 'Spring & Summer seasons', featured: false, special: false,
+    slots: ['Spring session (April–May)','Summer session (June–August)'], fullSlot: -1,
+    desc: [
+      'Learn to sail on one of the world\'s great sailing bays. Treasure Island Sailing Center (TISC) is a nonprofit that teaches kids 6–17 to sail with sweeping views of the Bay Bridge and SF skyline.',
+      'Sliding-scale pricing means free access for households earning under $40K/year and 50% off under $70K. The curriculum blends seamanship with Bay ecology and STEM. Teen tracks lead to racing and junior instructor roles. A truly unique SF experience.'
+    ],
+    included: ['All sailing instruction','Sailing gear and lifejackets','Bay ecology curriculum','Teen leadership track'],
+    bring: ['Non-marking shoes (required on boats)','Layers','Sunscreen']
+  },
+
+  'surf-camp': {
+    id: 'surf-camp', emoji: '🏄', emoji2: '🌊', emoji3: '☀️',
+    gFrom: '#ECFEFF', gTo: '#67E8F9',
+    title: 'Kids Surf Camp', provider: 'Adventure Out',
+    providerEmoji: '🏄', providerDesc: 'California\'s premiere beginner surf school · 4:1 student-to-instructor ratio · All gear included · Linda Mar Beach, Pacifica (15 min from SF)',
+    cat: 'Sports · Outdoors', age: 'Ages 12 & under', price: 'Varies', priceUnit: '(all gear included)',
+    duration: '2.5 hrs / day · 3-day camp', neighborhood: 'Pacifica (near SF)', rating: '4.9', reviewCount: 0, bookings: '',
+    schedule: 'Summer (June–August)', featured: false, special: false,
+    slots: ['3-day Billabong Kids Camp','Private lessons available year-round'], fullSlot: -1,
+    desc: [
+      'Surf the Bay Area\'s best beginner beach, just 15 minutes from SF. Adventure Out runs kids surf camp at Linda Mar Beach in Pacifica — the safest, most consistent beginner surf break in the area.',
+      'Rated 4.9/5 stars. Maximum 4:1 student-to-instructor ratio. All equipment (board + wetsuit) included. Lifeguard-certified coaches. Kids go from first-timers to riding green waves in 3 days. Summer camps sell out fast.'
+    ],
+    included: ['Surfboard and wetsuit rental','Certified surf instructors','Beach safety briefing'],
+    bring: ['Swimsuit to wear under wetsuit','Towel','Sunscreen','Snack']
+  },
+
+  'bats-improv': {
+    id: 'bats-improv', emoji: '🎭', emoji2: '😂', emoji3: '🎤',
+    gFrom: '#FDF4FF', gTo: '#C084FC',
+    title: 'Youth Improv Comedy Classes', provider: 'BATS Improv',
+    providerEmoji: '🎭', providerDesc: 'Bay Area Theater Sports — SF\'s premier improv theater for 40+ years · Youth programs K–Grade 12 · Fort Mason Center, Marina District',
+    cat: 'Theater · Arts', age: 'Ages K–Grade 12', price: '$239', priceUnit: '/ session (multi-week)',
+    duration: 'Multi-week session · Showcase performance', neighborhood: 'Marina / Fort Mason, SF', rating: '4.6', reviewCount: 0, bookings: '',
+    schedule: 'Fall, Spring & Summer sessions', featured: false, special: false,
+    slots: ['Kids (K–Grade 2)','Youth (Grades 3–8)','Teens (Grades 9–12)'], fullSlot: -1,
+    desc: [
+      'Yes, and — kids can do this. BATS Improv has been SF\'s home for improv comedy since 1986. Their youth classes build confidence, listening, and public speaking through games, scenes, and play.',
+      'Each multi-week session ends in a showcase performance at Fort Mason. Three age tracks — kids (K–2), youth (3–8), and teens (9–12). Rated 4.5+ on Yelp with 200+ reviews. Widely recommended on SF parent forums for helping shy kids come out of their shells.'
+    ],
+    included: ['All instruction','Session showcase performance','Fort Mason venue access'],
+    bring: ['Comfortable clothes to move in','Open mind','Willingness to say "yes, and"']
+  },
+
+  'dance-mission': {
+    id: 'dance-mission', emoji: '💃', emoji2: '🥁', emoji3: '🌍',
+    gFrom: '#FFF1F2', gTo: '#FDA4AF',
+    title: 'Youth Dance — Hip Hop, Salsa & More', provider: 'Dance Mission Theater',
+    providerEmoji: '💃', providerDesc: 'SF\'s multicultural youth dance program · 50+ weekly classes · Hip hop, salsa, ballet, Bhangra, Taiko, samba · The Mission',
+    cat: 'Movement · Arts', age: 'Ages 2–18', price: '$310', priceUnit: '/ semester',
+    duration: 'Weekly class (semester-based)', neighborhood: 'The Mission, SF', rating: '4.7', reviewCount: 0, bookings: '',
+    schedule: 'Year-round (Fall, Spring, Summer)', featured: false, special: false,
+    slots: ['Fall semester','Spring semester','Summer intensive'], fullSlot: -1,
+    desc: [
+      '50+ classes, 10+ dance styles. Dance Mission Theater is SF\'s most beloved multicultural youth dance program, serving 400+ kids with classes in hip hop, salsa, ballet, Taiko drumming, Bhangra, samba, Afro-Haitian, vogue, and more.',
+      'Located at 3316 24th St in the Mission. Non-competitive, socially conscious environment with scholarship and financial aid available. Bay Area Parent "Best of" award winner. Students perform in real productions throughout the year.'
+    ],
+    included: ['Weekly class instruction','Access to dance studios','Performance opportunities throughout the year'],
+    bring: ['Dance shoes or bare feet depending on style','Water bottle','Comfortable clothing']
+  },
+
+  'odc-dance': {
+    id: 'odc-dance', emoji: '🩰', emoji2: '🎶', emoji3: '⭐',
+    gFrom: '#FEF3C7', gTo: '#FCA5A5',
+    title: 'ODC Youth & Teen Dance School', provider: 'ODC Dance',
+    providerEmoji: '🩰', providerDesc: 'Gold winner Bay Area Parent 2025 Best of the Best · Contemporary, hip hop, ballet, tap, choreography · 351 Shotwell St, Mission District',
+    cat: 'Movement · Arts', age: 'Ages 2–18', price: '$200', priceUnit: '/ class / semester',
+    duration: 'Weekly class (semester-based)', neighborhood: 'The Mission, SF', rating: '4.8', reviewCount: 0, bookings: '',
+    schedule: 'Year-round (Fall, Spring, Summer)', featured: false, special: false,
+    slots: ['Young Creative (ages 2–7)','Youth (ages 8–13)','Teen (ages 14–18)','Placement class available'], fullSlot: -1,
+    desc: [
+      'Gold-winning dance education, straight from a nationally recognized company. ODC is one of America\'s leading contemporary dance companies — and their school at 351 Shotwell St teaches kids 2–18 in the same building where professional choreographers create work.',
+      'Body-positive, performance-focused curriculum spans contemporary, hip hop, ballet, tap, and choreography. Students perform in real productions. Gold winner of Bay Area Parent 2025 "Best of the Best" reader\'s poll. A $25 placement class helps find the right fit.'
+    ],
+    included: ['Weekly class instruction','Studio access','Performance in seasonal showcases'],
+    bring: ['Dance shoes or ballet slippers (style-dependent)','Comfortable active clothing','Water bottle']
+  },
+
+  'cooking-class': {
+    id: 'cooking-class', emoji: '👨‍🍳', emoji2: '🍕', emoji3: '🥧',
+    gFrom: '#FFF7ED', gTo: '#FDBA74',
+    title: 'Kids Cooking Classes & Camp', provider: 'Culinary Artistas',
+    providerEmoji: '👨‍🍳', providerDesc: 'Year-round kids cooking classes and weekday camps · Edible Schoolyard Project affiliated · Ghirardelli Square, Fisherman\'s Wharf',
+    cat: 'Arts · Science', age: 'Ages 4–12', price: 'Varies', priceUnit: '(contact for rates)',
+    duration: 'Full-day camp (9am–3pm) / Monthly classes', neighborhood: 'Fisherman\'s Wharf, SF', rating: '4.7', reviewCount: 0, bookings: '',
+    schedule: 'Year-round camps + monthly classes', featured: false, special: false,
+    slots: ['Weekday cooking camp','Monthly "Plate Date" family class','School break camps'], fullSlot: -1,
+    desc: [
+      'Cooking as a passport to the world. Culinary Artistas runs kids cooking camps and classes at Ghirardelli Square, where kids 4–12 explore global cuisines, knife skills, and kitchen science.',
+      'Affiliated with the Edible Schoolyard Project. Weekday full-day camps run 9am–3pm. Monthly "Plate Date" sessions are parent-and-child drop-in classes. A top pick for school-break activities and birthday parties — right on the Waterfront.'
+    ],
+    included: ['All ingredients and equipment','Recipe booklet to take home','Apron'],
+    bring: ['Appetite','Hair tie if long hair']
+  },
+
+  'pottery-kids': {
+    id: 'pottery-kids', emoji: '🏺', emoji2: '🎨', emoji3: '✋',
+    gFrom: '#FEF9C3', gTo: '#D97706',
+    title: 'Kids Pottery & Ceramics', provider: 'Pottery Studio SF',
+    providerEmoji: '🏺', providerDesc: 'Drop-in friendly kids pottery — no enrollment required · Wheel throwing and hand-building · Kids from age 3 welcome · Downtown SF / SoMa',
+    cat: 'Arts', age: 'Ages 3+', price: '$65', priceUnit: '/ session',
+    duration: '90 min class', neighborhood: 'SoMa / Downtown, SF', rating: '4.6', reviewCount: 0, bookings: '',
+    schedule: 'Regular schedule — check website', featured: false, special: false,
+    slots: ['Kids drop-in class','Parent & child class','Weekend sessions'], fullSlot: -1,
+    desc: [
+      'Hands in clay, no commitment required. Pottery Studio SF is one of the only SF studios offering drop-in kids pottery with no enrollment required — making it easy to try once before committing to a full semester.',
+      'Kids from age 3 are welcome (with a parent for the youngest). Classes cover wheel throwing and hand-building. Listed on Secret San Francisco\'s "10 Excellent Pottery Studios." A popular choice for birthday party bookings.'
+    ],
+    included: ['Clay and glazing materials','Kiln firing (pieces ready in 2 weeks)','All tools and equipment'],
+    bring: ['Clothes you don\'t mind getting muddy','Enthusiasm for getting messy']
+  },
+
+  'camp-galileo': {
+    id: 'camp-galileo', emoji: '🚀', emoji2: '🔬', emoji3: '🎨',
+    gFrom: '#EFF6FF', gTo: '#93C5FD',
+    title: 'Camp Galileo — STEAM Summer Camp', provider: 'Galileo Learning',
+    providerEmoji: '🚀', providerDesc: 'Stanford d.school-inspired STEAM camp · 20+ years · 24 Bay Area locations · K–Grade 10 · Hayes Valley & Noe Valley sites',
+    cat: 'Camps · Science', age: 'Ages K–Grade 10', price: '$499', priceUnit: '/ week',
+    duration: 'Full day (8:30am–3pm) · Multi-week', neighborhood: 'Hayes Valley / Noe Valley, SF', rating: '4.8', reviewCount: 0, bookings: '',
+    schedule: 'Summer (June–August)', featured: false, special: false,
+    slots: ['Week 1 – June 16','Week 2 – June 23','Week 3 – June 30','Week 4 – July 7','Week 5 – July 14'], fullSlot: -1,
+    desc: [
+      'Innovation camp built on Stanford design thinking. Camp Galileo has run STEAM-based summer camps for 20+ years, inspiring 30,000+ Bay Area kids each summer. The curriculum uses the Stanford d.school design process — kids learn to prototype, test, and iterate.',
+      'SF sites in Hayes Valley and Noe Valley. Weekly themes rotate through engineering, art, science, and outdoor exploration. Multi-week discounts and early bird pricing available. One of the most recognized camp brands in Bay Area parent circles.'
+    ],
+    included: ['All project materials','Themed weekly curriculum','After-care available (additional fee)','Camp t-shirt'],
+    bring: ['Packed lunch and snacks','Water bottle','Sunscreen','Energy']
+  },
+
+  'coder-school': {
+    id: 'coder-school', emoji: '💻', emoji2: '🤖', emoji3: '🎮',
+    gFrom: '#F0FDF4', gTo: '#4ADE80',
+    title: 'Kids Coding & AI Classes', provider: 'theCoderSchool SF',
+    providerEmoji: '💻', providerDesc: '2:1 coach-to-student ratio · Python, Scratch, game dev, AI · Year-round after-school + summer camps · 331 W Portal Ave, West Portal',
+    cat: 'Science · Technology', age: 'Elementary–High School', price: '$699', priceUnit: '/ week (camp)',
+    duration: 'Full-day summer camp / After-school year-round', neighborhood: 'West Portal, SF', rating: '4.8', reviewCount: 0, bookings: '',
+    schedule: 'Year-round (after-school + summer camps)', featured: false, special: false,
+    slots: ['Summer coding camp (June–August)','Fall after-school program','Spring after-school program'], fullSlot: -1,
+    desc: [
+      'Learn to code with an almost 1-on-1 ratio. theCoderSchool keeps classes to a maximum 2:1 student-to-coach ratio — far more personalized than large-group coding camps. Teaches Python, Scratch, JavaScript, game development, and increasingly AI.',
+      'Located at 331 W Portal Ave in the family-dense West Portal neighborhood. Year-round after-school program (not just summer), which means kids build real coding skills over months, not just a week. Strong parent reviews for patient, encouraging coaches.'
+    ],
+    included: ['All software and accounts set up','Project-based curriculum','Code portfolio by end of program'],
+    bring: ['Laptop (or use studio computers)','Curiosity about how things work']
   }
 
 };
@@ -382,12 +603,12 @@ const ACTIVITY_CAPACITY = {
   'soccer':         { capacity: 16, organizerEmail: 'info@soccerstars.com',             providerUrl: 'https://www.soccerstars.com/ca/sanfrancisco/',         bookingUrl: 'https://www.soccerstars.com/ca/sanfrancisco/camps-and-classes/' },
   'nature-walk':    { capacity: 24, organizerEmail: 'programs@sfrecpark.org',           providerUrl: 'https://sfrecpark.org',                                bookingUrl: 'https://sfrecpark.org/1729/Early-Childhood-Programs' },
   'science-lab':    { capacity: 8,  organizerEmail: 'education@exploratorium.edu',      providerUrl: 'https://www.exploratorium.edu',                        bookingUrl: 'https://www.exploratorium.edu/tickets' },
-  'arts-crafts':    { capacity: 12, organizerEmail: 'hello@little-makers-studio.com',   providerUrl: 'https://www.little-makers-studio.com',                 bookingUrl: 'https://www.little-makers-studio.com/sessions' },
+  'arts-crafts':    { capacity: 12, organizerEmail: 'hello@makerstudiokidz.com',        providerUrl: 'https://www.makerstudiokidz.com',                      bookingUrl: 'https://www.makerstudiokidz.com/classes' },
   'swim-tots':      { capacity: 6,  organizerEmail: 'aquatics@sfrecpark.org',           providerUrl: 'https://sfrecpark.org/aquatics',                       bookingUrl: 'https://sfrecpark.org/aquatics' },
   'music-babies':   { capacity: 10, organizerEmail: 'info@musictogethersf.com',         providerUrl: 'https://www.musictogethersf.com',                      bookingUrl: 'https://www.musictogethersf.com/classes.aspx' },
   'sensory-play':   { capacity: 8,  organizerEmail: 'earlychildhood@sfrecpark.org',     providerUrl: 'https://sfrecpark.org/1729/Early-Childhood-Programs',  bookingUrl: 'https://sfrecpark.org/1729/Early-Childhood-Programs' },
-  'theater':        { capacity: 14, organizerEmail: 'info@ypt.org',                     providerUrl: 'https://www.ypt.org',                                  bookingUrl: 'https://www.ypt.org/classes' },
-  'gym':            { capacity: 12, organizerEmail: 'sf@gymboree.com',                  providerUrl: 'https://www.gymboree.com',                             bookingUrl: 'https://www.gymboree.com/find-a-class' },
+  'theater':        { capacity: 14, organizerEmail: 'info@ypt.org',                     providerUrl: 'https://www.ypt.org',                                  bookingUrl: 'https://www.ypt.org/classes/' },
+  'gym':            { capacity: 20, organizerEmail: 'registration@sfrecpark.org',       providerUrl: 'https://sfrecpark.org',                                bookingUrl: 'https://sfrecpark.org/programs/early-childhood/' },
   'art-inclusive':  { capacity: 8,  organizerEmail: 'education@creativityexplored.org', providerUrl: 'https://www.creativityexplored.org',                   bookingUrl: 'https://www.creativityexplored.org' },
   'adaptive-swim':  { capacity: 4,  organizerEmail: 'info@prrcsf.org',                  providerUrl: 'https://www.prrcsf.org/therapeutic-swim',              bookingUrl: 'https://www.prrcsf.org/swim-lessons' },
   'sensory-dance':  { capacity: 10, organizerEmail: 'education@sfballet.org',           providerUrl: 'https://www.sfballet.org/community/sensory-friendly-adaptive-programs/', bookingUrl: 'https://www.sfballet.org/community/sensory-friendly-adaptive-programs/' },
@@ -400,7 +621,20 @@ const ACTIVITY_CAPACITY = {
   'yb-hockey':        { capacity: 25,  organizerEmail: 'info@sfsabercats.org',          providerUrl: 'https://www.sfsabercats.org',                              bookingUrl: 'https://www.sfsabercats.org/program/' },
   'creativity-museum':{ capacity: 150, organizerEmail: 'info@creativity.org',           providerUrl: 'https://www.creativity.org',                              bookingUrl: 'https://www.creativity.org/plan-your-visit/' },
   'randall-museum':   { capacity: 200, organizerEmail: 'info@randallmuseum.org',        providerUrl: 'https://www.randallmuseum.org',                            bookingUrl: 'https://www.randallmuseum.org/drop-in-science/' },
-  'acrosports':       { capacity: 20,  organizerEmail: 'info@acrosports.org',           providerUrl: 'https://www.acrosports.org',                              bookingUrl: 'https://www.acrosports.org/classes/' }
+  'acrosports':        { capacity: 20,  organizerEmail: 'info@acrosports.org',          providerUrl: 'https://www.acrosports.org',                              bookingUrl: 'https://www.acrosports.org/classes/' },
+  'cal-academy':       { capacity: 500, organizerEmail: 'tickets@calacademy.org',       providerUrl: 'https://www.calacademy.org',                              bookingUrl: 'https://www.calacademy.org/buy-tickets' },
+  'aquarium-bay':      { capacity: 300, organizerEmail: 'info@aquariumofthebay.org',    providerUrl: 'https://www.aquariumofthebay.org',                        bookingUrl: 'https://www.aquariumofthebay.org/tickets/' },
+  'sf-zoo':            { capacity: 1000,organizerEmail: 'tickets@sfzoo.org',            providerUrl: 'https://www.sfzoo.org',                                   bookingUrl: 'https://www.sfzoo.org/zoo-camp/' },
+  'mission-cliffs':    { capacity: 30,  organizerEmail: 'missioncliffs@touchstoneclimbing.com', providerUrl: 'https://touchstoneclimbing.com/mission-cliffs/', bookingUrl: 'https://touchstoneclimbing.com/mission-cliffs/youth-camps/' },
+  'sailing-ti':        { capacity: 16,  organizerEmail: 'youth@tisailing.org',          providerUrl: 'https://www.tisailing.org',                               bookingUrl: 'https://www.tisailing.org/youth-programs/' },
+  'surf-camp':         { capacity: 12,  organizerEmail: 'info@adventureout.com',        providerUrl: 'https://www.adventureout.com/surf/',                      bookingUrl: 'https://www.adventureout.com/surf/kids-billabong-3-day-surf-camp/' },
+  'bats-improv':       { capacity: 15,  organizerEmail: 'school@improv.org',            providerUrl: 'https://www.improv.org',                                  bookingUrl: 'https://www.improv.org/school/' },
+  'dance-mission':     { capacity: 20,  organizerEmail: 'info@dancemissiontheater.org', providerUrl: 'https://dancemissiontheater.org',                         bookingUrl: 'https://dancemissiontheater.org/youth-program/' },
+  'odc-dance':         { capacity: 18,  organizerEmail: 'school@odc.dance',             providerUrl: 'https://odc.dance',                                       bookingUrl: 'https://odc.dance/youth-and-teen/' },
+  'cooking-class':     { capacity: 12,  organizerEmail: 'hello@culinaryartistas.com',   providerUrl: 'https://www.culinaryartistas.com',                        bookingUrl: 'https://www.culinaryartistas.com/kids/camps' },
+  'pottery-kids':      { capacity: 10,  organizerEmail: 'info@pottery-sf.com',          providerUrl: 'https://pottery-sf.com',                                  bookingUrl: 'https://pottery-sf.com/kids-pottery-classes-sf/' },
+  'camp-galileo':      { capacity: 80,  organizerEmail: 'info@galileo-camps.com',       providerUrl: 'https://galileo-camps.com',                               bookingUrl: 'https://galileo-camps.com/our-camps/bay-area-locations/' },
+  'coder-school':      { capacity: 8,   organizerEmail: 'sfwestportal@thecoderschool.com', providerUrl: 'https://www.thecoderschool.com/locations/sf-westportal/', bookingUrl: 'https://www.thecoderschool.com/locations/sf-westportal/camps/' }
 };
 
 // Merge capacity + organizer into ACTIVITIES_DATA at load time
