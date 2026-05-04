@@ -95,6 +95,8 @@
     <div>
       <p class="results-count" id="results-count"><strong>47 activities</strong> found in San Francisco</p>
 
+      <div id="pagination-top" style="display:flex;justify-content:center;align-items:center;gap:8px;padding:0 0 16px;flex-wrap:wrap;"></div>
+
       <div class="cards-grid" id="cards-grid" style="grid-template-columns: repeat(auto-fill, minmax(260px,1fr));">
 
         <a href="activity.html?id=soccer" class="card" data-cat="sports" data-schedule="weekend" data-featured="true">
@@ -938,14 +940,15 @@
     filteredCards.slice(start, end).forEach(c => c.style.display = '');
 
     renderPagination();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.getElementById('results-count').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   function renderPagination() {
-    const container  = document.getElementById('pagination');
     const totalPages = Math.max(1, Math.ceil(filteredCards.length / CARDS_PER_PAGE));
+    const bottom = document.getElementById('pagination');
+    const top    = document.getElementById('pagination-top');
 
-    if (totalPages <= 1) { container.innerHTML = ''; return; }
+    if (totalPages <= 1) { bottom.innerHTML = ''; top.innerHTML = ''; return; }
 
     const btnStyle = (active) =>
       `width:36px;height:36px;border-radius:8px;border:1.5px solid ${active ? 'var(--coral)' : 'var(--rule)'};` +
@@ -968,7 +971,8 @@
     html += `<button onclick="showPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}
       style="${btnStyle(false)}opacity:${currentPage === totalPages ? '0.35' : '1'}">→</button>`;
 
-    container.innerHTML = html;
+    bottom.innerHTML = html;
+    top.innerHTML    = html;
   }
 
   // ── Filter logic ───────────────────────────────────────────────
