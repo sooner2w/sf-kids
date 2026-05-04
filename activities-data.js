@@ -275,24 +275,24 @@ const ACTIVITIES_DATA = {
 
 };
 
-// Capacity limits, organizer contacts, and provider URLs
+// Capacity limits, organizer contacts, provider URLs, and direct booking URLs
 const ACTIVITY_CAPACITY = {
-  'soccer':         { capacity: 16, organizerEmail: 'info@soccerstars.com',               providerUrl: 'https://www.soccerstars.com/ca/sanfrancisco/' },
-  'nature-walk':    { capacity: 24, organizerEmail: 'programs@sfrecpark.org',             providerUrl: 'https://sfrecpark.org' },
-  'science-lab':    { capacity: 8,  organizerEmail: 'education@exploratorium.edu',        providerUrl: 'https://www.exploratorium.edu' },
-  'arts-crafts':    { capacity: 12, organizerEmail: 'hello@little-makers-studio.com',     providerUrl: 'https://www.little-makers-studio.com' },
-  'swim-tots':      { capacity: 6,  organizerEmail: 'aquatics@sfrecpark.org',             providerUrl: 'https://sfrecpark.org/aquatics' },
-  'music-babies':   { capacity: 10, organizerEmail: 'info@musictogethersf.com',           providerUrl: 'https://www.musictogethersf.com' },
-  'sensory-play':   { capacity: 8,  organizerEmail: 'earlychildhood@sfrecpark.org',       providerUrl: 'https://sfrecpark.org/1729/Early-Childhood-Programs' },
-  'theater':        { capacity: 14, organizerEmail: 'info@ypt.org',                       providerUrl: 'https://www.ypt.org' },
-  'gym':            { capacity: 12, organizerEmail: 'sf@gymboree.com',                    providerUrl: 'https://www.gymboree.com' },
-  'art-inclusive':  { capacity: 8,  organizerEmail: 'education@creativityexplored.org',   providerUrl: 'https://www.creativityexplored.org' },
-  'adaptive-swim':  { capacity: 4,  organizerEmail: 'info@prrcsf.org',                    providerUrl: 'https://www.prrcsf.org/therapeutic-swim' },
-  'sensory-dance':  { capacity: 10, organizerEmail: 'education@sfballet.org',             providerUrl: 'https://www.sfballet.org/community/sensory-friendly-adaptive-programs/' },
-  'gg-camp':        { capacity: 20, organizerEmail: 'camps@sfrecpark.org',                providerUrl: 'https://sfrecpark.org' },
-  'robotics-camp':  { capacity: 8,  organizerEmail: 'sf@idtech.com',                      providerUrl: 'https://www.idtech.com' },
-  'art-camp':       { capacity: 15, organizerEmail: 'education@sfmoma.org',               providerUrl: 'https://www.sfmoma.org/learn' },
-  'sport-camp':     { capacity: 20, organizerEmail: 'info@soccerstars.com',               providerUrl: 'https://www.soccerstars.com/ca/sanfrancisco/' }
+  'soccer':         { capacity: 16, organizerEmail: 'info@soccerstars.com',             providerUrl: 'https://www.soccerstars.com/ca/sanfrancisco/',         bookingUrl: 'https://www.soccerstars.com/ca/sanfrancisco/camps-and-classes/' },
+  'nature-walk':    { capacity: 24, organizerEmail: 'programs@sfrecpark.org',           providerUrl: 'https://sfrecpark.org',                                bookingUrl: 'https://sfrecpark.org/1729/Early-Childhood-Programs' },
+  'science-lab':    { capacity: 8,  organizerEmail: 'education@exploratorium.edu',      providerUrl: 'https://www.exploratorium.edu',                        bookingUrl: 'https://www.exploratorium.edu/tickets' },
+  'arts-crafts':    { capacity: 12, organizerEmail: 'hello@little-makers-studio.com',   providerUrl: 'https://www.little-makers-studio.com',                 bookingUrl: 'https://www.little-makers-studio.com/sessions' },
+  'swim-tots':      { capacity: 6,  organizerEmail: 'aquatics@sfrecpark.org',           providerUrl: 'https://sfrecpark.org/aquatics',                       bookingUrl: 'https://sfrecpark.org/aquatics' },
+  'music-babies':   { capacity: 10, organizerEmail: 'info@musictogethersf.com',         providerUrl: 'https://www.musictogethersf.com',                      bookingUrl: 'https://www.musictogethersf.com/classes.aspx' },
+  'sensory-play':   { capacity: 8,  organizerEmail: 'earlychildhood@sfrecpark.org',     providerUrl: 'https://sfrecpark.org/1729/Early-Childhood-Programs',  bookingUrl: 'https://sfrecpark.org/1729/Early-Childhood-Programs' },
+  'theater':        { capacity: 14, organizerEmail: 'info@ypt.org',                     providerUrl: 'https://www.ypt.org',                                  bookingUrl: 'https://www.ypt.org/classes' },
+  'gym':            { capacity: 12, organizerEmail: 'sf@gymboree.com',                  providerUrl: 'https://www.gymboree.com',                             bookingUrl: 'https://www.gymboree.com/find-a-class' },
+  'art-inclusive':  { capacity: 8,  organizerEmail: 'education@creativityexplored.org', providerUrl: 'https://www.creativityexplored.org',                   bookingUrl: 'https://www.creativityexplored.org' },
+  'adaptive-swim':  { capacity: 4,  organizerEmail: 'info@prrcsf.org',                  providerUrl: 'https://www.prrcsf.org/therapeutic-swim',              bookingUrl: 'https://www.prrcsf.org/swim-lessons' },
+  'sensory-dance':  { capacity: 10, organizerEmail: 'education@sfballet.org',           providerUrl: 'https://www.sfballet.org/community/sensory-friendly-adaptive-programs/', bookingUrl: 'https://www.sfballet.org/community/sensory-friendly-adaptive-programs/' },
+  'gg-camp':        { capacity: 20, organizerEmail: 'camps@sfrecpark.org',              providerUrl: 'https://sfrecpark.org',                                bookingUrl: 'https://sfrecpark.org/camps' },
+  'robotics-camp':  { capacity: 8,  organizerEmail: 'sf@idtech.com',                    providerUrl: 'https://www.idtech.com',                               bookingUrl: 'https://www.idtech.com/locations/california-summer-camps/san-francisco-state-university' },
+  'art-camp':       { capacity: 15, organizerEmail: 'education@sfmoma.org',             providerUrl: 'https://www.sfmoma.org/learn',                         bookingUrl: 'https://www.sfmoma.org/for-families/' },
+  'sport-camp':     { capacity: 20, organizerEmail: 'info@soccerstars.com',             providerUrl: 'https://www.soccerstars.com/ca/sanfrancisco/',         bookingUrl: 'https://www.soccerstars.com/ca/sanfrancisco/camps-and-classes/' }
 };
 
 // Merge capacity + organizer into ACTIVITIES_DATA at load time

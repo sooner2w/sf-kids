@@ -74,9 +74,9 @@
 
       <!-- Trust signals -->
       <div style="margin-top:16px;display:flex;flex-direction:column;gap:8px;">
-        <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);"><span style="color:var(--success);">✓</span> Instant booking confirmation</div>
-        <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);"><span style="color:var(--success);">✓</span> Background-checked providers</div>
-        <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);"><span style="color:var(--success);">✓</span> Free cancellation (24hr notice)</div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);"><span style="color:var(--success);">✓</span> Verified SF provider</div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);"><span style="color:var(--success);">✓</span> Real spots, real availability</div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);"><span style="color:var(--success);">✓</span> Pay securely on provider's site</div>
         <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);"><span style="color:var(--success);">✓</span> Secure payments via SF-Kids</div>
       </div>
     </div>
@@ -217,45 +217,33 @@
         </div>
       </div>`;
 
-    // Booking sidebar
-    const priceNum = parseFloat(a.price.replace('$', '')) || 0;
-    const slotsHTML = a.slots.map((s, i) => {
-      const full = i === a.fullSlot;
-      return `<div class="time-slot${i === 0 && !full ? ' selected' : ''}"
-        onclick="selectSlot(this)"
-        data-full="${full}"
-        style="${full ? 'opacity:0.4;cursor:not-allowed;' : ''}">${s}${full ? '<br><span style="font-size:10px;font-weight:400;">Full</span>' : ''}</div>`;
-    }).join('');
-
+    // Booking sidebar — redirect directly to provider
     const priceDisplay = a.price === 'Free'
       ? '<div class="booking-card-price">Free</div>'
       : `<div class="booking-card-price">${a.price} <span>${a.priceUnit}</span></div>`;
 
     document.getElementById('booking-card').innerHTML = `
       ${priceDisplay}
-      <div class="form-group">
-        <label class="form-label">Select a date</label>
-        <input type="date" class="form-input" value="2026-05-03">
+      <div style="font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.5;">
+        ${a.schedule} · ${a.duration}
       </div>
-      <div class="form-group">
-        <label class="form-label">Available times</label>
-        <div class="time-slots">${slotsHTML}</div>
+      <div style="background:var(--light);border-radius:var(--radius);padding:14px 16px;margin-bottom:20px;font-size:13px;color:var(--mid);line-height:1.6;">
+        <strong style="color:var(--navy);display:block;margin-bottom:4px;">📍 ${a.neighborhood}</strong>
+        Spots and scheduling managed directly by ${a.provider}. Click below to see availability and book your spot.
       </div>
-      <div class="form-group">
-        <label class="form-label">Number of children</label>
-        <select class="form-select" id="spots-select" onchange="updateSidebarTotal()">
-          <option>1 child</option>
-          <option>2 children</option>
-          <option>3 children</option>
-        </select>
-      </div>
-      <hr class="booking-divider">
-      <div class="booking-total"><span id="sidebar-line1">${a.price === 'Free' ? 'Free' : a.price + ' × 1 session'}</span><span id="sidebar-subtotal">${a.price === 'Free' ? '' : a.price + '.00'}</span></div>
-      <div class="booking-total"><span>SF-Kids fee</span><span id="sidebar-fee">${a.price === 'Free' ? '$0.00' : '$' + (priceNum * 0.03).toFixed(2)}</span></div>
-      <div class="booking-total total"><span>Total</span><span id="sidebar-total">${a.price === 'Free' ? 'Free' : '$' + (priceNum * 1.03).toFixed(2)}</span></div>
-      <a href="booking.html?id=${a.id}" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;margin-top:16px;" id="book-now-btn">Book Now →</a>
-      <p style="font-size:11.5px;color:var(--muted);text-align:center;margin-top:10px;">Free cancellation up to 24 hours before</p>
-      <div id="sidebar-avail-banner" style="display:none;font-size:12px;font-weight:600;text-align:center;margin-top:8px;padding:8px 12px;border-radius:6px;"></div>`;
+      <a href="${a.bookingUrl}" target="_blank" rel="noopener noreferrer"
+         class="btn btn-primary btn-lg"
+         style="width:100%;justify-content:center;display:flex;">
+        Book with ${a.provider} →
+      </a>
+      <p style="font-size:11.5px;color:var(--muted);text-align:center;margin-top:12px;">
+        You'll be taken to ${a.provider}'s website to complete your booking and payment.
+      </p>
+      <div style="margin-top:16px;border-top:1px solid var(--rule);padding-top:16px;display:flex;flex-direction:column;gap:8px;">
+        <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted);"><span style="color:var(--success);">✓</span> Payment goes directly to the provider</div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted);"><span style="color:var(--success);">✓</span> Real-time availability on their site</div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted);"><span style="color:var(--success);">✓</span> Cancellation policy set by provider</div>
+      </div>`;
   }
 
   function updateSidebarTotal() {
