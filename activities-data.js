@@ -271,6 +271,108 @@ const ACTIVITIES_DATA = {
     ],
     included: ['All sports equipment','Six sport rotations across the week','Certified background-checked coaches','Daily snack','Camp t-shirt on day one'],
     bring: ['Athletic shoes (cleats optional)','Packed lunch','Water bottle','Sunscreen']
+  },
+
+  'yb-ice-skating': {
+    id: 'yb-ice-skating', emoji: '⛸️', emoji2: '❄️', emoji3: '🏒',
+    gFrom: '#DBEAFE', gTo: '#93C5FD',
+    title: 'Public Ice Skating at Yerba Buena', provider: 'Yerba Buena Ice Skating Center',
+    providerEmoji: '⛸️', providerDesc: 'San Francisco\'s year-round indoor ice rink · Public skating sessions daily · Skate rentals available',
+    cat: 'Sports · Outdoors', age: 'All ages', price: '$10', priceUnit: '/ child',
+    duration: '90 min session', neighborhood: 'SoMa, SF', rating: '4.7', reviewCount: 0, bookings: '',
+    schedule: 'Daily (check schedule online)', featured: true, special: false,
+    slots: ['Morning session 10am','Afternoon session 1pm','Evening session 5pm'], fullSlot: -1,
+    desc: [
+      'Lace up and glide at San Francisco\'s only year-round indoor ice rink. Yerba Buena Ice Skating Center offers daily public skating sessions for all skill levels — from first-timers wobbling along the wall to kids who\'ve been skating for years.',
+      'Skate rentals are available on-site. The rink is compact and kid-friendly, right in the heart of SoMa at 750 Folsom Street. Helmets recommended for young skaters.'
+    ],
+    included: ['Ice time during session','Access to viewing area'],
+    bring: ['Warm socks','Layers (it\'s cold inside)','Helmet for young kids (recommended)']
+  },
+
+  'yb-bowling': {
+    id: 'yb-bowling', emoji: '🎳', emoji2: '🏆', emoji3: '⭐',
+    gFrom: '#FEF3C7', gTo: '#FDE68A',
+    title: 'Bowling at Yerba Buena', provider: 'Yerba Buena Bowling Center',
+    providerEmoji: '🎳', providerDesc: 'Family bowling lanes in the heart of SoMa · Open play and lane reservations · Bumper lanes for little ones',
+    cat: 'Sports', age: 'All ages', price: '$6', priceUnit: '/ game',
+    duration: 'Open play', neighborhood: 'SoMa, SF', rating: '4.6', reviewCount: 0, bookings: '',
+    schedule: 'Daily (open play + reservations)', featured: false, special: false,
+    slots: ['Open play — walk in','Reserve a lane online'], fullSlot: -1,
+    desc: [
+      'Family bowling in the heart of SoMa. Yerba Buena\'s bowling center has 12 lanes including bumper options for little ones, making it a go-to for birthday parties and rainy-day outings alike.',
+      'Shoe rental available. Walk-in open play or reserve a lane in advance. Located at 750 Folsom St alongside the ice skating rink.'
+    ],
+    included: ['Lane time','Bumper rail setup for young kids on request'],
+    bring: ['Socks (required for rental shoes)','Good vibes']
+  },
+
+  'yb-hockey': {
+    id: 'yb-hockey', emoji: '🏒', emoji2: '🥅', emoji3: '❄️',
+    gFrom: '#F0FDF4', gTo: '#86EFAC',
+    title: 'Youth Ice Hockey — SF Sabercats', provider: 'SF Sabercats',
+    providerEmoji: '🏒', providerDesc: 'San Francisco\'s youth ice hockey program · Ages 3–17 · Learn-to-skate through competitive travel teams',
+    cat: 'Sports', age: 'Ages 3–17', price: '$675', priceUnit: '/ season',
+    duration: 'Weekly practice + games', neighborhood: 'SoMa, SF', rating: '4.8', reviewCount: 0, bookings: '',
+    schedule: 'Fall & Spring seasons', featured: false, special: false,
+    slots: ['Fall season registration','Spring season registration'], fullSlot: -1,
+    desc: [
+      'SF\'s very own youth ice hockey club. The SF Sabercats serve players aged 3–17 across all skill levels — from beginner learn-to-skate through competitive travel teams. Practices and games are held at Yerba Buena Ice Skating Center.',
+      'USA Hockey affiliated. Full equipment loaner program available for beginners so you don\'t need to invest in gear before trying the sport.'
+    ],
+    included: ['Structured practice sessions','Game schedule','Coaching from USA Hockey-certified staff','Equipment loaner for new players'],
+    bring: ['Mouth guard','Willingness to fall (and get back up)']
+  },
+
+  'creativity-museum': {
+    id: 'creativity-museum', emoji: '🎨', emoji2: '🤖', emoji3: '🦋',
+    gFrom: '#FDF4FF', gTo: '#E879F9',
+    title: 'Children\'s Creativity Museum', provider: 'Children\'s Creativity Museum',
+    providerEmoji: '🎨', providerDesc: 'Award-winning hands-on museum for kids 2–12 · Art, technology, and storytelling exhibits · 221 4th St, SoMa',
+    cat: 'Arts · Science', age: 'Ages 2–12', price: '$20', priceUnit: '/ person',
+    duration: 'Self-paced visit (2–3 hrs)', neighborhood: 'SoMa, SF', rating: '4.7', reviewCount: 0, bookings: '',
+    schedule: 'Tue–Sun 10am–5pm', featured: true, special: false,
+    slots: ['Morning visit','Afternoon visit'], fullSlot: -1,
+    desc: [
+      'Where kids make things. The Children\'s Creativity Museum (formerly Zeum) is a hands-on museum at 221 4th Street in SoMa — steps from Yerba Buena Gardens — where kids 2–12 create animation, music videos, art, and more.',
+      'Exhibits blend technology and traditional art-making. Kids can animate their own clay figures, record a music video on a real sound stage, or build in the engineering zone. Staff facilitators guide activities throughout the day.'
+    ],
+    included: ['Full museum access','Facilitated creative activity stations','Carousel ride (included with admission)'],
+    bring: ['Curiosity','Camera — kids love showing what they made']
+  },
+
+  'randall-museum': {
+    id: 'randall-museum', emoji: '🔬', emoji2: '🦎', emoji3: '🌿',
+    gFrom: '#F0FDF4', gTo: '#6EE7B7',
+    title: 'Drop-In Science Saturdays', provider: 'Randall Museum',
+    providerEmoji: '🔬', providerDesc: 'Free neighborhood science museum in Corona Heights · Live animals, science labs, woodshop · 199 Museum Way',
+    cat: 'Science', age: 'All ages', price: 'Free', priceUnit: '',
+    duration: '10am–5pm Saturdays', neighborhood: 'Corona Heights, SF', rating: '4.8', reviewCount: 0, bookings: '',
+    schedule: 'Saturdays 10am–5pm (drop-in)', featured: false, special: false,
+    slots: ['Drop-in — no reservation needed'], fullSlot: -1,
+    desc: [
+      'A hidden gem at the top of Corona Heights. The Randall Museum is SF\'s free neighborhood science museum with live animals (owls, snakes, birds of prey), hands-on science labs, a working woodshop for kids, and nature exhibits.',
+      'Drop-In Science Saturdays are free and open to all ages — no registration required. Activities rotate weekly. The museum sits inside Corona Heights Park with a short hike to stunning city views right outside the door.'
+    ],
+    included: ['Free admission','Drop-in activity stations','Live animal encounters','Woodshop access (Saturdays)'],
+    bring: ['Good walking shoes if you plan to hike Corona Heights afterward','Layers — it\'s often foggy up there']
+  },
+
+  'acrosports': {
+    id: 'acrosports', emoji: '🤸', emoji2: '🎪', emoji3: '⭐',
+    gFrom: '#FFF7ED', gTo: '#FED7AA',
+    title: 'Gymnastics & Circus Arts', provider: 'AcroSports',
+    providerEmoji: '🤸', providerDesc: 'Gymnastics, tumbling, and circus arts for kids 18 months and up · 639 Frederick St, Inner Sunset · SF institution since 1986',
+    cat: 'Movement · Sports', age: 'Ages 18 mo–teen', price: '$25', priceUnit: '/ drop-in',
+    duration: '60–75 min class', neighborhood: 'Inner Sunset, SF', rating: '4.9', reviewCount: 0, bookings: '',
+    schedule: 'Year-round classes (check schedule)', featured: false, special: false,
+    slots: ['Parent & Tot (18mo–3yr)','Preschool (3–5yr)','Kids gymnastics (5–12yr)','Teen tumbling'], fullSlot: -1,
+    desc: [
+      'Flips, tumbles, and circus magic in the Inner Sunset. AcroSports has been SF\'s beloved gymnastics and circus arts school since 1986. Classes run from parent-and-tot (18 months) through teen levels — all in a warm, non-competitive environment.',
+      'Specialties include gymnastics, tumbling, aerial arts, acrobatics, and contortion basics. Drop-in classes available for most levels. Located at 639 Frederick Street, right near Golden Gate Park.'
+    ],
+    included: ['All equipment provided','Foam pit access','Trained circus arts instructors'],
+    bring: ['Stretchy clothes','Bare feet or grip socks','Water bottle']
   }
 
 };
@@ -292,7 +394,13 @@ const ACTIVITY_CAPACITY = {
   'gg-camp':        { capacity: 20, organizerEmail: 'camps@sfrecpark.org',              providerUrl: 'https://sfrecpark.org',                                bookingUrl: 'https://sfrecpark.org/camps' },
   'robotics-camp':  { capacity: 8,  organizerEmail: 'sf@idtech.com',                    providerUrl: 'https://www.idtech.com',                               bookingUrl: 'https://www.idtech.com/locations/california-summer-camps/san-francisco-state-university' },
   'art-camp':       { capacity: 15, organizerEmail: 'education@sfmoma.org',             providerUrl: 'https://www.sfmoma.org/learn',                         bookingUrl: 'https://www.sfmoma.org/for-families/' },
-  'sport-camp':     { capacity: 20, organizerEmail: 'info@soccerstars.com',             providerUrl: 'https://www.soccerstars.com/ca/sanfrancisco/',         bookingUrl: 'https://www.soccerstars.com/ca/sanfrancisco/camps-and-classes/' }
+  'sport-camp':        { capacity: 20, organizerEmail: 'info@soccerstars.com',          providerUrl: 'https://www.soccerstars.com/ca/sanfrancisco/',             bookingUrl: 'https://www.soccerstars.com/ca/sanfrancisco/camps-and-classes/' },
+  'yb-ice-skating':   { capacity: 200, organizerEmail: 'info@skatebowl.com',            providerUrl: 'https://www.skatebowl.com/ice-skating/',                   bookingUrl: 'https://www.skatebowl.com/ice-skating/public-skating/' },
+  'yb-bowling':       { capacity: 60,  organizerEmail: 'info@skatebowl.com',            providerUrl: 'https://www.skatebowl.com/bowling/',                       bookingUrl: 'https://www.skatebowl.com/bowling/' },
+  'yb-hockey':        { capacity: 25,  organizerEmail: 'info@sfsabercats.org',          providerUrl: 'https://www.sfsabercats.org',                              bookingUrl: 'https://www.sfsabercats.org/program/' },
+  'creativity-museum':{ capacity: 150, organizerEmail: 'info@creativity.org',           providerUrl: 'https://www.creativity.org',                              bookingUrl: 'https://www.creativity.org/plan-your-visit/' },
+  'randall-museum':   { capacity: 200, organizerEmail: 'info@randallmuseum.org',        providerUrl: 'https://www.randallmuseum.org',                            bookingUrl: 'https://www.randallmuseum.org/drop-in-science/' },
+  'acrosports':       { capacity: 20,  organizerEmail: 'info@acrosports.org',           providerUrl: 'https://www.acrosports.org',                              bookingUrl: 'https://www.acrosports.org/classes/' }
 };
 
 // Merge capacity + organizer into ACTIVITIES_DATA at load time
