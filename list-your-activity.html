@@ -3,208 +3,144 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>List Your Activity — SF-Kids</title>
+<title>List Your Activity — SF·Kids</title>
 <link rel="stylesheet" href="styles.css">
 <style>
-  .list-hero {
+  /* ── Hero ── */
+  .lya-hero {
     background: linear-gradient(135deg, var(--navy) 0%, #1e3a5f 100%);
-    padding: 64px 24px 52px;
+    padding: 72px 24px 60px;
     text-align: center;
   }
-  .list-hero h1 {
-    font-size: clamp(28px, 5vw, 44px);
-    font-weight: 800;
-    color: #fff;
-    margin-bottom: 12px;
-    letter-spacing: -0.5px;
+  .lya-hero h1 { font-size: clamp(28px,5vw,46px); font-weight:800; color:#fff; margin-bottom:14px; letter-spacing:-0.5px; }
+  .lya-hero p  { font-size:17px; color:rgba(255,255,255,.75); max-width:540px; margin:0 auto 36px; line-height:1.6; }
+  .lya-stats   { display:flex; justify-content:center; gap:48px; flex-wrap:wrap; }
+  .lya-stat .num { font-size:30px; font-weight:800; color:var(--coral); }
+  .lya-stat .lbl { font-size:12px; color:rgba(255,255,255,.6); margin-top:2px; }
+
+  /* ── Pricing ── */
+  .pricing-section { max-width:1000px; margin:0 auto; padding:64px 24px 40px; }
+  .pricing-section h2 { font-size:28px; font-weight:800; color:var(--navy); text-align:center; margin-bottom:8px; }
+  .pricing-section .sub { text-align:center; color:var(--muted); margin-bottom:48px; font-size:15px; }
+  .toggle-wrap { display:flex; align-items:center; justify-content:center; gap:12px; margin-bottom:48px; }
+  .toggle-label { font-size:14px; font-weight:600; color:var(--mid); }
+  .toggle-label.active { color:var(--navy); }
+  .toggle-pill {
+    position:relative; width:52px; height:28px; background:var(--coral);
+    border-radius:999px; cursor:pointer; border:none;
+    transition:background .2s;
   }
-  .list-hero p {
-    font-size: 17px;
-    color: rgba(255,255,255,0.75);
-    max-width: 520px;
-    margin: 0 auto 28px;
-    line-height: 1.6;
+  .toggle-pill::after {
+    content:''; position:absolute; top:3px; left:3px;
+    width:22px; height:22px; background:#fff;
+    border-radius:50%; transition:transform .2s;
   }
-  .list-hero-stats {
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-    flex-wrap: wrap;
-  }
-  .list-hero-stat { text-align: center; }
-  .list-hero-stat .num {
-    font-size: 28px;
-    font-weight: 800;
-    color: var(--coral);
-  }
-  .list-hero-stat .lbl {
-    font-size: 12px;
-    color: rgba(255,255,255,0.6);
-    margin-top: 2px;
+  .toggle-pill.monthly::after { transform:translateX(0); }
+  .toggle-pill.annual::after  { transform:translateX(24px); }
+  .save-badge {
+    background:var(--coral-lt); color:var(--coral); font-size:12px; font-weight:700;
+    padding:3px 10px; border-radius:999px;
   }
 
-  .list-layout {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 52px 24px 80px;
-    display: grid;
-    grid-template-columns: 1fr 300px;
-    gap: 40px;
-    align-items: start;
-  }
-  @media (max-width: 768px) {
-    .list-layout { grid-template-columns: 1fr; }
-    .list-sidebar { order: -1; }
-  }
+  .plans-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+  @media(max-width:800px){ .plans-grid{ grid-template-columns:1fr; } }
 
-  .list-form-card {
-    background: #fff;
-    border: 1px solid var(--rule);
-    border-radius: var(--radius);
-    padding: 32px 28px;
+  .plan-card {
+    background:#fff; border:1.5px solid var(--rule); border-radius:16px;
+    padding:32px 28px; display:flex; flex-direction:column;
+    transition:box-shadow .2s, border-color .2s;
   }
-  .list-form-card h2 {
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--navy);
-    margin-bottom: 4px;
+  .plan-card:hover { box-shadow:var(--shadow); }
+  .plan-card.featured {
+    border-color:var(--coral); box-shadow:0 0 0 3px rgba(255,107,71,.12);
+    position:relative;
   }
-  .list-form-card .section-intro {
-    font-size: 13.5px;
-    color: var(--muted);
-    margin-bottom: 24px;
+  .plan-popular {
+    position:absolute; top:-13px; left:50%; transform:translateX(-50%);
+    background:var(--coral); color:#fff; font-size:11px; font-weight:800;
+    padding:4px 14px; border-radius:999px; white-space:nowrap; letter-spacing:.4px;
   }
-  .form-section-title {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--navy);
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-    border-bottom: 1px solid var(--rule);
-    padding-bottom: 8px;
-    margin: 28px 0 18px;
+  .plan-name { font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:.8px; color:var(--muted); margin-bottom:10px; }
+  .plan-price { font-size:42px; font-weight:800; color:var(--navy); line-height:1; margin-bottom:4px; }
+  .plan-price sup { font-size:22px; font-weight:700; vertical-align:top; margin-top:8px; display:inline-block; }
+  .plan-cadence { font-size:13px; color:var(--muted); margin-bottom:6px; }
+  .plan-annual  { font-size:12px; color:var(--success); font-weight:600; margin-bottom:20px; min-height:18px; }
+  .plan-desc { font-size:13.5px; color:var(--mid); line-height:1.6; margin-bottom:24px; border-top:1px solid var(--rule); padding-top:20px; }
+  .plan-features { list-style:none; display:flex; flex-direction:column; gap:10px; margin-bottom:32px; flex:1; }
+  .plan-features li { display:flex; align-items:flex-start; gap:10px; font-size:13.5px; color:var(--mid); }
+  .plan-features li .ck { color:var(--success); font-size:15px; flex-shrink:0; margin-top:1px; }
+  .plan-features li .xx { color:#D1D5DB; font-size:15px; flex-shrink:0; margin-top:1px; }
+  .plan-cta {
+    display:block; text-align:center; padding:13px 20px;
+    border-radius:10px; font-size:15px; font-weight:700;
+    font-family:inherit; cursor:pointer; border:none;
+    text-decoration:none; transition:all .15s;
   }
-  .form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-  }
-  @media (max-width: 540px) { .form-row { grid-template-columns: 1fr; } }
+  .plan-cta-primary { background:var(--coral); color:#fff; }
+  .plan-cta-primary:hover { background:var(--coral-dk); text-decoration:none; }
+  .plan-cta-outline { background:#fff; color:var(--navy); border:1.5px solid var(--rule); }
+  .plan-cta-outline:hover { border-color:var(--navy); text-decoration:none; }
+  .trial-note { text-align:center; font-size:12.5px; color:var(--muted); margin-top:16px; }
 
-  .form-group { margin-bottom: 16px; }
-  .form-label { display: block; font-size: 13px; font-weight: 600; color: var(--navy); margin-bottom: 6px; }
-  .form-label .opt { font-weight: 400; color: var(--muted); }
-  .form-input, .form-select, .form-textarea {
-    width: 100%; padding: 10px 14px; border: 1.5px solid var(--rule);
-    border-radius: 8px; font-size: 14px; color: var(--navy);
-    font-family: inherit; background: #fff; box-sizing: border-box;
-    transition: border-color 0.15s;
+  /* ── How it works ── */
+  .how-section { background:var(--light); padding:64px 24px; margin-top:40px; }
+  .how-section h2 { font-size:26px; font-weight:800; color:var(--navy); text-align:center; margin-bottom:48px; }
+  .how-steps { display:grid; grid-template-columns:repeat(4,1fr); gap:32px; max-width:900px; margin:0 auto; }
+  @media(max-width:700px){ .how-steps{ grid-template-columns:1fr 1fr; } }
+  @media(max-width:480px){ .how-steps{ grid-template-columns:1fr; } }
+  .how-step { text-align:center; }
+  .how-step .num {
+    width:48px; height:48px; background:var(--coral); color:#fff;
+    border-radius:50%; font-size:20px; font-weight:800;
+    display:flex; align-items:center; justify-content:center;
+    margin:0 auto 16px;
   }
-  .form-input:focus, .form-select:focus, .form-textarea:focus {
-    outline: none; border-color: var(--coral);
-    box-shadow: 0 0 0 3px rgba(255,107,71,0.1);
-  }
-  .form-textarea { resize: vertical; min-height: 100px; line-height: 1.5; }
+  .how-step h3 { font-size:15px; font-weight:700; color:var(--navy); margin-bottom:6px; }
+  .how-step p  { font-size:13px; color:var(--muted); line-height:1.5; }
 
-  .category-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-    margin-top: 4px;
+  /* ── Testimonials ── */
+  .testimonials { max-width:900px; margin:0 auto; padding:64px 24px; }
+  .testimonials h2 { font-size:26px; font-weight:800; color:var(--navy); text-align:center; margin-bottom:40px; }
+  .testi-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+  @media(max-width:700px){ .testi-grid{ grid-template-columns:1fr; } }
+  .testi-card {
+    background:#fff; border:1px solid var(--rule); border-radius:12px; padding:24px;
+    font-size:14px; color:var(--mid); line-height:1.7; font-style:italic;
   }
-  @media (max-width: 480px) { .category-grid { grid-template-columns: repeat(2, 1fr); } }
-  .category-chip {
-    padding: 8px 10px; border: 1.5px solid var(--rule); border-radius: 8px;
-    font-size: 12.5px; font-weight: 600; color: var(--mid); cursor: pointer;
-    text-align: center; transition: all 0.15s; user-select: none;
-  }
-  .category-chip:hover { border-color: var(--coral); color: var(--coral); }
-  .category-chip.selected {
-    background: var(--coral-lt); border-color: var(--coral); color: var(--coral);
-  }
+  .testi-author { margin-top:14px; font-style:normal; font-weight:700; font-size:13px; color:var(--navy); }
+  .testi-role   { font-size:12px; color:var(--muted); font-weight:400; }
 
-  .age-range-wrap {
-    display: flex; align-items: center; gap: 12px; margin-top: 4px;
-  }
-  .age-range-wrap span { font-size: 13px; color: var(--muted); }
-  .age-range-wrap .form-select { flex: 1; }
+  /* ── FAQ ── */
+  .faq-section { max-width:680px; margin:0 auto; padding:0 24px 80px; }
+  .faq-section h2 { font-size:24px; font-weight:800; color:var(--navy); margin-bottom:32px; text-align:center; }
+  .faq-item { border-bottom:1px solid var(--rule); padding:18px 0; }
+  .faq-q { font-size:15px; font-weight:700; color:var(--navy); cursor:pointer; display:flex; justify-content:space-between; align-items:center; gap:12px; }
+  .faq-q::after { content:'＋'; font-size:18px; color:var(--muted); flex-shrink:0; transition:transform .2s; }
+  .faq-item.open .faq-q::after { transform:rotate(45deg); }
+  .faq-a { font-size:14px; color:var(--mid); line-height:1.6; margin-top:10px; display:none; }
+  .faq-item.open .faq-a { display:block; }
 
-  .price-row {
-    display: grid; grid-template-columns: 1fr 1fr auto; gap: 12px; align-items: end;
-  }
-  .free-toggle {
-    display: flex; align-items: center; gap: 8px; padding-bottom: 10px;
-    font-size: 13px; color: var(--mid); cursor: pointer;
-  }
-  .free-toggle input { accent-color: var(--coral); width: 16px; height: 16px; }
-
-  .submit-area {
-    margin-top: 28px;
-    border-top: 1px solid var(--rule);
-    padding-top: 24px;
-  }
-  .submit-area p {
-    font-size: 12px; color: var(--muted); margin-bottom: 14px; line-height: 1.5;
-  }
-  .btn-submit {
-    width: 100%; display: flex; align-items: center; justify-content: center;
-    gap: 8px; padding: 14px; background: var(--coral); color: #fff;
-    border: none; border-radius: 10px; font-size: 16px; font-weight: 700;
-    cursor: pointer; font-family: inherit; transition: background 0.15s;
-  }
-  .btn-submit:hover { background: #e55a38; }
-
-  /* Sidebar */
-  .list-sidebar { display: flex; flex-direction: column; gap: 20px; }
-  .sidebar-card {
-    background: #fff; border: 1px solid var(--rule); border-radius: var(--radius); padding: 22px 20px;
-  }
-  .sidebar-card h3 { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 14px; }
-  .benefit-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 10px; }
-  .benefit-list li {
-    display: flex; align-items: flex-start; gap: 10px; font-size: 13.5px; color: var(--mid);
-  }
-  .benefit-list li .icon { color: var(--success); font-size: 16px; flex-shrink: 0; margin-top: 1px; }
-
-  .how-list { display: flex; flex-direction: column; gap: 14px; }
-  .how-item { display: flex; gap: 12px; align-items: flex-start; }
-  .how-num {
-    width: 26px; height: 26px; background: var(--coral-lt); color: var(--coral);
-    border-radius: 50%; font-size: 12px; font-weight: 800;
-    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-  }
-  .how-item .text strong { display: block; font-size: 13px; font-weight: 700; color: var(--navy); }
-  .how-item .text span { font-size: 12.5px; color: var(--muted); }
-
-  .testimonial {
-    background: var(--coral-lt); border-radius: var(--radius-sm); padding: 16px;
-    font-size: 13px; color: var(--navy); line-height: 1.5; font-style: italic;
-    margin-bottom: 10px;
-  }
-  .testimonial-author { font-size: 12px; color: var(--muted); font-style: normal; font-weight: 600; }
+  /* ── CTA banner ── */
+  .cta-banner { background:linear-gradient(135deg,var(--coral),#e55a38); padding:56px 24px; text-align:center; }
+  .cta-banner h2 { font-size:28px; font-weight:800; color:#fff; margin-bottom:12px; }
+  .cta-banner p  { color:rgba(255,255,255,.85); font-size:16px; margin-bottom:28px; }
+  .cta-banner a  { background:#fff; color:var(--coral); font-weight:700; font-size:15px; padding:14px 32px; border-radius:10px; display:inline-block; text-decoration:none; transition:opacity .15s; }
+  .cta-banner a:hover { opacity:.9; text-decoration:none; }
 </style>
 </head>
 <body>
 
-<!-- ── Nav ──────────────────────────────────────────────────── -->
 <nav class="nav">
   <div class="nav-inner">
     <a href="index.html" class="nav-logo">
       <div class="nav-logo-icon">
         <svg width="28" height="20" viewBox="0 0 28 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- Left tower -->
           <rect x="7" y="1" width="2.5" height="13" rx="0.5" fill="white"/>
-          <!-- Right tower -->
           <rect x="18.5" y="1" width="2.5" height="13" rx="0.5" fill="white"/>
-          <!-- Main suspension cable -->
           <path d="M0 8 Q8 3.5 14 9.5 Q20 3.5 28 8" stroke="white" stroke-width="1.4" fill="none" stroke-linecap="round"/>
-          <!-- Suspender cables -->
           <line x1="10.5" y1="13" x2="10.5" y2="15" stroke="white" stroke-width="0.9"/>
-          <line x1="14" y1="15" x2="14" y2="15" stroke="white" stroke-width="0.9"/>
           <line x1="17.5" y1="13" x2="17.5" y2="15" stroke="white" stroke-width="0.9"/>
-          <!-- Deck / road -->
           <line x1="0" y1="15" x2="28" y2="15" stroke="white" stroke-width="1.5"/>
-          <!-- Water -->
           <path d="M0 17.5 Q7 16.2 14 17.5 Q21 18.8 28 17.5" stroke="white" stroke-width="1" fill="none" opacity="0.5"/>
         </svg>
       </div>
@@ -212,287 +148,191 @@
     </a>
     <ul class="nav-links">
       <li><a href="results.html">Browse Activities</a></li>
+      <li><a href="results.html?filter=camps">Camps</a></li>
+      <li><a href="results.html?filter=weekend">This Weekend</a></li>
       <li><a href="list-your-activity.html" class="nav-cta active">List Your Activity</a></li>
     </ul>
   </div>
 </nav>
 
-<!-- ── Hero ──────────────────────────────────────────────────── -->
-<div class="list-hero">
-  <h1>Reach thousands of SF families</h1>
-  <p>List your kids activity on SF-Kids and connect with parents actively searching for what you offer — for free.</p>
-  <div class="list-hero-stats">
-    <div class="list-hero-stat">
-      <div class="num">8,400+</div>
-      <div class="lbl">SF families</div>
-    </div>
-    <div class="list-hero-stat">
-      <div class="num">Free</div>
-      <div class="lbl">to list</div>
-    </div>
-    <div class="list-hero-stat">
-      <div class="num">2 min</div>
-      <div class="lbl">to submit</div>
-    </div>
+<!-- Hero -->
+<div class="lya-hero">
+  <h1>Reach SF families actively searching for activities</h1>
+  <p>SF·Kids is the go-to discovery platform for San Francisco parents. Get your program in front of thousands of families ready to book.</p>
+  <div class="lya-stats">
+    <div class="lya-stat"><div class="num">12K+</div><div class="lbl">Monthly SF parents</div></div>
+    <div class="lya-stat"><div class="num">35</div><div class="lbl">Verified activities</div></div>
+    <div class="lya-stat"><div class="num">#1</div><div class="lbl">SF kids activity search</div></div>
+    <div class="lya-stat"><div class="num">48 hr</div><div class="lbl">Avg time to first click</div></div>
   </div>
 </div>
 
-<!-- ── Form + Sidebar ─────────────────────────────────────────── -->
-<div class="list-layout">
+<!-- Pricing -->
+<div class="pricing-section">
+  <h2>Simple, transparent pricing</h2>
+  <p class="sub">Start with a 30-day free trial on any paid plan. No credit card required to submit.</p>
 
-  <!-- LEFT: Form -->
-  <div>
-    <form
-      action="https://formsubmit.co/brandonbreon@gmail.com"
-      method="POST"
-      id="listing-form"
-      onsubmit="handleSubmit(event)"
-    >
-      <!-- FormSubmit hidden config -->
-      <input type="hidden" name="_subject" value="New SF-Kids Activity Listing Submission">
-      <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_next" value="https://sooner2w.github.io/sf-kids/listing-submitted.html">
-      <input type="hidden" name="_template" value="table">
-      <input type="hidden" name="categories" id="categories-field" value="">
-
-      <div class="list-form-card">
-        <h2>Tell us about your activity</h2>
-        <p class="section-intro">Fill in the details below and we'll review your listing within 1 business day.</p>
-
-        <!-- Provider Info -->
-        <div class="form-section-title">Your Organization</div>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Business / Organization name</label>
-            <input type="text" name="business_name" class="form-input" placeholder="e.g. Bay Area Youth Athletics" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Your name</label>
-            <input type="text" name="contact_name" class="form-input" placeholder="First and last name" required>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Email</label>
-            <input type="email" name="email" class="form-input" placeholder="you@email.com" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Phone</label>
-            <input type="tel" name="phone" class="form-input" placeholder="(415) 555-0000" required>
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Website <span class="opt">(optional)</span></label>
-          <input type="url" name="website" class="form-input" placeholder="https://yourwebsite.com">
-        </div>
-
-        <!-- Activity Info -->
-        <div class="form-section-title">Activity Details</div>
-        <div class="form-group">
-          <label class="form-label">Activity name</label>
-          <input type="text" name="activity_name" class="form-input" placeholder="e.g. Saturday Soccer Camp" required>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Category</label>
-          <div class="category-grid">
-            <div class="category-chip" onclick="toggleCategory(this)" data-value="Sports">⚽ Sports</div>
-            <div class="category-chip" onclick="toggleCategory(this)" data-value="Arts & Crafts">🎨 Arts & Crafts</div>
-            <div class="category-chip" onclick="toggleCategory(this)" data-value="Science">🔬 Science</div>
-            <div class="category-chip" onclick="toggleCategory(this)" data-value="Music">🎵 Music</div>
-            <div class="category-chip" onclick="toggleCategory(this)" data-value="Outdoors">🌿 Outdoors</div>
-            <div class="category-chip" onclick="toggleCategory(this)" data-value="Swimming">🏊 Swimming</div>
-            <div class="category-chip" onclick="toggleCategory(this)" data-value="Dance">💃 Dance</div>
-            <div class="category-chip" onclick="toggleCategory(this)" data-value="Camps">⛺ Camps</div>
-            <div class="category-chip" onclick="toggleCategory(this)" data-value="Classes">📚 Classes</div>
-            <div class="category-chip" onclick="toggleCategory(this)" data-value="Playdates">🧸 Playdates</div>
-            <div class="category-chip" onclick="toggleCategory(this)" data-value="STEM">🤖 STEM</div>
-            <div class="category-chip" onclick="toggleCategory(this)" data-value="Other">✨ Other</div>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Description</label>
-          <textarea name="description" class="form-textarea" placeholder="Describe the activity, what kids will do, what makes it special, and what parents should know..." required></textarea>
-        </div>
-
-        <!-- Age & Logistics -->
-        <div class="form-section-title">Age Range & Logistics</div>
-        <div class="form-group">
-          <label class="form-label">Age range</label>
-          <div class="age-range-wrap">
-            <select name="age_min" class="form-select">
-              <option value="0">0 (infant)</option>
-              <option value="1">1 yr</option>
-              <option value="2">2 yrs</option>
-              <option value="3">3 yrs</option>
-              <option value="4">4 yrs</option>
-              <option value="5">5 yrs</option>
-              <option value="6" selected>6 yrs</option>
-              <option value="7">7 yrs</option>
-              <option value="8">8 yrs</option>
-            </select>
-            <span>to</span>
-            <select name="age_max" class="form-select">
-              <option value="3">3 yrs</option>
-              <option value="4">4 yrs</option>
-              <option value="5">5 yrs</option>
-              <option value="6">6 yrs</option>
-              <option value="8">8 yrs</option>
-              <option value="10">10 yrs</option>
-              <option value="12" selected>12 yrs</option>
-              <option value="13">13 yrs</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Price per session</label>
-            <input type="text" name="price" class="form-input" placeholder="e.g. $45" id="price-input" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Duration</label>
-            <select name="duration" class="form-select">
-              <option>30 minutes</option>
-              <option>45 minutes</option>
-              <option>1 hour</option>
-              <option selected>2 hours</option>
-              <option>3 hours</option>
-              <option>Half day</option>
-              <option>Full day</option>
-              <option>Multi-day / week</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="free-toggle">
-            <input type="checkbox" id="free-check" onchange="toggleFree(this)"> This activity is free
-          </label>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Neighborhood / Location</label>
-            <select name="neighborhood" class="form-select" required>
-              <option value="">Select neighborhood</option>
-              <option>Presidio</option>
-              <option>Golden Gate Park</option>
-              <option>The Mission</option>
-              <option>Noe Valley</option>
-              <option>Marina District</option>
-              <option>Embarcadero / Waterfront</option>
-              <option>Hayes Valley</option>
-              <option>Sunset District</option>
-              <option>Richmond District</option>
-              <option>Pacific Heights</option>
-              <option>Castro</option>
-              <option>Dogpatch / Potrero</option>
-              <option>Bernal Heights</option>
-              <option>SoMa</option>
-              <option>North Beach</option>
-              <option>Multiple locations</option>
-              <option>Online / Virtual</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Schedule / Frequency</label>
-            <select name="schedule" class="form-select">
-              <option>Weekly (Saturdays)</option>
-              <option>Weekly (Sundays)</option>
-              <option>Weekdays</option>
-              <option>Weekends</option>
-              <option>Daily</option>
-              <option>Monthly</option>
-              <option>One-time event</option>
-              <option>Summer camp</option>
-              <option>Flexible / On demand</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Full address <span class="opt">(optional — shown on listing)</span></label>
-          <input type="text" name="address" class="form-input" placeholder="e.g. Presidio Fields, Arguello Blvd, San Francisco, CA">
-        </div>
-
-        <!-- Extras -->
-        <div class="form-section-title">Anything else?</div>
-        <div class="form-group">
-          <label class="form-label">Special notes or requirements <span class="opt">(optional)</span></label>
-          <textarea name="notes" class="form-textarea" style="min-height:72px;" placeholder="e.g. Equipment provided, what to wear, safety policies, COVID precautions, accessibility info..."></textarea>
-        </div>
-
-        <div class="submit-area">
-          <p>By submitting, you agree to SF-Kids' provider guidelines. We'll review your listing and reach out within 1 business day to confirm it's live.</p>
-          <button type="submit" class="btn-submit">
-            Submit My Activity →
-          </button>
-        </div>
-      </div>
-    </form>
+  <div class="toggle-wrap">
+    <span class="toggle-label active" id="lbl-monthly">Monthly</span>
+    <button class="toggle-pill monthly" id="billing-toggle" onclick="toggleBilling()" aria-label="Toggle billing period"></button>
+    <span class="toggle-label" id="lbl-annual">Annual</span>
+    <span class="save-badge">Save 30%</span>
   </div>
 
-  <!-- RIGHT: Sidebar -->
-  <div class="list-sidebar">
+  <div class="plans-grid">
 
-    <div class="sidebar-card">
-      <h3>Why list on SF-Kids?</h3>
-      <ul class="benefit-list">
-        <li><span class="icon">✓</span> Free to list — no monthly fees</li>
-        <li><span class="icon">✓</span> Reach 8,400+ active SF families</li>
-        <li><span class="icon">✓</span> Instant booking with no phone tag</li>
-        <li><span class="icon">✓</span> Payments handled securely</li>
-        <li><span class="icon">✓</span> Dedicated provider dashboard (coming soon)</li>
-        <li><span class="icon">✓</span> Featured in "This Weekend" emails</li>
+    <!-- Starter -->
+    <div class="plan-card">
+      <div class="plan-name">Starter</div>
+      <div class="plan-price"><sup>$</sup><span class="price-val" data-monthly="79" data-annual="55">79</span></div>
+      <div class="plan-cadence">per month</div>
+      <div class="plan-annual" id="annual-starter"></div>
+      <p class="plan-desc">Get discovered by SF families. A solid directory listing that puts you in front of parents searching your category.</p>
+      <ul class="plan-features">
+        <li><span class="ck">✓</span> Directory listing with activity card</li>
+        <li><span class="ck">✓</span> Map pin in SF activity map</li>
+        <li><span class="ck">✓</span> Direct link to your booking page</li>
+        <li><span class="ck">✓</span> Category & age filtering</li>
+        <li><span class="ck">✓</span> Provider dashboard access</li>
+        <li><span class="xx">✗</span> <span style="color:var(--muted)">Featured badge</span></li>
+        <li><span class="xx">✗</span> <span style="color:var(--muted)">Top-of-results placement</span></li>
+        <li><span class="xx">✗</span> <span style="color:var(--muted)">Homepage feature slot</span></li>
       </ul>
+      <a href="provider-signup.html?plan=starter" class="plan-cta plan-cta-outline">Get started free →</a>
     </div>
 
-    <div class="sidebar-card">
-      <h3>How it works</h3>
-      <div class="how-list">
-        <div class="how-item">
-          <div class="how-num">1</div>
-          <div class="text">
-            <strong>Submit this form</strong>
-            <span>Takes about 2 minutes</span>
-          </div>
-        </div>
-        <div class="how-item">
-          <div class="how-num">2</div>
-          <div class="text">
-            <strong>We review & publish</strong>
-            <span>Within 1 business day</span>
-          </div>
-        </div>
-        <div class="how-item">
-          <div class="how-num">3</div>
-          <div class="text">
-            <strong>Parents book directly</strong>
-            <span>Instant confirmations, no back-and-forth</span>
-          </div>
-        </div>
-      </div>
+    <!-- Featured -->
+    <div class="plan-card featured" style="position:relative;">
+      <div class="plan-popular">Most Popular</div>
+      <div class="plan-name">Featured</div>
+      <div class="plan-price"><sup>$</sup><span class="price-val" data-monthly="149" data-annual="104">149</span></div>
+      <div class="plan-cadence">per month</div>
+      <div class="plan-annual" id="annual-featured"></div>
+      <p class="plan-desc">Stand out from the crowd. Featured listings appear at the top of search results with a bold badge — the fastest way to fill spots.</p>
+      <ul class="plan-features">
+        <li><span class="ck">✓</span> Everything in Starter</li>
+        <li><span class="ck">✓</span> ⭐ Featured badge on your card</li>
+        <li><span class="ck">✓</span> Top-of-results placement</li>
+        <li><span class="ck">✓</span> Priority in category filters</li>
+        <li><span class="ck">✓</span> Monthly click & view analytics</li>
+        <li><span class="ck">✓</span> "This Weekend" email inclusion</li>
+        <li><span class="xx">✗</span> <span style="color:var(--muted)">Homepage feature slot</span></li>
+        <li><span class="xx">✗</span> <span style="color:var(--muted)">Newsletter spotlight</span></li>
+      </ul>
+      <a href="provider-signup.html?plan=featured" class="plan-cta plan-cta-primary">Start free trial →</a>
     </div>
 
-    <div class="sidebar-card">
-      <div class="testimonial">
-        "We filled 3 new Saturday slots in the first week. SF-Kids parents are genuinely looking for programs like ours."
-      </div>
-      <div class="testimonial-author">— Bay Area Youth Athletics</div>
-    </div>
-
-    <div class="sidebar-card" style="background:var(--light);border:none;">
-      <p style="font-size:13px;color:var(--muted);line-height:1.6;">
-        Questions? Email us at <a href="mailto:brandonbreon@gmail.com" style="color:var(--coral);font-weight:600;">hello@sf-kids.com</a> or browse our <a href="#" style="color:var(--coral);">provider FAQ →</a>
-      </p>
+    <!-- Premier -->
+    <div class="plan-card">
+      <div class="plan-name">Premier</div>
+      <div class="plan-price"><sup>$</sup><span class="price-val" data-monthly="249" data-annual="174">249</span></div>
+      <div class="plan-cadence">per month</div>
+      <div class="plan-annual" id="annual-premier"></div>
+      <p class="plan-desc">Maximum visibility. A homepage feature slot, dedicated newsletter callout, and full analytics — everything you need to grow fast.</p>
+      <ul class="plan-features">
+        <li><span class="ck">✓</span> Everything in Featured</li>
+        <li><span class="ck">✓</span> Homepage feature slot (rotating)</li>
+        <li><span class="ck">✓</span> Monthly newsletter spotlight</li>
+        <li><span class="ck">✓</span> Social media feature (once/quarter)</li>
+        <li><span class="ck">✓</span> Full click & conversion analytics</li>
+        <li><span class="ck">✓</span> Priority support (24hr response)</li>
+        <li><span class="ck">✓</span> Custom activity photos uploaded</li>
+        <li><span class="ck">✓</span> Dedicated account manager</li>
+      </ul>
+      <a href="provider-signup.html?plan=premier" class="plan-cta plan-cta-outline">Contact us →</a>
     </div>
 
   </div>
+  <p class="trial-note">All plans include a 30-day free trial · Cancel anytime · Questions? <a href="mailto:hello@sf-kids.com">hello@sf-kids.com</a></p>
 </div>
 
-<!-- ── Footer ────────────────────────────────────────────────── -->
+<!-- How it works -->
+<div class="how-section">
+  <h2>How it works</h2>
+  <div class="how-steps">
+    <div class="how-step">
+      <div class="num">1</div>
+      <h3>Choose your plan</h3>
+      <p>Pick the visibility level that fits your goals. Start free for 30 days.</p>
+    </div>
+    <div class="how-step">
+      <div class="num">2</div>
+      <h3>Submit your listing</h3>
+      <p>Fill out your activity details — takes about 3 minutes.</p>
+    </div>
+    <div class="how-step">
+      <div class="num">3</div>
+      <h3>We review & publish</h3>
+      <p>Our team reviews and publishes your listing within 1 business day.</p>
+    </div>
+    <div class="how-step">
+      <div class="num">4</div>
+      <h3>Parents find & book</h3>
+      <p>Families searching for activities in SF click through to your booking page directly.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Testimonials -->
+<div class="testimonials">
+  <h2>What providers are saying</h2>
+  <div class="testi-grid">
+    <div class="testi-card">
+      "We filled 3 new Saturday slots in the first week on SF·Kids. The parents coming through are genuinely looking for programs like ours — not just browsing."
+      <div class="testi-author">— Bay Area Youth Athletics</div>
+      <div class="testi-role">Featured provider · Sports</div>
+    </div>
+    <div class="testi-card">
+      "The dashboard makes it easy to see how many families are clicking through to our site. We upgraded to Featured after the first month and haven't looked back."
+      <div class="testi-author">— Dance Mission Theater</div>
+      <div class="testi-role">Featured provider · Dance</div>
+    </div>
+    <div class="testi-card">
+      "As a nonprofit we were worried about cost, but the Starter plan paid for itself in the first signup we got from SF·Kids."
+      <div class="testi-author">— Treasure Island Sailing Center</div>
+      <div class="testi-role">Starter provider · Sailing</div>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class="faq-section">
+  <h2>Frequently asked questions</h2>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">How does the free trial work?</div>
+    <div class="faq-a">Your listing goes live immediately. You won't be charged anything for the first 30 days. After that, your chosen plan begins. You can cancel any time before the trial ends with no charge.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">Can I cancel at any time?</div>
+    <div class="faq-a">Yes. Monthly plans can be cancelled at any time — your listing stays live until the end of that billing period. Annual plans are refunded pro-rata if cancelled within the first 60 days.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">Do you handle payments or bookings?</div>
+    <div class="faq-a">SF·Kids is a discovery and referral platform — parents click through directly to your website or booking system to complete their enrollment and payment. You keep 100% of what families pay you.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">What is the Featured badge?</div>
+    <div class="faq-a">Featured listings appear at the top of all relevant search results, with a gold ⭐ Featured badge on your activity card. In our data, featured listings get 3–5× more click-throughs than standard listings.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">What information do I need to submit?</div>
+    <div class="faq-a">Activity name, short description, category, age range, price, neighborhood, schedule, and your website or booking URL. The whole form takes about 3 minutes.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">Can I list multiple activities?</div>
+    <div class="faq-a">Yes. Each activity is a separate listing. Multi-activity discounts are available — email hello@sf-kids.com for bundle pricing.</div>
+  </div>
+</div>
+
+<!-- Bottom CTA -->
+<div class="cta-banner">
+  <h2>Ready to reach SF families?</h2>
+  <p>Join 35+ providers already listed on SF·Kids. Start your free 30-day trial today.</p>
+  <a href="provider-signup.html?plan=featured">Get started free →</a>
+</div>
+
+<!-- Footer -->
 <footer class="footer">
   <div class="footer-inner">
     <div>
@@ -513,23 +353,26 @@
       <p class="footer-col-title">Discover</p>
       <ul class="footer-links">
         <li><a href="results.html">Browse All</a></li>
-        <li><a href="#">This Weekend</a></li>
-        <li><a href="#">Summer Camps</a></li>
-      </ul>
-    </div>
-    <div>
-      <p class="footer-col-title">Ages</p>
-      <ul class="footer-links">
-        <li><a href="#">Infants (0–1)</a></li>
-        <li><a href="#">Toddlers (2–3)</a></li>
-        <li><a href="#">Elementary (7–10)</a></li>
+        <li><a href="results.html?filter=weekend">This Weekend</a></li>
+        <li><a href="results.html?filter=camps">Summer Camps</a></li>
+        <li><a href="results.html?filter=free">Free Activities</a></li>
       </ul>
     </div>
     <div>
       <p class="footer-col-title">For Providers</p>
       <ul class="footer-links">
-        <li><a href="list-your-activity.html">List Your Activity</a></li>
-        <li><a href="#">Contact Us</a></li>
+        <li><a href="list-your-activity.html">Pricing & Plans</a></li>
+        <li><a href="provider-signup.html?plan=featured">Get Started</a></li>
+        <li><a href="provider-dashboard.html">Provider Dashboard</a></li>
+        <li><a href="mailto:hello@sf-kids.com">Contact Us</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="footer-col-title">Company</p>
+      <ul class="footer-links">
+        <li><a href="#">About SF·Kids</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
       </ul>
     </div>
   </div>
@@ -540,37 +383,44 @@
 </footer>
 
 <script>
-  const selected = new Set();
+  let isAnnual = false;
 
-  function toggleCategory(el) {
-    const val = el.dataset.value;
-    if (selected.has(val)) {
-      selected.delete(val);
-      el.classList.remove('selected');
-    } else {
-      selected.add(val);
-      el.classList.add('selected');
-    }
-    document.getElementById('categories-field').value = [...selected].join(', ');
+  function toggleBilling() {
+    isAnnual = !isAnnual;
+    const btn = document.getElementById('billing-toggle');
+    btn.classList.toggle('annual', isAnnual);
+    btn.classList.toggle('monthly', !isAnnual);
+    document.getElementById('lbl-monthly').classList.toggle('active', !isAnnual);
+    document.getElementById('lbl-annual').classList.toggle('active', isAnnual);
+
+    document.querySelectorAll('.price-val').forEach(el => {
+      el.textContent = isAnnual ? el.dataset.annual : el.dataset.monthly;
+    });
+
+    const annualData = { starter: 55, featured: 104, premier: 174 };
+    const monthlyData = { starter: 79, featured: 149, premier: 249 };
+
+    ['starter','featured','premier'].forEach(plan => {
+      const el = document.getElementById('annual-' + plan);
+      if (isAnnual) {
+        const monthly = annualData[plan];
+        const saving = (monthlyData[plan] - monthly) * 12;
+        el.textContent = `Billed $${monthly * 12}/yr — save $${saving}`;
+      } else {
+        el.textContent = '';
+      }
+    });
+
+    // Update CTA links to carry billing period
+    document.querySelectorAll('a[href*="provider-signup"]').forEach(a => {
+      const url = new URL(a.href, window.location.href);
+      url.searchParams.set('billing', isAnnual ? 'annual' : 'monthly');
+      a.href = url.pathname + url.search;
+    });
   }
 
-  function toggleFree(cb) {
-    const priceInput = document.getElementById('price-input');
-    if (cb.checked) {
-      priceInput.value = 'Free';
-      priceInput.disabled = true;
-    } else {
-      priceInput.value = '';
-      priceInput.disabled = false;
-    }
-  }
-
-  function handleSubmit(e) {
-    if (selected.size === 0) {
-      e.preventDefault();
-      alert('Please select at least one category for your activity.');
-      return;
-    }
+  function toggleFaq(el) {
+    el.parentElement.classList.toggle('open');
   }
 </script>
 </body>

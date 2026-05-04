@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Provider Sign Up — SF·Kids</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  .signup-shell { max-width:680px; margin:0 auto; padding:48px 24px 80px; }
+  .step-bar { display:flex; align-items:center; gap:0; margin-bottom:48px; }
+  .step-item { display:flex; align-items:center; flex:1; }
+  .step-circle {
+    width:32px; height:32px; border-radius:50%; flex-shrink:0;
+    font-size:13px; font-weight:800; display:flex; align-items:center; justify-content:center;
+    border:2px solid var(--rule); color:var(--muted); background:#fff;
+    transition:all .2s;
+  }
+  .step-circle.done  { background:var(--success); border-color:var(--success); color:#fff; }
+  .step-circle.active{ background:var(--coral); border-color:var(--coral); color:#fff; }
+  .step-line { flex:1; height:2px; background:var(--rule); margin:0 4px; }
+  .step-line.done { background:var(--success); }
+  .step-label { position:absolute; font-size:11px; }
+
+  .step-panel { display:none; }
+  .step-panel.active { display:block; }
+
+  /* Plan summary card */
+  .plan-summary {
+    background:var(--light); border:1.5px solid var(--rule); border-radius:12px;
+    padding:20px 24px; margin-bottom:32px;
+    display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;
+  }
+  .plan-summary-name { font-size:18px; font-weight:800; color:var(--navy); }
+  .plan-summary-price{ font-size:14px; color:var(--muted); }
+  .plan-summary-change{ font-size:13px; color:var(--coral); cursor:pointer; font-weight:600; }
+
+  /* Form styles */
+  .form-card { background:#fff; border:1px solid var(--rule); border-radius:16px; padding:36px 32px; }
+  .form-card h2 { font-size:22px; font-weight:800; color:var(--navy); margin-bottom:6px; }
+  .form-card .sub { font-size:14px; color:var(--muted); margin-bottom:28px; }
+  .form-section-title {
+    font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.7px;
+    color:var(--muted); border-bottom:1px solid var(--rule); padding-bottom:8px; margin:28px 0 16px;
+  }
+  .form-group { margin-bottom:18px; }
+  .form-label { display:block; font-size:13px; font-weight:600; color:var(--navy); margin-bottom:6px; }
+  .form-label .opt { font-weight:400; color:var(--muted); }
+  .form-input, .form-select, .form-textarea {
+    width:100%; padding:11px 14px; border:1.5px solid var(--rule);
+    border-radius:8px; font-size:14px; color:var(--navy); font-family:inherit;
+    background:#fff; box-sizing:border-box; transition:border-color .15s;
+  }
+  .form-input:focus, .form-select:focus, .form-textarea:focus {
+    outline:none; border-color:var(--coral); box-shadow:0 0 0 3px rgba(255,107,71,.1);
+  }
+  .form-textarea { resize:vertical; min-height:110px; line-height:1.5; }
+  .form-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  @media(max-width:540px){ .form-row{ grid-template-columns:1fr; } }
+
+  .cat-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+  @media(max-width:480px){ .cat-grid{ grid-template-columns:repeat(2,1fr); } }
+  .cat-chip {
+    padding:8px 10px; border:1.5px solid var(--rule); border-radius:8px;
+    font-size:12.5px; font-weight:600; color:var(--mid); cursor:pointer;
+    text-align:center; transition:all .15s; user-select:none;
+  }
+  .cat-chip:hover { border-color:var(--coral); color:var(--coral); }
+  .cat-chip.sel { background:var(--coral-lt); border-color:var(--coral); color:var(--coral); }
+
+  .age-wrap { display:flex; align-items:center; gap:12px; }
+  .age-wrap span { font-size:13px; color:var(--muted); }
+  .age-wrap .form-select { flex:1; }
+
+  .free-toggle { display:flex; align-items:center; gap:8px; font-size:13px; color:var(--mid); cursor:pointer; }
+  .free-toggle input { accent-color:var(--coral); width:16px; height:16px; }
+
+  .form-actions { margin-top:28px; display:flex; gap:12px; }
+  .btn-back {
+    padding:13px 22px; border:1.5px solid var(--rule); border-radius:10px;
+    font-size:15px; font-weight:600; color:var(--mid);
+    background:#fff; cursor:pointer; font-family:inherit;
+  }
+  .btn-next {
+    flex:1; padding:14px 22px; background:var(--coral); color:#fff;
+    border:none; border-radius:10px; font-size:15px; font-weight:700;
+    cursor:pointer; font-family:inherit; transition:background .15s;
+  }
+  .btn-next:hover { background:var(--coral-dk); }
+
+  /* Payment step */
+  .payment-options { display:flex; flex-direction:column; gap:14px; margin:24px 0; }
+  .pay-option {
+    border:1.5px solid var(--rule); border-radius:12px; padding:20px 22px;
+    display:flex; align-items:center; justify-content:space-between; gap:16px;
+    cursor:pointer; transition:border-color .15s;
+  }
+  .pay-option:hover { border-color:var(--coral); }
+  .pay-option-left .label { font-size:15px; font-weight:700; color:var(--navy); }
+  .pay-option-left .note { font-size:13px; color:var(--muted); margin-top:2px; }
+  .pay-badge { background:var(--success); color:#fff; font-size:11px; font-weight:700; padding:3px 10px; border-radius:999px; }
+
+  .security-note {
+    display:flex; align-items:center; gap:8px;
+    font-size:12px; color:var(--muted); margin-top:20px;
+  }
+
+  /* Success / confirmation step */
+  .success-card { text-align:center; padding:48px 32px; }
+  .success-card .icon { font-size:56px; margin-bottom:20px; }
+  .success-card h2 { font-size:26px; font-weight:800; color:var(--navy); margin-bottom:12px; }
+  .success-card p { font-size:15px; color:var(--mid); line-height:1.6; max-width:440px; margin:0 auto 28px; }
+  .success-actions { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">
+        <svg width="28" height="20" viewBox="0 0 28 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="7" y="1" width="2.5" height="13" rx="0.5" fill="white"/>
+          <rect x="18.5" y="1" width="2.5" height="13" rx="0.5" fill="white"/>
+          <path d="M0 8 Q8 3.5 14 9.5 Q20 3.5 28 8" stroke="white" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+          <line x1="10.5" y1="13" x2="10.5" y2="15" stroke="white" stroke-width="0.9"/>
+          <line x1="17.5" y1="13" x2="17.5" y2="15" stroke="white" stroke-width="0.9"/>
+          <line x1="0" y1="15" x2="28" y2="15" stroke="white" stroke-width="1.5"/>
+          <path d="M0 17.5 Q7 16.2 14 17.5 Q21 18.8 28 17.5" stroke="white" stroke-width="1" fill="none" opacity="0.5"/>
+        </svg>
+      </div>
+      <span>SF<span style="color:var(--coral);font-weight:900;">·</span>Kids</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="results.html">Browse Activities</a></li>
+      <li><a href="list-your-activity.html" class="nav-cta">Pricing</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="signup-shell">
+
+  <!-- Step progress bar -->
+  <div class="step-bar" id="step-bar">
+    <div class="step-item">
+      <div class="step-circle active" id="sc-1">1</div>
+      <div class="step-line" id="sl-1"></div>
+    </div>
+    <div class="step-item">
+      <div class="step-circle" id="sc-2">2</div>
+      <div class="step-line" id="sl-2"></div>
+    </div>
+    <div class="step-item">
+      <div class="step-circle" id="sc-3">3</div>
+      <div class="step-line" id="sl-3" style="background:transparent;"></div>
+    </div>
+    <div class="step-circle" id="sc-4">✓</div>
+  </div>
+
+  <!-- Plan summary bar (shows on steps 2+) -->
+  <div class="plan-summary" id="plan-summary" style="display:none;">
+    <div>
+      <div class="plan-summary-name" id="summary-plan-name">Featured Plan</div>
+      <div class="plan-summary-price" id="summary-plan-price">$149/month · 30-day free trial</div>
+    </div>
+    <span class="plan-summary-change" onclick="goToStep(1)">Change plan</span>
+  </div>
+
+  <!-- ── STEP 1: Choose plan ── -->
+  <div class="step-panel active" id="step-1">
+    <div class="form-card">
+      <h2>Choose your plan</h2>
+      <p class="sub">All plans include a 30-day free trial. No credit card required to get started.</p>
+
+      <div style="display:flex;flex-direction:column;gap:12px;margin-top:8px;" id="plan-picker">
+
+        <label class="pay-option" style="cursor:pointer;">
+          <input type="radio" name="plan" value="starter" style="accent-color:var(--coral);width:18px;height:18px;flex-shrink:0;">
+          <div class="pay-option-left" style="flex:1;">
+            <div class="label">Starter — $79/month</div>
+            <div class="note">Directory listing · Map pin · Provider dashboard</div>
+          </div>
+        </label>
+
+        <label class="pay-option" style="border-color:var(--coral);cursor:pointer;">
+          <input type="radio" name="plan" value="featured" checked style="accent-color:var(--coral);width:18px;height:18px;flex-shrink:0;">
+          <div class="pay-option-left" style="flex:1;">
+            <div class="label">Featured — $149/month</div>
+            <div class="note">⭐ Featured badge · Top results · Analytics · Weekend email</div>
+          </div>
+          <span class="pay-badge">Popular</span>
+        </label>
+
+        <label class="pay-option" style="cursor:pointer;">
+          <input type="radio" name="plan" value="premier" style="accent-color:var(--coral);width:18px;height:18px;flex-shrink:0;">
+          <div class="pay-option-left" style="flex:1;">
+            <div class="label">Premier — $249/month</div>
+            <div class="note">Homepage slot · Newsletter callout · Full analytics · Priority support</div>
+          </div>
+        </label>
+
+      </div>
+
+      <div class="form-actions" style="margin-top:24px;">
+        <button class="btn-next" onclick="submitPlan()">Continue with this plan →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── STEP 2: Business details ── -->
+  <div class="step-panel" id="step-2">
+    <div class="form-card">
+      <h2>Tell us about your activity</h2>
+      <p class="sub">We'll use this to build your listing. You can edit it after we publish.</p>
+
+      <div class="form-section-title">Your Organization</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Business / Organization name</label>
+          <input type="text" class="form-input" id="f-biz" placeholder="e.g. Bay Area Youth Athletics" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Your name</label>
+          <input type="text" class="form-input" id="f-name" placeholder="First and last name" required>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Email address</label>
+          <input type="email" class="form-input" id="f-email" placeholder="you@yourbusiness.com" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phone <span class="opt">(optional)</span></label>
+          <input type="tel" class="form-input" id="f-phone" placeholder="(415) 555-0000">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Website / booking URL</label>
+        <input type="url" class="form-input" id="f-website" placeholder="https://yourwebsite.com">
+      </div>
+
+      <div class="form-section-title">Activity Details</div>
+      <div class="form-group">
+        <label class="form-label">Activity name</label>
+        <input type="text" class="form-input" id="f-activity" placeholder="e.g. Saturday Soccer Camp" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Category <span class="opt">(pick all that apply)</span></label>
+        <div class="cat-grid" id="cat-grid">
+          <div class="cat-chip" onclick="toggleCat(this)" data-v="Sports">⚽ Sports</div>
+          <div class="cat-chip" onclick="toggleCat(this)" data-v="Arts">🎨 Arts</div>
+          <div class="cat-chip" onclick="toggleCat(this)" data-v="Science">🔬 Science</div>
+          <div class="cat-chip" onclick="toggleCat(this)" data-v="Music">🎵 Music</div>
+          <div class="cat-chip" onclick="toggleCat(this)" data-v="Outdoors">🌿 Outdoors</div>
+          <div class="cat-chip" onclick="toggleCat(this)" data-v="Swimming">🏊 Swimming</div>
+          <div class="cat-chip" onclick="toggleCat(this)" data-v="Dance">💃 Dance</div>
+          <div class="cat-chip" onclick="toggleCat(this)" data-v="Camps">⛺ Camps</div>
+          <div class="cat-chip" onclick="toggleCat(this)" data-v="STEM">🤖 STEM</div>
+          <div class="cat-chip" onclick="toggleCat(this)" data-v="Theater">🎭 Theater</div>
+          <div class="cat-chip" onclick="toggleCat(this)" data-v="Cooking">👨‍🍳 Cooking</div>
+          <div class="cat-chip" onclick="toggleCat(this)" data-v="Other">✨ Other</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Short description</label>
+        <textarea class="form-textarea" id="f-desc" placeholder="Describe your activity in 2–3 sentences — what kids do, what age group, what makes it special..."></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Age range</label>
+          <div class="age-wrap">
+            <select class="form-select" id="f-age-min">
+              <option value="0">0 (infant)</option><option value="1">1 yr</option>
+              <option value="2">2 yrs</option><option value="3">3 yrs</option>
+              <option value="4">4 yrs</option><option value="5" selected>5 yrs</option>
+              <option value="6">6 yrs</option><option value="7">7 yrs</option>
+              <option value="8">8 yrs</option>
+            </select>
+            <span>to</span>
+            <select class="form-select" id="f-age-max">
+              <option value="3">3 yrs</option><option value="5">5 yrs</option>
+              <option value="8">8 yrs</option><option value="10">10 yrs</option>
+              <option value="12" selected>12 yrs</option><option value="13">13 yrs</option>
+              <option value="17">17 yrs</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Price per session</label>
+          <input type="text" class="form-input" id="f-price" placeholder="e.g. $45 / session">
+          <label class="free-toggle" style="margin-top:8px;">
+            <input type="checkbox" id="free-chk" onchange="toggleFree(this)"> This activity is free
+          </label>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Neighborhood</label>
+          <select class="form-select" id="f-hood">
+            <option value="">Select neighborhood</option>
+            <option>The Mission</option><option>Noe Valley</option>
+            <option>Marina District</option><option>Presidio</option>
+            <option>Golden Gate Park</option><option>Hayes Valley</option>
+            <option>Sunset District</option><option>Richmond District</option>
+            <option>Pacific Heights</option><option>SoMa</option>
+            <option>Embarcadero / Waterfront</option><option>Castro</option>
+            <option>North Beach</option><option>Fisherman's Wharf</option>
+            <option>Inner Sunset</option><option>West Portal</option>
+            <option>Multiple locations</option><option>Online / Virtual</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Schedule</label>
+          <select class="form-select" id="f-schedule">
+            <option>Weekly (Saturdays)</option><option>Weekly (Sundays)</option>
+            <option>Weekdays</option><option>Weekends</option>
+            <option>Daily</option><option>Monthly</option>
+            <option>Summer camp</option><option>Flexible / On demand</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn-back" onclick="goToStep(1)">← Back</button>
+        <button class="btn-next" onclick="submitDetails()">Continue to payment →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── STEP 3: Payment ── -->
+  <div class="step-panel" id="step-3">
+    <div class="form-card">
+      <h2>Start your free trial</h2>
+      <p class="sub">No charge for 30 days. Your card is only billed after the trial ends.</p>
+
+      <div style="background:var(--light);border-radius:10px;padding:16px 20px;margin-bottom:24px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+          <span style="font-size:14px;font-weight:600;color:var(--navy);" id="pay-plan-name">Featured Plan</span>
+          <span style="font-size:14px;font-weight:800;color:var(--navy);" id="pay-plan-price">$149 / month</span>
+        </div>
+        <div style="font-size:12.5px;color:var(--muted);">30-day free trial · Cancel anytime · Billed after trial ends</div>
+      </div>
+
+      <div class="form-section-title">Payment details</div>
+      <div class="form-group">
+        <label class="form-label">Cardholder name</label>
+        <input type="text" class="form-input" id="f-card-name" placeholder="Name on card">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Card number</label>
+        <input type="text" class="form-input" id="f-card-num" placeholder="1234 5678 9012 3456" maxlength="19" oninput="formatCard(this)">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Expiry</label>
+          <input type="text" class="form-input" placeholder="MM / YY" maxlength="7" oninput="formatExpiry(this)">
+        </div>
+        <div class="form-group">
+          <label class="form-label">CVC</label>
+          <input type="text" class="form-input" placeholder="123" maxlength="4">
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn-back" onclick="goToStep(2)">← Back</button>
+        <button class="btn-next" onclick="submitPayment()">Start free trial →</button>
+      </div>
+
+      <div class="security-note">
+        🔒 Payments processed securely. Your card is not charged until after the 30-day trial.
+      </div>
+    </div>
+  </div>
+
+  <!-- ── STEP 4: Success ── -->
+  <div class="step-panel" id="step-4">
+    <div class="form-card">
+      <div class="success-card">
+        <div class="icon">🎉</div>
+        <h2>You're in! Welcome to SF·Kids.</h2>
+        <p>Your listing is under review. We'll publish it within 1 business day and send your dashboard login link to <strong id="confirm-email">your email</strong>.</p>
+        <p style="font-size:14px;color:var(--muted);margin-top:-12px;">Your 30-day free trial starts today. No charge until <strong id="trial-end-date"></strong>.</p>
+        <div class="success-actions">
+          <a href="provider-dashboard.html" class="btn btn-primary">Go to my dashboard →</a>
+          <a href="results.html" class="btn" style="border:1.5px solid var(--rule);color:var(--navy);padding:12px 22px;border-radius:10px;font-weight:600;font-size:14px;">Browse SF·Kids</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">
+        <svg width="22" height="16" viewBox="0 0 28 20" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;margin-right:6px;opacity:0.85;">
+          <rect x="7" y="1" width="2.5" height="13" rx="0.5" fill="white"/>
+          <rect x="18.5" y="1" width="2.5" height="13" rx="0.5" fill="white"/>
+          <path d="M0 8 Q8 3.5 14 9.5 Q20 3.5 28 8" stroke="white" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+          <line x1="10.5" y1="13" x2="10.5" y2="15" stroke="white" stroke-width="0.9"/>
+          <line x1="17.5" y1="13" x2="17.5" y2="15" stroke="white" stroke-width="0.9"/>
+          <line x1="0" y1="15" x2="28" y2="15" stroke="white" stroke-width="1.5"/>
+          <path d="M0 17.5 Q7 16.2 14 17.5 Q21 18.8 28 17.5" stroke="white" stroke-width="1" fill="none" opacity="0.5"/>
+        </svg>SF·Kids
+      </div>
+      <p class="footer-tagline">The one-stop shop for kids activities in San Francisco.</p>
+    </div>
+    <div>
+      <p class="footer-col-title">For Providers</p>
+      <ul class="footer-links">
+        <li><a href="list-your-activity.html">Pricing & Plans</a></li>
+        <li><a href="provider-dashboard.html">Provider Dashboard</a></li>
+        <li><a href="mailto:hello@sf-kids.com">Contact Us</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 SF·Kids. All rights reserved.</span>
+  </div>
+</footer>
+
+<script>
+  const planInfo = {
+    starter:  { name:'Starter Plan',  monthly:'$79/month',  annual:'$55/month (billed $660/yr)' },
+    featured: { name:'Featured Plan', monthly:'$149/month', annual:'$104/month (billed $1,248/yr)' },
+    premier:  { name:'Premier Plan',  monthly:'$249/month', annual:'$174/month (billed $2,088/yr)' },
+  };
+
+  // Read plan from URL
+  const params = new URLSearchParams(window.location.search);
+  let selectedPlan = params.get('plan') || 'featured';
+  const billing    = params.get('billing') || 'monthly';
+
+  // Pre-select the radio
+  const radio = document.querySelector(`input[name="plan"][value="${selectedPlan}"]`);
+  if (radio) radio.checked = true;
+
+  let currentStep = 1;
+  const selectedCats = new Set();
+
+  function goToStep(n) {
+    document.getElementById('step-' + currentStep).classList.remove('active');
+    currentStep = n;
+    document.getElementById('step-' + currentStep).classList.add('active');
+
+    // Update step circles
+    for (let i = 1; i <= 4; i++) {
+      const sc = document.getElementById('sc-' + i);
+      sc.classList.remove('active','done');
+      if (i < currentStep) sc.classList.add('done');
+      if (i === currentStep) sc.classList.add('active');
+      if (i <= 3) {
+        const sl = document.getElementById('sl-' + i);
+        sl.classList.toggle('done', i < currentStep);
+      }
+    }
+
+    // Show/hide plan summary bar on steps 2+
+    const summary = document.getElementById('plan-summary');
+    summary.style.display = currentStep >= 2 && currentStep <= 3 ? 'flex' : 'none';
+
+    window.scrollTo({ top: 0, behavior:'smooth' });
+  }
+
+  function submitPlan() {
+    const checked = document.querySelector('input[name="plan"]:checked');
+    if (!checked) return;
+    selectedPlan = checked.value;
+    const info = planInfo[selectedPlan];
+    const priceStr = billing === 'annual' ? info.annual : info.monthly;
+    document.getElementById('summary-plan-name').textContent = info.name;
+    document.getElementById('summary-plan-price').textContent = priceStr + ' · 30-day free trial';
+    document.getElementById('pay-plan-name').textContent = info.name;
+    document.getElementById('pay-plan-price').textContent = priceStr;
+    goToStep(2);
+  }
+
+  function submitDetails() {
+    const required = ['f-biz','f-name','f-email','f-activity','f-desc'];
+    for (const id of required) {
+      const el = document.getElementById(id);
+      if (!el.value.trim()) { el.focus(); el.style.borderColor='var(--coral)'; return; }
+      el.style.borderColor='';
+    }
+    if (selectedCats.size === 0) { alert('Please select at least one category.'); return; }
+    goToStep(3);
+  }
+
+  function submitPayment() {
+    const email = document.getElementById('f-email').value;
+    const cardNum = document.getElementById('f-card-num').value.replace(/\s/g,'');
+    if (cardNum.length < 15) { alert('Please enter a valid card number.'); return; }
+
+    // Set confirmation details
+    document.getElementById('confirm-email').textContent = email || 'your email';
+    const trialEnd = new Date();
+    trialEnd.setDate(trialEnd.getDate() + 30);
+    document.getElementById('trial-end-date').textContent =
+      trialEnd.toLocaleDateString('en-US', { month:'long', day:'numeric', year:'numeric' });
+
+    // Submit to email via formsubmit
+    const data = {
+      business:  document.getElementById('f-biz').value,
+      contact:   document.getElementById('f-name').value,
+      email:     document.getElementById('f-email').value,
+      activity:  document.getElementById('f-activity').value,
+      plan:      selectedPlan,
+      billing:   billing,
+      categories:[...selectedCats].join(', '),
+      neighborhood: document.getElementById('f-hood').value,
+    };
+    // In production: POST to Cloudflare Worker to create Airtable record + trigger Stripe
+    console.log('Provider signup:', data);
+
+    goToStep(4);
+  }
+
+  function toggleCat(el) {
+    const v = el.dataset.v;
+    if (selectedCats.has(v)) { selectedCats.delete(v); el.classList.remove('sel'); }
+    else { selectedCats.add(v); el.classList.add('sel'); }
+  }
+
+  function toggleFree(cb) {
+    const el = document.getElementById('f-price');
+    if (cb.checked) { el.value='Free'; el.disabled=true; }
+    else { el.value=''; el.disabled=false; }
+  }
+
+  function formatCard(el) {
+    let v = el.value.replace(/\D/g,'').substring(0,16);
+    el.value = v.replace(/(.{4})/g,'$1 ').trim();
+  }
+
+  function formatExpiry(el) {
+    let v = el.value.replace(/\D/g,'').substring(0,4);
+    if (v.length >= 3) v = v.substring(0,2) + ' / ' + v.substring(2);
+    el.value = v;
+  }
+</script>
+</body>
+</html>

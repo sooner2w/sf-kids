@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Provider Dashboard — SF·Kids</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  body { background:var(--light); }
+
+  /* Login screen */
+  .login-wrap { min-height:calc(100vh - 68px); display:flex; align-items:center; justify-content:center; padding:40px 24px; }
+  .login-card {
+    background:#fff; border:1px solid var(--rule); border-radius:16px;
+    padding:48px 40px; max-width:420px; width:100%; text-align:center;
+    box-shadow:var(--shadow);
+  }
+  .login-card .icon { font-size:44px; margin-bottom:18px; }
+  .login-card h1 { font-size:24px; font-weight:800; color:var(--navy); margin-bottom:8px; }
+  .login-card p { font-size:14px; color:var(--muted); margin-bottom:28px; line-height:1.6; }
+  .login-input {
+    width:100%; padding:13px 16px; border:1.5px solid var(--rule);
+    border-radius:10px; font-size:15px; font-family:inherit; color:var(--navy);
+    box-sizing:border-box; margin-bottom:14px; transition:border-color .15s;
+  }
+  .login-input:focus { outline:none; border-color:var(--coral); box-shadow:0 0 0 3px rgba(255,107,71,.1); }
+  .login-btn {
+    width:100%; padding:14px; background:var(--coral); color:#fff;
+    border:none; border-radius:10px; font-size:15px; font-weight:700;
+    cursor:pointer; font-family:inherit; transition:background .15s;
+  }
+  .login-btn:hover { background:var(--coral-dk); }
+  .login-note { font-size:12px; color:var(--muted); margin-top:16px; }
+
+  /* Dashboard layout */
+  .dash-shell { display:none; }
+  .dash-header {
+    background:var(--navy); color:#fff; padding:28px 32px;
+    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px;
+  }
+  .dash-header h1 { font-size:20px; font-weight:800; }
+  .dash-header .sub { font-size:13px; opacity:.7; margin-top:2px; }
+  .plan-pill {
+    background:var(--coral); color:#fff; font-size:12px; font-weight:700;
+    padding:5px 14px; border-radius:999px; letter-spacing:.3px;
+  }
+
+  .dash-body { max-width:1040px; margin:0 auto; padding:32px 24px 80px; }
+  .dash-grid { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:16px; margin-bottom:32px; }
+  @media(max-width:700px){ .dash-grid{ grid-template-columns:1fr 1fr; } }
+
+  .stat-card {
+    background:#fff; border:1px solid var(--rule); border-radius:12px;
+    padding:20px 22px;
+  }
+  .stat-label { font-size:12px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; margin-bottom:8px; }
+  .stat-value { font-size:32px; font-weight:800; color:var(--navy); line-height:1; margin-bottom:4px; }
+  .stat-delta { font-size:12px; }
+  .stat-delta.up   { color:var(--success); }
+  .stat-delta.down { color:#EF4444; }
+  .stat-delta.flat { color:var(--muted); }
+
+  .dash-cols { display:grid; grid-template-columns:1fr 360px; gap:24px; }
+  @media(max-width:800px){ .dash-cols{ grid-template-columns:1fr; } }
+
+  .dash-card {
+    background:#fff; border:1px solid var(--rule); border-radius:12px;
+    padding:24px 26px; margin-bottom:20px;
+  }
+  .dash-card h3 {
+    font-size:15px; font-weight:700; color:var(--navy);
+    margin-bottom:18px; padding-bottom:14px; border-bottom:1px solid var(--rule);
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .dash-card h3 a { font-size:12px; font-weight:600; color:var(--coral); }
+
+  /* Listing preview card */
+  .preview-card {
+    border:1.5px solid var(--rule); border-radius:12px; overflow:hidden;
+  }
+  .preview-img {
+    height:100px; display:flex; align-items:center; justify-content:center;
+    font-size:36px;
+  }
+  .preview-body { padding:14px 16px; }
+  .preview-cat { font-size:11px; font-weight:700; color:var(--coral); text-transform:uppercase; letter-spacing:.5px; margin-bottom:4px; }
+  .preview-title { font-size:15px; font-weight:700; color:var(--navy); margin-bottom:4px; }
+  .preview-provider { font-size:13px; color:var(--muted); margin-bottom:8px; }
+  .preview-tags { display:flex; gap:6px; flex-wrap:wrap; }
+  .preview-tag {
+    background:var(--light); border-radius:6px; padding:3px 10px;
+    font-size:11.5px; color:var(--mid); font-weight:500;
+  }
+  .preview-footer { border-top:1px solid var(--rule); padding:12px 16px; display:flex; justify-content:space-between; align-items:center; }
+  .preview-price { font-size:15px; font-weight:800; color:var(--navy); }
+  .preview-status { font-size:11px; font-weight:700; padding:3px 10px; border-radius:999px; }
+  .status-live    { background:#DCFCE7; color:#166534; }
+  .status-review  { background:#FEF3C7; color:#92400E; }
+  .status-paused  { background:#F3F4F6; color:var(--muted); }
+
+  /* Sparkline bar chart */
+  .mini-chart { display:flex; align-items:flex-end; gap:4px; height:48px; margin-top:4px; }
+  .bar {
+    flex:1; background:var(--coral-lt); border-radius:3px 3px 0 0;
+    transition:background .15s; cursor:pointer;
+  }
+  .bar:hover { background:var(--coral); }
+  .chart-labels { display:flex; justify-content:space-between; font-size:10px; color:var(--muted); margin-top:4px; }
+
+  /* Quick actions */
+  .action-list { display:flex; flex-direction:column; gap:10px; }
+  .action-btn {
+    display:flex; align-items:center; gap:12px; padding:13px 16px;
+    border:1.5px solid var(--rule); border-radius:10px; cursor:pointer;
+    text-decoration:none; color:var(--navy); transition:border-color .15s;
+    font-size:13.5px; font-weight:600; background:#fff;
+  }
+  .action-btn:hover { border-color:var(--coral); text-decoration:none; color:var(--navy); }
+  .action-btn .ic { font-size:18px; }
+
+  /* Plan upgrade */
+  .upgrade-card {
+    background:linear-gradient(135deg,var(--navy),#1e3a5f);
+    border-radius:12px; padding:24px; color:#fff; text-align:center;
+  }
+  .upgrade-card h4 { font-size:16px; font-weight:800; margin-bottom:8px; }
+  .upgrade-card p  { font-size:13px; opacity:.8; margin-bottom:18px; line-height:1.5; }
+  .upgrade-card a  {
+    display:block; background:var(--coral); color:#fff; font-weight:700;
+    font-size:14px; padding:12px; border-radius:8px; text-decoration:none;
+    transition:opacity .15s;
+  }
+  .upgrade-card a:hover { opacity:.9; text-decoration:none; }
+
+  /* Notification dots */
+  .notif-list { display:flex; flex-direction:column; gap:12px; }
+  .notif-item { display:flex; gap:12px; align-items:flex-start; font-size:13px; color:var(--mid); line-height:1.5; }
+  .notif-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; margin-top:5px; }
+  .notif-dot.green { background:var(--success); }
+  .notif-dot.yellow { background:var(--yellow); }
+  .notif-dot.blue   { background:#3B82F6; }
+
+  /* Tabs */
+  .tab-bar { display:flex; gap:0; border-bottom:1px solid var(--rule); margin-bottom:20px; }
+  .tab { padding:10px 18px; font-size:13.5px; font-weight:600; color:var(--muted); cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-1px; }
+  .tab.active { color:var(--coral); border-bottom-color:var(--coral); }
+
+  /* Edit form inline */
+  .edit-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px; }
+  @media(max-width:540px){ .edit-row{ grid-template-columns:1fr; } }
+  .edit-label { font-size:12px; font-weight:600; color:var(--navy); margin-bottom:5px; display:block; }
+  .edit-input, .edit-textarea, .edit-select {
+    width:100%; padding:9px 12px; border:1.5px solid var(--rule);
+    border-radius:8px; font-size:13.5px; font-family:inherit; color:var(--navy);
+    box-sizing:border-box;
+  }
+  .edit-input:focus, .edit-textarea:focus, .edit-select:focus {
+    outline:none; border-color:var(--coral);
+  }
+  .edit-textarea { resize:vertical; min-height:90px; }
+  .save-btn {
+    background:var(--coral); color:#fff; border:none; border-radius:8px;
+    padding:10px 22px; font-size:14px; font-weight:700; cursor:pointer;
+    font-family:inherit;
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">
+        <svg width="28" height="20" viewBox="0 0 28 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="7" y="1" width="2.5" height="13" rx="0.5" fill="white"/>
+          <rect x="18.5" y="1" width="2.5" height="13" rx="0.5" fill="white"/>
+          <path d="M0 8 Q8 3.5 14 9.5 Q20 3.5 28 8" stroke="white" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+          <line x1="10.5" y1="13" x2="10.5" y2="15" stroke="white" stroke-width="0.9"/>
+          <line x1="17.5" y1="13" x2="17.5" y2="15" stroke="white" stroke-width="0.9"/>
+          <line x1="0" y1="15" x2="28" y2="15" stroke="white" stroke-width="1.5"/>
+          <path d="M0 17.5 Q7 16.2 14 17.5 Q21 18.8 28 17.5" stroke="white" stroke-width="1" fill="none" opacity="0.5"/>
+        </svg>
+      </div>
+      <span>SF<span style="color:var(--coral);font-weight:900;">·</span>Kids</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="results.html">Browse Activities</a></li>
+      <li><a href="list-your-activity.html" class="nav-cta">Pricing</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ── Login Screen ── -->
+<div class="login-wrap" id="login-screen">
+  <div class="login-card">
+    <div class="icon">🏛️</div>
+    <h1>Provider Dashboard</h1>
+    <p>Enter your email to access your SF·Kids provider dashboard. We'll send you a secure access link.</p>
+    <input type="email" class="login-input" id="login-email" placeholder="you@yourbusiness.com"
+      onkeydown="if(event.key==='Enter') loginSubmit()">
+    <button class="login-btn" onclick="loginSubmit()">Access my dashboard →</button>
+    <p class="login-note">Don't have an account yet? <a href="list-your-activity.html">View plans →</a></p>
+  </div>
+</div>
+
+<!-- ── Dashboard ── -->
+<div class="dash-shell" id="dash-shell">
+
+  <!-- Dashboard header -->
+  <div class="dash-header">
+    <div>
+      <div class="dash-header h1" id="dash-greeting" style="font-size:20px;font-weight:800;">Welcome back 👋</div>
+      <div class="sub" id="dash-biz">Your Provider Dashboard</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <span class="plan-pill" id="dash-plan-pill">⭐ Featured</span>
+      <a href="results.html" style="font-size:13px;color:rgba(255,255,255,.7);">View site →</a>
+      <button onclick="logout()" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;font-size:13px;font-weight:600;padding:7px 14px;border-radius:8px;cursor:pointer;font-family:inherit;">Log out</button>
+    </div>
+  </div>
+
+  <div class="dash-body">
+
+    <!-- Stats row -->
+    <div class="dash-grid">
+      <div class="stat-card">
+        <div class="stat-label">Page views (30 days)</div>
+        <div class="stat-value" id="stat-views">1,247</div>
+        <div class="stat-delta up">↑ 18% vs last month</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Click-throughs (30 days)</div>
+        <div class="stat-value" id="stat-clicks">84</div>
+        <div class="stat-delta up">↑ 23% vs last month</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Click-through rate</div>
+        <div class="stat-value" id="stat-ctr">6.7%</div>
+        <div class="stat-delta flat">— avg for your category</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Listing status</div>
+        <div class="stat-value" style="font-size:20px;margin-top:6px;"><span id="stat-status-badge" class="preview-status status-live">● Live</span></div>
+        <div class="stat-delta flat" id="stat-since">Since May 2026</div>
+      </div>
+    </div>
+
+    <div class="dash-cols">
+
+      <!-- LEFT COLUMN -->
+      <div>
+
+        <!-- Tabs: Overview / Edit listing / Analytics -->
+        <div class="tab-bar">
+          <div class="tab active" onclick="switchTab('overview', this)">Overview</div>
+          <div class="tab" onclick="switchTab('edit', this)">Edit Listing</div>
+          <div class="tab" onclick="switchTab('analytics', this)">Analytics</div>
+        </div>
+
+        <!-- Overview tab -->
+        <div id="tab-overview">
+          <div class="dash-card">
+            <h3>Your listing <a href="results.html" target="_blank">View live →</a></h3>
+            <div class="preview-card" id="listing-preview">
+              <div class="preview-img" id="prev-img" style="background:linear-gradient(135deg,#DBEAFE,#93C5FD);">⚽</div>
+              <div class="preview-body">
+                <div class="preview-cat" id="prev-cat">Sports</div>
+                <div class="preview-title" id="prev-title">Your Activity Name</div>
+                <div class="preview-provider" id="prev-provider">Your Organization</div>
+                <div class="preview-tags">
+                  <span class="preview-tag" id="prev-hood">📍 San Francisco</span>
+                  <span class="preview-tag" id="prev-dur">⏱ 2 hrs</span>
+                </div>
+              </div>
+              <div class="preview-footer">
+                <div class="preview-price" id="prev-price">$45 / session</div>
+                <span class="preview-status status-live">● Live</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="dash-card">
+            <h3>Recent activity</h3>
+            <div class="notif-list">
+              <div class="notif-item"><div class="notif-dot green"></div><div>Your listing went live and appeared in <strong>12 searches</strong> today.</div></div>
+              <div class="notif-item"><div class="notif-dot blue"></div><div>A parent clicked through to your booking page from the <strong>Sports filter</strong>.</div></div>
+              <div class="notif-item"><div class="notif-dot yellow"></div><div>You're featured in this week's <strong>"This Weekend in SF"</strong> email to 4,200 parents.</div></div>
+              <div class="notif-item"><div class="notif-dot green"></div><div>Your listing was viewed <strong>47 times</strong> in the past 7 days.</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Edit listing tab -->
+        <div id="tab-edit" style="display:none;">
+          <div class="dash-card">
+            <h3>Edit your listing</h3>
+            <div class="edit-row">
+              <div>
+                <label class="edit-label">Activity name</label>
+                <input class="edit-input" id="edit-title" placeholder="Activity name">
+              </div>
+              <div>
+                <label class="edit-label">Price</label>
+                <input class="edit-input" id="edit-price" placeholder="e.g. $45 / session">
+              </div>
+            </div>
+            <div class="edit-row">
+              <div>
+                <label class="edit-label">Neighborhood</label>
+                <select class="edit-select" id="edit-hood">
+                  <option>The Mission</option><option>Noe Valley</option>
+                  <option>Marina District</option><option>Presidio</option>
+                  <option>SoMa</option><option>Sunset District</option>
+                  <option>Hayes Valley</option><option>Multiple locations</option>
+                </select>
+              </div>
+              <div>
+                <label class="edit-label">Schedule</label>
+                <select class="edit-select" id="edit-schedule">
+                  <option>Weekends</option><option>Weekdays</option>
+                  <option>Daily</option><option>Weekly (Saturdays)</option>
+                  <option>Summer camp</option>
+                </select>
+              </div>
+            </div>
+            <div style="margin-bottom:14px;">
+              <label class="edit-label">Description</label>
+              <textarea class="edit-textarea" id="edit-desc" placeholder="Short description of your activity..."></textarea>
+            </div>
+            <div style="margin-bottom:18px;">
+              <label class="edit-label">Booking / website URL</label>
+              <input class="edit-input" id="edit-url" placeholder="https://yourwebsite.com/book">
+            </div>
+            <button class="save-btn" onclick="saveEdits()">Save changes</button>
+            <span id="save-confirm" style="font-size:13px;color:var(--success);margin-left:12px;display:none;">✓ Saved!</span>
+          </div>
+        </div>
+
+        <!-- Analytics tab -->
+        <div id="tab-analytics" style="display:none;">
+          <div class="dash-card">
+            <h3>Views over the past 30 days</h3>
+            <div class="mini-chart" id="views-chart"></div>
+            <div class="chart-labels"><span>May 3</span><span>May 10</span><span>May 17</span><span>May 24</span><span>Jun 2</span></div>
+          </div>
+          <div class="dash-card">
+            <h3>Click-throughs over the past 30 days</h3>
+            <div class="mini-chart" id="clicks-chart"></div>
+            <div class="chart-labels"><span>May 3</span><span>May 10</span><span>May 17</span><span>May 24</span><span>Jun 2</span></div>
+          </div>
+          <div class="dash-card">
+            <h3>Where parents are finding you</h3>
+            <div style="display:flex;flex-direction:column;gap:12px;margin-top:4px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;">
+                <span>Sports filter</span><span style="font-weight:700;color:var(--navy);">38%</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;">
+                <span>All activities (browsing)</span><span style="font-weight:700;color:var(--navy);">29%</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;">
+                <span>Weekend filter</span><span style="font-weight:700;color:var(--navy);">18%</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;font-size:14px;">
+                <span>Search (keyword)</span><span style="font-weight:700;color:var(--navy);">15%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT COLUMN -->
+      <div>
+
+        <div class="dash-card">
+          <h3>Quick actions</h3>
+          <div class="action-list">
+            <a class="action-btn" href="#" onclick="switchTab('edit', null); return false;"><span class="ic">✏️</span> Edit listing details</a>
+            <a class="action-btn" id="view-live-link" href="results.html" target="_blank"><span class="ic">👁</span> View my live listing</a>
+            <a class="action-btn" href="mailto:hello@sf-kids.com"><span class="ic">💬</span> Contact SF·Kids support</a>
+            <a class="action-btn" href="list-your-activity.html"><span class="ic">⬆️</span> Change my plan</a>
+          </div>
+        </div>
+
+        <div class="dash-card">
+          <h3>Your plan</h3>
+          <div style="margin-bottom:14px;">
+            <div style="font-size:17px;font-weight:800;color:var(--navy);margin-bottom:4px;" id="sidebar-plan">⭐ Featured Plan</div>
+            <div style="font-size:13px;color:var(--muted);" id="sidebar-price">$149 / month</div>
+            <div style="font-size:12px;color:var(--success);margin-top:4px;">● Active · Renews June 3, 2026</div>
+          </div>
+          <div style="font-size:13px;color:var(--mid);line-height:1.7;margin-bottom:16px;">
+            Included: featured badge, top placement, weekend email, monthly analytics
+          </div>
+          <a href="list-your-activity.html" style="font-size:13px;font-weight:600;color:var(--coral);">Upgrade to Premier →</a>
+        </div>
+
+        <div class="upgrade-card" id="upgrade-cta">
+          <h4>🚀 Get the Premier plan</h4>
+          <p>Unlock a homepage feature slot, monthly newsletter callout, and full conversion analytics for $249/month.</p>
+          <a href="provider-signup.html?plan=premier">Upgrade now →</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── Mock provider data (replace with real Airtable lookup in production) ──
+  const MOCK_PROVIDERS = {
+    'demo@sfkids.com': {
+      name: 'Alex Chen', biz: 'Bay Area Youth Athletics',
+      plan: 'featured', planLabel: '⭐ Featured', planPrice: '$149 / month',
+      activity: 'Presidio Youth Soccer Camp', cat: 'Sports',
+      price: '$45 / session', neighborhood: 'Presidio, SF',
+      schedule: 'Weekends', emoji: '⚽', gradient: '#DBEAFE,#93C5FD',
+      bookingUrl: 'https://www.soccerstars.com/ca/sanfrancisco/camps-and-classes/',
+      desc: 'High-energy soccer coaching for ages 6–12 in the Presidio.',
+      status: 'Live', statusClass: 'status-live',
+      views: 1247, clicks: 84,
+    }
+  };
+
+  const DEMO_EMAIL = 'demo@sfkids.com';
+
+  function loginSubmit() {
+    const email = document.getElementById('login-email').value.trim().toLowerCase();
+    if (!email.includes('@')) { alert('Please enter a valid email.'); return; }
+
+    // For demo purposes, any email gets the demo dashboard
+    // In production: POST to Cloudflare Worker → lookup in Airtable → return provider data
+    const provider = MOCK_PROVIDERS[email] || { ...MOCK_PROVIDERS[DEMO_EMAIL], name: email.split('@')[0] };
+    showDashboard(provider);
+  }
+
+  function showDashboard(p) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('dash-shell').style.display = 'block';
+
+    // Header
+    document.getElementById('dash-greeting').textContent = 'Welcome back, ' + p.name + ' 👋';
+    document.getElementById('dash-biz').textContent = p.biz;
+    document.getElementById('dash-plan-pill').textContent = p.planLabel;
+
+    // Stats
+    document.getElementById('stat-views').textContent = p.views.toLocaleString();
+    document.getElementById('stat-clicks').textContent = p.clicks.toLocaleString();
+    document.getElementById('stat-ctr').textContent = (p.clicks / p.views * 100).toFixed(1) + '%';
+
+    // Listing preview
+    document.getElementById('prev-img').style.background = 'linear-gradient(135deg,' + p.gradient + ')';
+    document.getElementById('prev-img').textContent = p.emoji;
+    document.getElementById('prev-cat').textContent = p.cat;
+    document.getElementById('prev-title').textContent = p.activity;
+    document.getElementById('prev-provider').textContent = p.biz;
+    document.getElementById('prev-hood').textContent = '📍 ' + p.neighborhood;
+    document.getElementById('prev-price').textContent = p.price;
+
+    // Edit form pre-fill
+    document.getElementById('edit-title').value = p.activity;
+    document.getElementById('edit-price').value = p.price;
+    document.getElementById('edit-desc').value = p.desc;
+    document.getElementById('edit-url').value = p.bookingUrl;
+
+    // Plan sidebar
+    document.getElementById('sidebar-plan').textContent = p.planLabel;
+    document.getElementById('sidebar-price').textContent = p.planPrice;
+    if (p.plan === 'premier') document.getElementById('upgrade-cta').style.display = 'none';
+
+    // Build charts
+    buildChart('views-chart', [38,52,61,47,73,89,95,84,78,91,102,88,95,110,120,118,103,97,112,124,131,119,108,125,138,141,129,135,148,152]);
+    buildChart('clicks-chart', [2,3,4,3,5,6,7,5,4,6,7,6,5,7,8,8,6,5,7,9,9,8,6,8,9,10,8,9,10,11]);
+
+    // Store in session for edit saves
+    window._provider = p;
+  }
+
+  function buildChart(id, data) {
+    const container = document.getElementById(id);
+    const max = Math.max(...data);
+    container.innerHTML = data.map(v =>
+      `<div class="bar" style="height:${Math.max(4, (v / max) * 100)}%" title="${v}"></div>`
+    ).join('');
+  }
+
+  function switchTab(name, el) {
+    ['overview','edit','analytics'].forEach(t => {
+      document.getElementById('tab-' + t).style.display = t === name ? 'block' : 'none';
+    });
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    if (el) el.classList.add('active');
+    else document.querySelector(`.tab[onclick*="${name}"]`)?.classList.add('active');
+  }
+
+  function saveEdits() {
+    const confirm = document.getElementById('save-confirm');
+    confirm.style.display = 'inline';
+    setTimeout(() => { confirm.style.display = 'none'; }, 2500);
+
+    // Update preview card in real time
+    document.getElementById('prev-title').textContent = document.getElementById('edit-title').value;
+    document.getElementById('prev-price').textContent = document.getElementById('edit-price').value;
+
+    // In production: PATCH to Cloudflare Worker → update Airtable record
+    console.log('Listing update saved (would POST to Worker in production)');
+  }
+
+  function logout() {
+    document.getElementById('dash-shell').style.display = 'none';
+    document.getElementById('login-screen').style.display = 'flex';
+    document.getElementById('login-email').value = '';
+  }
+
+  // Auto-login if URL has ?demo=1
+  if (new URLSearchParams(window.location.search).get('demo') === '1') {
+    document.getElementById('login-email').value = DEMO_EMAIL;
+    loginSubmit();
+  }
+</script>
+</body>
+</html>
