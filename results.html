@@ -922,123 +922,105 @@
     );
   }
 
-  // ── Filter logic ───────────────────────────────────────────────
-  const filterLabels = {
-    all:     '47 activities found in San Francisco',
-    weekend: 'This Weekend — activities happening Sat & Sun',
-    camps:   'Summer Camps in San Francisco',
-    sports:  'Sports activities in San Francisco',
-    arts:    'Arts & Crafts activities in San Francisco',
-    outdoors:'Outdoor activities in San Francisco',
-    music:   'Music activities in San Francisco',
-    science: 'Science activities in San Francisco',
-    swimming:'Swimming lessons in San Francisco',
-    special: 'Special Needs Friendly activities in San Francisco',
-    free:    'Free activities in San Francisco',
-  };
-
-  function applyFilter(filter) {
-    const grid = document.getElementById('cards-grid');
-    const cards = [...grid.querySelectorAll('.card')];
-    let visible = 0;
-
-    cards.forEach(card => {
-      const cat      = card.dataset.cat || '';
-      const schedule = card.dataset.schedule || '';
-      const special  = card.dataset.special === 'true';
-      let show = false;
-
-      if      (filter === 'all')     show = true;
-      else if (filter === 'free')    show = card.dataset.free === 'true';
-      else if (filter === 'weekend') show = schedule === 'weekend';
-      else if (filter === 'special') show = special;
-      else                           show = cat === filter || cat.includes(filter);
-
-      card.style.display = show ? '' : 'none';
-      if (show) visible++;
-    });
-
-    // Sort: featured cards always first
-    const sorted = cards.filter(c => c.style.display !== 'none');
-    sorted.sort((a, b) => (b.dataset.featured === 'true') - (a.dataset.featured === 'true'));
-    sorted.forEach(c => grid.appendChild(c));
-
-    const label = filterLabels[filter] || '';
-    const suffix = label.includes('—') ? ' — ' + label.split('—')[1].trim() : ' found in San Francisco';
-    document.getElementById('results-count').innerHTML = `<strong>${visible} activities</strong>${suffix}`;
-
-    document.querySelectorAll('.filter-chip').forEach(c =>
-      c.classList.toggle('active', c.dataset.filter === filter)
-    );
-
-    // Show only relevant map markers
-    allMarkers.forEach(({ marker, cat, free }) => {
-      const show =
-        filter === 'all' ||
-        filter === 'weekend' ||
-        (filter === 'free' && free) ||
-        (filter === 'special') ||
-        cat === filter || cat.includes(filter);
-      if (show) map.addLayer(marker); else map.removeLayer(marker);
-    });
-
-    currentPage = 1;
-    showPage(1);
-  }
-
-  // ── Pagination ───────────────────────────────────────────────
+  // ── Pagination state ─────────────────────────────────────────
   const CARDS_PER_PAGE = 9;
-  let currentPage = 1;
-
-  function getVisibleCards() {
-    return [...document.querySelectorAll('#cards-grid .card')].filter(c => c.style.display !== 'none');
-  }
+  let currentPage  = 1;
+  let filteredCards = []; // source of truth — cards matching current filter/search
 
   function showPage(page) {
-    currentPage = page;
-    const visible = getVisibleCards();
-    const totalPages = Math.max(1, Math.ceil(visible.length / CARDS_PER_PAGE));
+    const totalPages = Math.max(1, Math.ceil(filteredCards.length / CARDS_PER_PAGE));
     currentPage = Math.min(Math.max(1, page), totalPages);
     const start = (currentPage - 1) * CARDS_PER_PAGE;
     const end   = start + CARDS_PER_PAGE;
 
-    visible.forEach((card, i) => {
-      card.style.display = (i >= start && i < end) ? '' : 'none';
-    });
+    // Hide every card, then reveal only the current page slice
+    document.querySelectorAll('#cards-grid .card').forEach(c => c.style.display = 'none');
+    filteredCards.slice(start, end).forEach(c => c.style.display = '');
 
-    renderPagination(visible.length);
+    renderPagination();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  function renderPagination(visibleCount) {
+  function renderPagination() {
     const container  = document.getElementById('pagination');
-    const totalPages = Math.max(1, Math.ceil(visibleCount / CARDS_PER_PAGE));
+    const totalPages = Math.max(1, Math.ceil(filteredCards.length / CARDS_PER_PAGE));
 
     if (totalPages <= 1) { container.innerHTML = ''; return; }
 
     const btnStyle = (active) =>
-      `width:36px;height:36px;border-radius:8px;border:1.5px solid ${active ? 'var(--coral)' : 'var(--rule)'};background:${active ? 'var(--coral)' : 'white'};color:${active ? 'white' : 'var(--mid)'};font-weight:${active ? '700' : '600'};cursor:pointer;font-family:inherit;font-size:14px;`;
+      `width:36px;height:36px;border-radius:8px;border:1.5px solid ${active ? 'var(--coral)' : 'var(--rule)'};` +
+      `background:${active ? 'var(--coral)' : 'white'};color:${active ? 'white' : 'var(--mid)'};` +
+      `font-weight:${active ? '700' : '600'};cursor:pointer;font-family:inherit;font-size:14px;`;
 
     let html = '';
 
-    // Prev
     html += `<button onclick="showPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}
       style="${btnStyle(false)}opacity:${currentPage === 1 ? '0.35' : '1'}">←</button>`;
 
-    // Page numbers with ellipsis
     for (let p = 1; p <= totalPages; p++) {
-      if (totalPages > 5 && p > 2 && p < totalPages - 1 && Math.abs(p - currentPage) > 1) {
+      if (totalPages > 7 && p > 2 && p < totalPages - 1 && Math.abs(p - currentPage) > 1) {
         if (p === 3 || p === totalPages - 2) html += `<span style="line-height:36px;color:var(--muted);">…</span>`;
         continue;
       }
       html += `<button onclick="showPage(${p})" style="${btnStyle(p === currentPage)}">${p}</button>`;
     }
 
-    // Next
     html += `<button onclick="showPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}
       style="${btnStyle(false)}opacity:${currentPage === totalPages ? '0.35' : '1'}">→</button>`;
 
     container.innerHTML = html;
+  }
+
+  // ── Filter logic ───────────────────────────────────────────────
+  const filterLabels = {
+    all:     'activities found in San Francisco',
+    weekend: 'activities happening this weekend',
+    camps:   'summer camps in San Francisco',
+    sports:  'sports activities in San Francisco',
+    arts:    'arts & crafts activities in San Francisco',
+    outdoors:'outdoor activities in San Francisco',
+    music:   'music activities in San Francisco',
+    science: 'science activities in San Francisco',
+    swimming:'swimming lessons in San Francisco',
+    special: 'special needs friendly activities in San Francisco',
+    free:    'free activities in San Francisco',
+  };
+
+  function applyFilter(filter) {
+    const grid  = document.getElementById('cards-grid');
+    const cards = [...grid.querySelectorAll('.card')];
+
+    filteredCards = cards.filter(card => {
+      const cat      = card.dataset.cat || '';
+      const schedule = card.dataset.schedule || '';
+      const special  = card.dataset.special === 'true';
+      if (filter === 'all')     return true;
+      if (filter === 'free')    return card.dataset.free === 'true';
+      if (filter === 'weekend') return schedule === 'weekend';
+      if (filter === 'special') return special;
+      return cat === filter || cat.includes(filter);
+    });
+
+    // Featured cards first
+    filteredCards.sort((a, b) => (b.dataset.featured === 'true') - (a.dataset.featured === 'true'));
+    filteredCards.forEach(c => grid.appendChild(c)); // re-order in DOM
+
+    document.getElementById('results-count').innerHTML =
+      `<strong>${filteredCards.length} activities</strong> ${filterLabels[filter] || 'found in San Francisco'}`;
+
+    document.querySelectorAll('.filter-chip').forEach(c =>
+      c.classList.toggle('active', c.dataset.filter === filter)
+    );
+
+    allMarkers.forEach(({ marker, cat, free }) => {
+      const show = filter === 'all' || filter === 'weekend' ||
+        (filter === 'free' && free) || filter === 'special' ||
+        cat === filter || cat.includes(filter);
+      if (show) map.addLayer(marker); else map.removeLayer(marker);
+    });
+
+    currentPage = 1;
+    showPage(1);
   }
 
   // ── Search ───────────────────────────────────────────────────
@@ -1055,9 +1037,8 @@
     const ageVal = document.getElementById('age-select').value;
     const grid   = document.getElementById('cards-grid');
     const cards  = [...grid.querySelectorAll('.card')];
-    let visible  = 0;
 
-    cards.forEach(card => {
+    filteredCards = cards.filter(card => {
       const searchIndex  = card.dataset.search || card.textContent.toLowerCase();
       const matchesQuery = !query || searchIndex.includes(query);
 
@@ -1069,20 +1050,17 @@
         if (m) matchesAge = parseInt(m[1]) <= maxAge && parseInt(m[2]) >= minAge;
       }
 
-      const show = matchesQuery && matchesAge;
-      card.style.display = show ? '' : 'none';
-      if (show) visible++;
+      return matchesQuery && matchesAge;
     });
 
-    // Reset filter chips visually to "All"
     document.querySelectorAll('.filter-chip').forEach(c =>
       c.classList.toggle('active', c.dataset.filter === 'all')
     );
 
     const suffix = query ? ` matching "${query}"` : ' found in San Francisco';
-    document.getElementById('results-count').innerHTML = `<strong>${visible} activities</strong>${suffix}`;
+    document.getElementById('results-count').innerHTML =
+      `<strong>${filteredCards.length} activities</strong>${suffix}`;
 
-    // Filter map markers to match search
     allMarkers.forEach(({ marker, title, provider, neighborhood }) => {
       const show = !query || title.includes(query) || provider.includes(query) || neighborhood.includes(query);
       if (show) map.addLayer(marker); else map.removeLayer(marker);
